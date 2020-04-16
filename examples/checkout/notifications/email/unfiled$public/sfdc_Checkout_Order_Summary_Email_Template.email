@@ -1,0 +1,16 @@
+Hello {!OrderSummary.OwnerFullName},
+                
+Good news, we got your order! We'll get that out to you as soon as possible.
+
+In the meantime, here are your order details:
+                
+                Order Billing Address: {!OrderSummary.BillingAddress}
+                SubTotal: {!OrderSummary.TotalAdjustedProductAmount}
+                Shipping: {!OrderSummary.TotalAdjustedDeliveryAmount}
+                Tax: {!OrderSummary.TotalTaxAmount}
+
+Thanks again for shopping with us!
+
+                
+Thanks,
+{!Organization.Name}

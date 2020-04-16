@@ -1,0 +1,11 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ProductCatalog",
+                "referenceId": "ProductCatalogRef1"
+            },
+            "Name": "CATALOG_FROM_QUICKSTART"
+        }
+    ]
+}

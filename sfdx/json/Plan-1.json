@@ -1,0 +1,130 @@
+[
+    {
+        "sobject": "ProductCatalog",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "ProductCatalogs.json"
+        ]
+    },
+    {
+        "sobject": "ProductCategory",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "ProductCategorys.json"
+        ]
+    },
+    {
+        "sobject": "ProductCategory",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "ProductCategorys2.json"
+        ]
+    },
+    {
+        "sobject": "ProductCategory",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "ProductCategorys3.json"
+        ]
+    },
+    {
+        "sobject": "Product2",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "Product2s.json"
+        ]
+    },
+    {
+        "sobject": "ProductCategoryProduct",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "ProductCategoryProducts.json"
+        ]
+    },    
+    {
+        "sobject": "CommerceEntitlementPolicy",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "CommerceEntitlementPolicys.json"
+        ]
+    },
+    {
+        "sobject": "CommerceEntitlementProduct",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "CommerceEntitlementProducts.json"
+        ]
+    },
+    {
+        "sobject": "BuyerGroup",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "BuyerGroups.json"
+        ]
+    },
+    {
+        "sobject": "CommerceEntitlementBuyerGroup",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "CommerceEntitlementBuyerGroups.json"
+        ]
+    },
+    {
+        "sobject": "Pricebook2",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "Pricebook2s.json"
+        ]
+    },
+    {
+        "sobject": "WebStoreCatalog",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "WebStoreCatalogs.json"
+        ]
+    },
+    {
+        "sobject": "PricebookEntry",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "PricebookEntrys.json"
+        ]
+    },
+    {
+        "sobject": "WebStorePricebook",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "WebStorePricebooks.json"
+        ]
+    },
+    {
+        "sobject": "BuyerGroupPricebook",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "BuyerGroupPricebooks.json"
+        ]
+    },
+    {
+        "sobject": "WebStoreBuyerGroup",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "WebStoreBuyerGroups.json"
+        ]
+    }
+]

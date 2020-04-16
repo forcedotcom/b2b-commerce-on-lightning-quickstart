@@ -1,0 +1,54 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef2"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Coffee Machines",
+            "ParentCategoryId": "@ProductCategoryRef1",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef4"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Dark",
+            "ParentCategoryId": "@ProductCategoryRef3",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef5"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Espresso Machines",
+            "ParentCategoryId": "@ProductCategoryRef1",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef7"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Light",
+            "ParentCategoryId": "@ProductCategoryRef3",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef8"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Medium",
+            "ParentCategoryId": "@ProductCategoryRef3",
+            "IsNavigational": true
+        }
+    ]
+}

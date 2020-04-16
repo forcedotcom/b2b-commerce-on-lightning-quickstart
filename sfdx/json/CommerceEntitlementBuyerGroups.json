@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "CommerceEntitlementBuyerGroup",
+                "referenceId": "CommerceEntitlementBuyerGroupRef1"
+            },
+            "BuyerGroupId": "@BuyerGroupRef1",
+	    "PolicyId": "@CommerceEntitlementPolicyRef1"
+        }
+    ]
+}

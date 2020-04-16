@@ -1,0 +1,12 @@
+{
+    "Username": "admin13@scratch.org",
+    "LastName": "CreatedInSfdx",
+    "Email": "youremail@test.com",
+    "Alias": "admin13",
+    "TimeZoneSidKey": "America/Denver",
+    "LocaleSidKey": "en_US",
+    "EmailEncodingKey": "UTF-8",
+    "LanguageLocaleKey": "en_US",
+    "profileName": "System Administrator",
+    "generatePassword": true
+}

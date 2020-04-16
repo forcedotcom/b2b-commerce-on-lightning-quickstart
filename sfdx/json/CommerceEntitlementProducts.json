@@ -1,0 +1,244 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef1"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref18"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef2"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref19"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef3"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref20"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef4"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref21"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef5"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref22"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef6"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref23"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef7"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref24"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef8"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref25"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef9"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref26"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef10"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref27"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef11"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref28"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef12"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref29"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef13"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref30"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef14"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref31"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef15"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref32"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef16"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref33"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef17"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref34"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef18"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref35"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef19"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref36"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef20"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref37"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef21"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref38"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef22"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref39"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef23"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref40"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef24"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref41"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef25"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref42"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef26"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref43"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef27"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref44"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef28"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref45"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef29"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref46"
+        },
+        {
+            "attributes": {
+                "type": "CommerceEntitlementProduct",
+                "referenceId": "CommerceEntitlementProductRef30"
+            },
+            "PolicyId": "@CommerceEntitlementPolicyRef1",
+            "ProductId": "@Product2Ref47"
+        }
+    ]
+}

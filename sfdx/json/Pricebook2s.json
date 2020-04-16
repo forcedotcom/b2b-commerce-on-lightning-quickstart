@@ -1,0 +1,20 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Pricebook2",
+                "referenceId": "Pricebook2Ref3"
+            },
+            "IsActive": true,
+            "Name": "BASIC_STRIKETHROUGH_PRICEBOOK_FROM_QUICKSTART"
+        },
+        {
+            "attributes": {
+                "type": "Pricebook2",
+                "referenceId": "Pricebook2Ref4"
+            },
+            "IsActive": true,
+            "Name": "BASIC_PRICEBOOK_FROM_QUICKSTART"
+        }
+    ]
+}

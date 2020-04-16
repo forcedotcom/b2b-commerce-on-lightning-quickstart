@@ -1,0 +1,40 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef1"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Machines",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef3"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Beans",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef9"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Coffee Accessories",
+            "IsNavigational": true
+        },
+        {
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef10"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Grinders",
+            "IsNavigational": true
+        }
+    ]
+}

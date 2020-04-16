@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "BuyerGroup",
+                "referenceId": "BuyerGroupRef1"
+            },
+            "Name": "PutBuyerGroupHere",
+            "Description": "PutStoreNameHere"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "WebStoreBuyerGroup",
+                "referenceId": "WebStoreBuyerGroupRef1"
+            },
+            "BuyerGroupId": "@BuyerGroupRef1",
+            "WebStoreId": "PutWebStoreIdHere"
+        }
+    ]
+}

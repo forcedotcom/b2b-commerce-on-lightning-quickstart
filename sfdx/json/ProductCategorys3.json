@@ -1,0 +1,14 @@
+{
+    "records": [
+    	{
+            "attributes": {
+                "type": "ProductCategory",
+                "referenceId": "ProductCategoryRef6"
+            },
+            "CatalogId": "@ProductCatalogRef1",
+            "Name": "Advanced Espresso Machines",
+            "ParentCategoryId": "@ProductCategoryRef5",
+            "IsNavigational": true
+        }
+      ]
+}    

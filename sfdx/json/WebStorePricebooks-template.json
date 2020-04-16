@@ -1,0 +1,13 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "WebStorePricebook",
+                "referenceId": "WebStorePricebookRef1"
+            },
+            "IsActive": true,
+            "Pricebook2Id": "@Pricebook2Ref4",
+            "WebStoreId": "PutWebStoreIdHere"
+        }
+    ]
+}

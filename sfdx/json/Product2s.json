@@ -1,0 +1,517 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref1"
+            },
+            "IsActive": true,
+            "ProductCode": "GC1040",
+            "Name": "GenWatt Diesel 200kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref2"
+            },
+            "IsActive": true,
+            "ProductCode": "GC1020",
+            "Name": "GenWatt Diesel 10kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref3"
+            },
+            "IsActive": true,
+            "ProductCode": "IN7080",
+            "Name": "Installation: Industrial - High"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref4"
+            },
+            "IsActive": true,
+            "ProductCode": "SL9040",
+            "Name": "SLA: Silver"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref5"
+            },
+            "IsActive": true,
+            "ProductCode": "GC3040",
+            "Name": "GenWatt Propane 500kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref6"
+            },
+            "IsActive": true,
+            "ProductCode": "SL9080",
+            "Name": "SLA: Platinum"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref7"
+            },
+            "IsActive": true,
+            "ProductCode": "GC3020",
+            "Name": "GenWatt Propane 100kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref8"
+            },
+            "IsActive": true,
+            "ProductCode": "GC3060",
+            "Name": "GenWatt Propane 1500kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref9"
+            },
+            "IsActive": true,
+            "ProductCode": "GC1060",
+            "Name": "GenWatt Diesel 1000kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref10"
+            },
+            "IsActive": true,
+            "ProductCode": "SL9020",
+            "Name": "SLA: Bronze"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref11"
+            },
+            "IsActive": true,
+            "ProductCode": "GC5040",
+            "Name": "GenWatt Gasoline 750kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref12"
+            },
+            "IsActive": true,
+            "ProductCode": "IN7020",
+            "Name": "Installation: Portable"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref13"
+            },
+            "IsActive": true,
+            "ProductCode": "SL9060",
+            "Name": "SLA: Gold"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref14"
+            },
+            "IsActive": true,
+            "ProductCode": "GC5020",
+            "Name": "GenWatt Gasoline 300kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref15"
+            },
+            "IsActive": true,
+            "ProductCode": "IN7040",
+            "Name": "Installation: Industrial - Low"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref16"
+            },
+            "IsActive": true,
+            "ProductCode": "GC5060",
+            "Name": "GenWatt Gasoline 2000kW"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref17"
+            },
+            "IsActive": true,
+            "ProductCode": "IN7060",
+            "Name": "Installation: Industrial - Medium"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref18"
+            },
+            "IsActive": true,
+            "ProductCode": "B-C-COFMAC-001",
+            "Description": "The ultimate in coffee making luxury. Create up to three gourmet coffees at the same time. Granular control of the froth and foaminess. Can create a coffee in under 60 minutes",
+            "Family": "Commercial",
+            "Name": "Bella Chrome Coffee Machine",
+            "StockKeepingUnit": "B-C-COFMAC-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref19"
+            },
+            "IsActive": true,
+            "ProductCode": "DRW-1",
+            "Description": "2.5 lbs of dark roasted, single-origin, fair trade and Organic Arabica bean from the Chiapas region of Mexico. It is nutty with notes of caramel and slight baker's chocolate. It is fresh roasted and rated Premium Grade \"1,\" the highest rating available for coffee.",
+            "Family": "Personal",
+            "Name": "Dark Roast Whole Bean Coffee",
+            "StockKeepingUnit": "DRW-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref20"
+            },
+            "IsActive": true,
+            "ProductCode": "SS-DR-BB",
+            "Description": "This popular blend captures the essence of Sumatra, a coffee farmers paradise. This is slowly roasted to retain the majority of the tropical flavors.",
+            "Family": "Commercial",
+            "Name": "Splendid Sumatran Dark Roast Bean Bag",
+            "StockKeepingUnit": "SS-DR-BB"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref21"
+            },
+            "IsActive": true,
+            "ProductCode": "ESP-001",
+            "Description": "Masso Espresso Machine is a model designed to take the market by storm with a strong personality, absolute reliability, sleek lines and with the most innovative features in its class.",
+            "Family": "Personal",
+            "Name": "Masso Espresso Machine",
+            "StockKeepingUnit": "ESP-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref22"
+            },
+            "IsActive": true,
+            "ProductCode": "TM-COFMAC-001",
+            "Description": "TaskMater espresso machine is the perfect addition to your restaurant, coffee shop, or cafe!",
+            "Family": "Commercial",
+            "Name": "TaskMaster Coffee Machine",
+            "StockKeepingUnit": "TM-COFMAC-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref23"
+            },
+            "IsActive": true,
+            "ProductCode": "ESP-IOT-1",
+            "Description": "The future of espressos is now. The fully connected, intelligent EspresSmart Espresso Machine not only provides the most consistent pours of any of our machines, but it tell you when it needs filter replacements, repairs and cleaning.",
+            "Family": "Industrial",
+            "Name": "EspresSmart Espresso Machine",
+            "StockKeepingUnit": "ESP-IOT-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref24"
+            },
+            "IsActive": true,
+            "ProductCode": "ID-PEM",
+            "Description": "The Capricorn I group espresso machine is the perfect addition to your restaurant, coffee shop, or cafe! Not only does this machine give you the opportunity to add one-of-a kind hot beverages to your menu, but its stainless steel dual boiler system and automatic functionality ensure fast, efficient service for your customers. A user-friendly option for any high-volume establishment, this espresso machine is sure to take your customer's morning fix to the next level.",
+            "Family": "Personal",
+            "Name": "Capricorn I Group Espresso Machine",
+            "StockKeepingUnit": "ID-PEM"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref25"
+            },
+            "IsActive": true,
+            "ProductCode": "TR-COFMAC-001",
+            "Description": "The Testa Rossa Milk Espresso & Coffee machine: Deliciousness delivered with ease, cup after cup. With our innovative illy iperEspresso capsule system, creating an excellent cup of espresso or classic coffee is perfectly simple. Our specially designed capsules deliver extraordinary taste with professional artistry - all in a single touch, from a single machine. With a hot water dispenser for soothing tea, and new integrated milk frother for beautiful lattes and smooth cappuccinos, every cup becomes an at-home indulgence.\\n\\nEnjoy all six beverage options with the convenience of one machine:\\n\\nEspresso\\nCoffee\\nCappuccino\\nLatte macchiato\\nSteamed milk\\nHot water for teas and herbal infusions",
+            "Family": "Industrial",
+            "Name": "Testa Rossa Coffee Machine",
+            "StockKeepingUnit": "TR-COFMAC-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref26"
+            },
+            "IsActive": true,
+            "ProductCode": "LRW-1",
+            "Description": "A blend of 100 percent premium Arabica beans from Central America, Kenya and Tanzania that results in a superb, rich aroma and well-balanced taste. Coffee is light, sweet and balanced coffee. Whole beans are perfect for drip or filter method. Comes in 2.5 lb bag.",
+            "Family": "Personal",
+            "Name": "Light Roast Whole Bean Coffee",
+            "StockKeepingUnit": "LRW-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref27"
+            },
+            "IsActive": true,
+            "ProductCode": "MRC-1",
+            "Description": "Grown in Colombia's rich volcanic soil, this coffee is as distinctive as the countryside. Our medium roast coffee delivers a signature nutty flavor. We use 100% natural roasted arabica beans to create a smooth and balanced, yet crisp, cup of coffee.",
+            "Family": "Personal",
+            "Name": "Medium Roast Coffee",
+            "StockKeepingUnit": "MRC-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref28"
+            },
+            "IsActive": true,
+            "ProductCode": "CP-2",
+            "Description": "This classic 8-cup coffee press has a copper and chrome-plated steel frame and lid that will last for years. It features a wide, matte-black polypropylene handle that provides a cool, comfortable grip and adds to the modern style of the design. The borosilicate glass carafe is heat-resistant, and the entire press is dishwasher safe.",
+            "Family": "Personal",
+            "Name": "Copper Coffee Press",
+            "StockKeepingUnit": "CP-2"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref29"
+            },
+            "IsActive": true,
+            "ProductCode": "GDG-1",
+            "Description": "This pure glass, 8-cup coffeemaker to help you brew the perfect cup of coffee. It is made from non-porous Borosilicate glass, which will not absorb odors or chemical residues.",
+            "Family": "Personal",
+            "Name": "Glass Drip Coffee Maker",
+            "StockKeepingUnit": "GDG-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref30"
+            },
+            "IsActive": true,
+            "ProductCode": "E-ESP-001",
+            "Description": "Easton Espresso Machine is the perfect addition to your restaurant, coffee shop, or cafe! It brings together convenience, affordability, and ease-of-use into one espresso machine. Rather than volumetric buttons, there is a singular button for starting and stopping the brewing process. This means that the barista will have to be a little more involved, but they also have more freedom in controlling each shot that they pull.",
+            "Family": "Commercial",
+            "Name": "Easton Espresso Machine",
+            "StockKeepingUnit": "E-ESP-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref31"
+            },
+            "IsActive": true,
+            "ProductCode": "ID-CAP-II",
+            "Description": "The Capricorn II group espresso machine is the perfect addition to your restaurant, coffee shop, or cafe! Not only does this machine give you the opportunity to add one-of-a kind hot beverages to your menu, but its stainless steel dual boiler system and automatic functionality ensure fast, efficient service for your customers. A user-friendly option for any high-volume establishment, this espresso machine is sure to take your customer's morning fix to the next level.",
+            "Family": "Commercial",
+            "Name": "Capricorn II Group Espresso Machine",
+            "StockKeepingUnit": "ID-CAP-II"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref32"
+            },
+            "IsActive": true,
+            "ProductCode": "PS-DB",
+            "Description": "At the heart of this machine is it's dual boiler heating system. The boiler, for the espresso shot, is PID temperature controlled, while a separate steam boiler offers instant and powerful steam on demand. So you can extract your shot at the right temperature, delivering optimal flavor, while simultaneously steaming your milk to cafe quality.",
+            "Family": "Industrial",
+            "Name": "The Dual Boiler",
+            "StockKeepingUnit": "PS-DB"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref33"
+            },
+            "IsActive": true,
+            "ProductCode": "Q85YQ2",
+            "Description": "The Infuser delivers optimal espresso flavor in every cup. It pre-infuses ground coffee with low, steady water pressure before extraction, gently expanding the grinds before stepping up to high pressure. The result is a more even extraction, which produces balanced espresso flavor.",
+            "Family": "Commercial",
+            "Name": "The Infuser",
+            "StockKeepingUnit": "Q85YQ2"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref34"
+            },
+            "IsActive": true,
+            "ProductCode": "CCG-1",
+            "Description": "This espresso grinder uses 2 1/2\" blades to finely grind whole bean coffee so that you can serve delicious espresso at your coffee shop, espresso bar, and more! A unique micro adjustment system and a manual timer give you infinite control over grind settings to get the precise grind that you need. A cast aluminum frame ensures perfect grind head alignment for consistent, long-lasting service.",
+            "Family": "Commercial",
+            "Name": "Commercial Coffee Grinder",
+            "StockKeepingUnit": "CCG-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref35"
+            },
+            "IsActive": true,
+            "ProductCode": "CERCG-1",
+            "Description": "This multi-purpose grinder prepares fresh coffee, salt, pepper, green tea, and even sesame seeds. A ceramic grinding mechanism never alters flavor of grinds, resulting in fresh, flavorful, and pure ingredients",
+            "Family": "Personal",
+            "Name": "Ceramic Coffee Grinder",
+            "StockKeepingUnit": "CERCG-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref36"
+            },
+            "IsActive": true,
+            "ProductCode": "CF-1",
+            "Description": "Use this pack of 100 unbleached paper filters for a rich, full coffee flavor.",
+            "Family": "Personal",
+            "Name": "Coffee Filters",
+            "StockKeepingUnit": "CF-1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref37"
+            },
+            "IsActive": true,
+            "ProductCode": "E-MR-B",
+            "Description": "This medium roast Ethiopian coffee has graceful notes of chocolate, paired with flavors of molasses and nuts.",
+            "Family": "Personal",
+            "Name": "Medium Roast Ethiopian Coffee Bean",
+            "StockKeepingUnit": "E-MR-B"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref38"
+            },
+            "IsActive": true,
+            "ProductCode": "ID-CAP-III",
+            "Description": "The Capricorn III group espresso machine is the perfect addition to your restaurant, coffee shop, or cafe! Not only does this machine give you the opportunity to add one-of-a kind hot beverages to your menu, but its stainless steel dual boiler system and automatic functionality ensure fast, efficient service for your customers. A user-friendly option for any high-volume establishment, this espresso machine is sure to take your customer's morning fix to the next level.",
+            "Family": "Industrial",
+            "Name": "Capricorn III Group Espresso Machine",
+            "StockKeepingUnit": "ID-CAP-III"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref39"
+            },
+            "IsActive": true,
+            "ProductCode": "PS-EL",
+            "Description": "The Elite espresso machine is the perfect addition to your restaurant, coffee shop, or cafe! Not only does this machine give you the opportunity to add one-of-a kind hot beverages to your menu, but its stainless steel dual boiler system and automatic functionality ensure fast, efficient service for your customers. A user-friendly option for any high-volume establishment, this espresso machine is sure to take your customer's morning fix to the next level.",
+            "Family": "Commercial",
+            "Name": "The Elite",
+            "StockKeepingUnit": "PS-EL"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref40"
+            },
+            "IsActive": true,
+            "ProductCode": "EM-ESP-001",
+            "Description": "Prepare café-quality espresso that?s smooth and deliciously aromatic with the NEW Easy Mart Capsule Machine's easy to use one-touch operation.",
+            "Family": "Personal",
+            "Name": "Easy Mart Espresso Machine",
+            "StockKeepingUnit": "EM-ESP-001"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref41"
+            },
+            "IsActive": true,
+            "ProductCode": "CP-3",
+            "Description": "This classic 8-cup coffee press has a black chrome-plated steel frame and lid that will last for years. It features a wide, matte-black polypropylene handle that provides a cool, comfortable grip and adds to the modern style of the design. The borosilicate glass carafe is heat-resistant, and the entire press is dishwasher safe. Dimensions: 10cm D x 17cm W x 25cm H, or 4.2\"D x 6.9\"W x 9.7\"H",
+            "Family": "Personal",
+            "Name": "Java Black Coffee Press",
+            "StockKeepingUnit": "CP-3"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref42"
+            },
+            "IsActive": true,
+            "ProductCode": "CL-DR-BB",
+            "Description": "This roast will transport you to a beach cabana in Cuba on a warm summer, sunny day. The seagulls flock above you, the shade of the palm tree cools you and you want the feeling to linger on.",
+            "Family": "Personal",
+            "Name": "Cuban Libre Dark Roast Bean Bag",
+            "StockKeepingUnit": "CL-DR-BB"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref43"
+            },
+            "IsActive": true,
+            "ProductCode": "CR-DEC",
+            "Description": "A water processed decaf that is vivid and packed with flavor, Costa Rican Decaf is made from 100% organic water processed decaffeinated beans. The Decaf is surprisingly (some say freakishly) versatile: about the only preparation we don?t see consistently enjoyable results in is the siphon.",
+            "Family": "Personal",
+            "Name": "Costa Rican Decaf Roast Bean Bag",
+            "StockKeepingUnit": "CR-DEC"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref44"
+            },
+            "IsActive": true,
+            "ProductCode": "CREV-DR-BLEND",
+            "Description": "These expertly roasted beans are the pride and joy of Colombia. They have taken the coffee world by storm. Try it for yourself!",
+            "Family": "Commercial",
+            "Name": "Colombian Dark Roast Revolution Blend",
+            "StockKeepingUnit": "CREV-DR-BLEND"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref45"
+            },
+            "IsActive": true,
+            "ProductCode": "CM-MSB-300",
+            "Description": "This coffee brewer is an excellent addition to any cafe or restaurant where a reliable source of coffee is needed. It brews coffee directly into an airpot at optimum temperatures between 201 and 205 degrees Fahrenheit for a rich, consistent product every time. While this model is intended for low volume use, 1650W of power allows you to brew up to 56 cups per hour.",
+            "Family": "Commercial",
+            "Name": "Commercial - Medium Scale Brewer",
+            "StockKeepingUnit": "CM-MSB-300"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref46"
+            },
+            "IsActive": true,
+            "ProductCode": "COF-FIL",
+            "Description": "Great coffee filters are made up of filaments approximately 20 micrometres wide, which allow particles through that are less than approximately 10 to 15 micrometres.\\nPackage contains 300 filters.",
+            "Family": "Commercial",
+            "Name": "Organic Paper Coffee Filters",
+            "StockKeepingUnit": "COF-FIL"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref47"
+            },
+            "IsActive": true,
+            "ProductCode": "CP-1",
+            "Description": "This classic 8-cup coffee press has a chrome-plated steel frame and lid that will last for years. It features a wide, matte-black polypropylene handle that provides a cool, comfortable grip and adds to the modern style of the design. The borosilicate glass carafe is heat-resistant, and the entire press is dishwasher safe. Dimensions: 10cm D x 17cm W x 25cm H, or 4.2\"D x 6.9\"W x 9.7\"H",
+            "Family": "Nikon",
+            "Name": "Stainless Steel Coffee Press",
+            "StockKeepingUnit": "CP-1"
+        }
+    ]
+}

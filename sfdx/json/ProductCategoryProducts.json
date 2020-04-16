@@ -1,0 +1,274 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef1"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef2",
+            "ProductId": "@Product2Ref32"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef2"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef2",
+            "ProductId": "@Product2Ref33"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef3"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef2",
+            "ProductId": "@Product2Ref18"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef4"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef2",
+            "ProductId": "@Product2Ref24"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef5"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef4",
+            "ProductId": "@Product2Ref19"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef6"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef4",
+            "ProductId": "@Product2Ref20"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef7"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef4",
+            "ProductId": "@Product2Ref42"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef8"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef4",
+            "ProductId": "@Product2Ref44"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef9"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef5",
+            "ProductId": "@Product2Ref21"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef10"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef5",
+            "ProductId": "@Product2Ref40"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef11"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef5",
+            "ProductId": "@Product2Ref24"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef12"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef5",
+            "ProductId": "@Product2Ref30"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef13"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef5",
+            "ProductId": "@Product2Ref31"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef14"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef6",
+            "ProductId": "@Product2Ref45"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef15"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef6",
+            "ProductId": "@Product2Ref38"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef16"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef6",
+            "ProductId": "@Product2Ref39"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef17"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef6",
+            "ProductId": "@Product2Ref22"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef18"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef6",
+            "ProductId": "@Product2Ref23"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef19"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef7",
+            "ProductId": "@Product2Ref26"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef20"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef8",
+            "ProductId": "@Product2Ref27"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef21"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef8",
+            "ProductId": "@Product2Ref37"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef22"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef8",
+            "ProductId": "@Product2Ref43"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef23"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref41"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef24"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref46"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef25"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref47"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef26"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref28"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef27"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref29"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef28"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef9",
+            "ProductId": "@Product2Ref36"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef29"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef10",
+            "ProductId": "@Product2Ref34"
+        },
+        {
+            "attributes": {
+                "type": "ProductCategoryProduct",
+                "referenceId": "ProductCategoryProductRef30"
+            },
+            "IsPrimaryCategory": false,
+            "ProductCategoryId": "@ProductCategoryRef10",
+            "ProductId": "@Product2Ref35"
+        }
+    ]
+}
