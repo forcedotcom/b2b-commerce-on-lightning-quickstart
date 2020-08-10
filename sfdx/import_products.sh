@@ -14,8 +14,8 @@ else
 
     # Get Standard Pricebooks for Store and replace in json files
 	pricebook1=`sfdx force:data:soql:query -q "SELECT Id FROM Pricebook2 WHERE Name='Standard Price Book' AND IsStandard=true LIMIT 1" -r csv |tail -n +2`
-	pricebook2=`sfdx force:data:soql:query -q "SELECT Id FROM Pricebook2 WHERE Name='Standard' LIMIT 1" -r csv |tail -n +2`
-	sed -e "s/\"Pricebook2Id\": \"PutStandardPricebookHere\"/\"Pricebook2Id\": \"${pricebook1}\"/g;s/\"Pricebook2Id\": \"PutOtherPricebookHere\"/\"Pricebook2Id\": \"${pricebook2}\"/g" json/PricebookEntrys-template.json > json/PricebookEntrys.json
+	
+	sed -e "s/\"Pricebook2Id\": \"PutStandardPricebookHere\"/\"Pricebook2Id\": \"${pricebook1}\"/g" json/PricebookEntrys-template.json > json/PricebookEntrys.json
 	
 	# Buyer Group
 	numberofbuyergroups=`sfdx force:data:soql:query -q "SELECT COUNT(Id) FROM BuyerGroup" -r csv  |tail -n +2`
@@ -85,9 +85,9 @@ else
 	rm json/WebStorePricebooks.json
 	rm json/WebStoreCatalogs.json
 	rm json/WebStoreBuyerGroups.json
-	rm json/BuyerGroups.json
-	rm json/PricebookEntrys.json	
-
+	rm json/BuyerGroups.json	
+	rm json/PricebookEntrys.json
+	
 	# Return BuyerGroup Name to be used in BuyerGroup Account mapping 
 	echo $newbuyergroupname
 

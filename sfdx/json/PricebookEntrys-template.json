@@ -14,34 +14,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef2"
-            },
-            "IsActive": true,
-            "UnitPrice": 25000,
-            "Product2Id": "@Product2Ref1",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef3"
             },
             "IsActive": true,
             "UnitPrice": 5000,
             "Product2Id": "@Product2Ref2",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef4"
-            },
-            "IsActive": true,
-            "UnitPrice": 5000,
-            "Product2Id": "@Product2Ref2",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -58,34 +36,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef6"
-            },
-            "IsActive": true,
-            "UnitPrice": 85000,
-            "Product2Id": "@Product2Ref3",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef7"
             },
             "IsActive": true,
             "UnitPrice": 20000,
             "Product2Id": "@Product2Ref4",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef8"
-            },
-            "IsActive": true,
-            "UnitPrice": 20000,
-            "Product2Id": "@Product2Ref4",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -102,34 +58,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef10"
-            },
-            "IsActive": true,
-            "UnitPrice": 50000,
-            "Product2Id": "@Product2Ref5",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef11"
             },
             "IsActive": true,
             "UnitPrice": 40000,
             "Product2Id": "@Product2Ref6",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef12"
-            },
-            "IsActive": true,
-            "UnitPrice": 40000,
-            "Product2Id": "@Product2Ref6",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -146,34 +80,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef14"
-            },
-            "IsActive": true,
-            "UnitPrice": 15000,
-            "Product2Id": "@Product2Ref7",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef15"
             },
             "IsActive": true,
             "UnitPrice": 120000,
             "Product2Id": "@Product2Ref8",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef16"
-            },
-            "IsActive": true,
-            "UnitPrice": 120000,
-            "Product2Id": "@Product2Ref8",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -190,17 +102,6 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef18"
-            },
-            "IsActive": true,
-            "UnitPrice": 100000,
-            "Product2Id": "@Product2Ref9",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef19"
             },
             "IsActive": true,
@@ -212,34 +113,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef20"
-            },
-            "IsActive": true,
-            "UnitPrice": 10000,
-            "Product2Id": "@Product2Ref10",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false            
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef21"
             },
             "IsActive": true,
             "UnitPrice": 75000,
             "Product2Id": "@Product2Ref11",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef22"
-            },
-            "IsActive": true,
-            "UnitPrice": 75000,
-            "Product2Id": "@Product2Ref11",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -256,34 +135,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef24"
-            },
-            "IsActive": true,
-            "UnitPrice": 5000,
-            "Product2Id": "@Product2Ref12",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef25"
             },
             "IsActive": true,
             "UnitPrice": 30000,
             "Product2Id": "@Product2Ref13",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef26"
-            },
-            "IsActive": true,
-            "UnitPrice": 30000,
-            "Product2Id": "@Product2Ref13",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -300,34 +157,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef28"
-            },
-            "IsActive": true,
-            "UnitPrice": 35000,
-            "Product2Id": "@Product2Ref14",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef29"
             },
             "IsActive": true,
             "UnitPrice": 20000,
             "Product2Id": "@Product2Ref15",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef30"
-            },
-            "IsActive": true,
-            "UnitPrice": 20000,
-            "Product2Id": "@Product2Ref15",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
@@ -344,34 +179,12 @@
         {
             "attributes": {
                 "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef32"
-            },
-            "IsActive": true,
-            "UnitPrice": 150000,
-            "Product2Id": "@Product2Ref16",
-            "Pricebook2Id": "PutOtherPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
                 "referenceId": "PricebookEntryRef33"
             },
             "IsActive": true,
             "UnitPrice": 50000,
             "Product2Id": "@Product2Ref17",
             "Pricebook2Id": "PutStandardPricebookHere",
-            "UseStandardPrice": false
-        },
-        {
-            "attributes": {
-                "type": "PricebookEntry",
-                "referenceId": "PricebookEntryRef34"
-            },
-            "IsActive": true,
-            "UnitPrice": 50000,
-            "Product2Id": "@Product2Ref17",
-            "Pricebook2Id": "PutOtherPricebookHere",
             "UseStandardPrice": false
         },
         {
