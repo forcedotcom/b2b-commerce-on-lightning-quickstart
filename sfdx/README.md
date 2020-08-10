@@ -62,7 +62,7 @@ This script will:
  - import Products and necessary related store data in order to get you started
  - create a Buyer User and attach a Buyer Profile to it
  - create a Buyer Account and add it to the relevant Buyer Group
- - add Contact Point Addresses for Shipping and Billing to your new buyer Account
+ - add Contact Point Addresses for Shipping and Billing to your new Buyer Account
  - activate the store
  - publish your store so that the changes are reflected
 
