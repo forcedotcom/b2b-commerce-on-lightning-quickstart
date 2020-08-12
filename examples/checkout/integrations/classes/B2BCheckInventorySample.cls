@@ -7,6 +7,15 @@ global class B2BCheckInventorySample implements sfdc_checkout.CartInventoryValid
             // Get all SKUs and their quantities from cart items.
             Map<String, Decimal> quantitiesFromSalesforce = new Map<String, Decimal>();
             for (CartItem cartItem : [SELECT Sku, Quantity FROM CartItem WHERE CartId = :cartId AND Type = 'Product']) {
+                if (String.isBlank(cartItem.Sku)) {
+                    String errorMessage = 'The SKUs for all products in your cart must be defined.';
+                    return integrationStatusFailedWithCartValidationOutputError(
+                        integStatus,
+                        errorMessage,
+                        jobInfo,
+                        cartId
+                    );
+                }
                 quantitiesFromSalesforce.put(cartItem.Sku, cartItem.Quantity);
             }
 

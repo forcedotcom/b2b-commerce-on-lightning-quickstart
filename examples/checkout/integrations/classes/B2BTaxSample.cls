@@ -18,6 +18,15 @@ global class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
             for (CartItem cartItem : [SELECT Sku, TotalPrice, Type FROM CartItem WHERE CartId = :cartId]) {
                 String cartItemSKU = '';
                 if (cartItem.Type == 'Product') {
+                    if (String.isBlank(cartItem.Sku)) {
+                        String errorMessage = 'The SKUs for all products in your cart must be defined.';
+                        return integrationStatusFailedWithCartValidationOutputError(
+                            integStatus,
+                            errorMessage,
+                            jobInfo,
+                            cartId
+                        );
+                    }
                     cartItemSKU = cartItem.Sku;
                 }
                 else if (cartItem.Type == 'Charge') {
@@ -95,10 +104,16 @@ global class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
             Integer SuccessfulHttpRequest = 200;
             String encodedState = (state == null) ? '' : EncodingUtil.urlEncode(state, 'UTF-8').replace('+', '%20');
             String encodedCountry = (country == null) ? '' : EncodingUtil.urlEncode(country, 'UTF-8').replace('+', '%20');
+            
+            Map<String, Decimal> encodedCartItemTotalAmountBySKU = new Map<String, Decimal>();
+            for(String sku: cartItemTotalAmountBySKU.keySet()) {
+                encodedCartItemTotalAmountBySKU.put(EncodingUtil.urlEncode(sku, 'UTF-8'), cartItemTotalAmountBySKU.get(sku));
+            }
+            
             // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
             String requestURL = 'https://b2b-commerce-test.herokuapp.com/get-tax-rates?state=' + encodedState
                             + '&country=' + encodedCountry
-                            + '&amountsBySKU=' + JSON.serialize(cartItemTotalAmountBySKU);
+                            + '&amountsBySKU=' + JSON.serialize(encodedCartItemTotalAmountBySKU);
             request.setEndpoint(requestURL);
             request.setMethod('GET');
             HttpResponse response = http.send(request);

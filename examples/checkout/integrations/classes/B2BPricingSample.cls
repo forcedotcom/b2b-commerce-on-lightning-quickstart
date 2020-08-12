@@ -16,6 +16,15 @@ global class B2BPricingSample implements sfdc_checkout.CartPriceCalculations {
             // Get all SKUs and their sale prices (customer-specific prices) from the cart items.
             Map<String, Decimal> salesPricesFromSalesforce = new Map<String, Decimal>();
             for (CartItem cartItem : [SELECT Sku, SalesPrice FROM CartItem WHERE CartId = :cartId AND Type = 'Product']) {
+                if (String.isBlank(cartItem.Sku)) {
+                    String errorMessage = 'The SKUs for all products in your cart must be defined.';
+                    return integrationStatusFailedWithCartValidationOutputError(
+                        integStatus,
+                        errorMessage,
+                        jobInfo,
+                        cartId
+                    );
+                }
                 salesPricesFromSalesforce.put(cartItem.Sku, cartItem.SalesPrice);
             }
             
@@ -88,9 +97,16 @@ global class B2BPricingSample implements sfdc_checkout.CartPriceCalculations {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         Integer SuccessfulHttpRequest = 200;
+
+        // Encode the product SKUs to avoid any invalid characters in the request URL.
+        Set<String> encodedSkus = new Set<String>();
+        for (String sku : skus) {
+            encodedSkus.add(EncodingUtil.urlEncode(sku, 'UTF-8'));
+        }
+
         // To access the service below you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
         request.setEndpoint('https://b2b-commerce-test.herokuapp.com/get-sales-prices?customerId=' 
-                            + customerId + '&skus=' + JSON.serialize(skus));
+                            + customerId + '&skus=' + JSON.serialize(encodedSkus));
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         // If the request is successful, parse the JSON response.

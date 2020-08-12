@@ -78,12 +78,47 @@ public class B2BCheckInventorySampleTest {
         List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
         System.assertEquals(1, cartValidationOutputs.size());
         
-        // Validate: The sample text that the cart is empty is the returned as the failure output 
+        // Validate: The sample text that the cart is empty is returned as the failure output 
         System.assertEquals('Looks like your cart is empty.', cartValidationOutputs.get(0).Message);
         Test.stopTest();
 
         // Undo the emptying of the cart we did at the start of the test
         insertCartItem(webCart.Id);
+    }
+
+    @isTest static void testProductsWithNoSkuHasError() {
+        Test.startTest();
+
+        WebCart webCart = [SELECT Id FROM WebCart WHERE Name = 'Cart' LIMIT 1];
+        List<CartDeliveryGroup> cartDeliveryGroups = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :webCart.Id LIMIT 1];
+
+        // Insert a cart item without a SKU
+        CartItem cartItemWithNoSku = new CartItem(
+            CartId=webCart.Id,
+            Quantity=1.0,
+            Type='Product',
+            Name='TestProductNoSku',
+            CartDeliveryGroupId=cartDeliveryGroups.get(0).Id
+        );
+        insert cartItemWithNoSku;
+
+        B2BCheckInventorySample apexSample = new B2BCheckInventorySample();
+        sfdc_checkout.IntegrationInfo integInfo = new sfdc_checkout.IntegrationInfo();
+        integInfo.jobId = null;
+        sfdc_checkout.IntegrationStatus integrationResult = apexSample.startCartProcessAsync(integInfo, webCart.Id);
+
+        // Validate: IntegrationStatus.Status is FAILED.
+        // and a new CartValidationOutput record with level 'Error' was created.
+        System.assertEquals(sfdc_checkout.IntegrationStatus.Status.FAILED, integrationResult.status);
+        List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
+        System.assertEquals(1, cartValidationOutputs.size());
+        
+        // Validate: The sample text that a product SKU is missing is returned as the failure output 
+        System.assertEquals('The SKUs for all products in your cart must be defined.', cartValidationOutputs.get(0).Message);
+        Test.stopTest();
+
+        // Remove the invalid cart item
+        delete cartItemWithNoSku;
     }
 
     // Inserts a cart item when we only know the cart id
