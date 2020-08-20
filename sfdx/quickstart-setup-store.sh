@@ -43,7 +43,7 @@ else
     #       Update Store        #
     #############################
 
-    storeId=`sfdx  force:data:soql:query -q "SELECT Id FROM WebStore WHERE Name='$1' LIMIT 1" -r csv |tail -n +2`
+    storeId=`sfdx force:data:soql:query -q "SELECT Id FROM WebStore WHERE Name='$1' LIMIT 1" -r csv |tail -n +2`
 
     # Register Apex classes needed for checkout integrations and map them to the store
     echo "1. Setting up your integrations."
@@ -54,8 +54,10 @@ else
         # $2 is DeveloperName
         # $3 is ExternalServiceProviderType
 
+        echo "Registering Apex class $1 ($2) for $3 integration."
+
          # Get the Id of the Apex class
-        local apexClassId=`sfdx  force:data:soql:query -q "SELECT Id FROM ApexClass WHERE Name='$1' LIMIT 1" -r csv |tail -n +2`
+        local apexClassId=`sfdx force:data:soql:query -q "SELECT Id FROM ApexClass WHERE Name='$1' LIMIT 1" -r csv |tail -n +2`
         if [ -z "$apexClassId" ]
         then
             echo "There was a problem getting the ID of the Apex class $1 for checkout integrations."
@@ -66,11 +68,11 @@ else
             sfdx force:data:record:create -s RegisteredExternalService -v "DeveloperName=$2 ExternalServiceProviderId=$apexClassId ExternalServiceProviderType=$3 MasterLabel=$2"
 
             # Map the Apex class to the store if no other mapping exists for the same Service Provider Type
-            local storeIntegratedServiceId=`sfdx  force:data:soql:query -q "SELECT Id FROM StoreIntegratedService WHERE ServiceProviderType='$3' AND StoreId='$storeId' LIMIT 1" -r csv |tail -n +2`
+            local storeIntegratedServiceId=`sfdx force:data:soql:query -q "SELECT Id FROM StoreIntegratedService WHERE ServiceProviderType='$3' AND StoreId='$storeId' LIMIT 1" -r csv |tail -n +2`
             if [ -z "$storeIntegratedServiceId" ]
             then
                 # No mapping exists, so we will create one
-                local registeredExternalServiceId=`sfdx  force:data:soql:query -q "SELECT Id FROM RegisteredExternalService WHERE ExternalServiceProviderId='$apexClassId' LIMIT 1" -r csv |tail -n +2`
+                local registeredExternalServiceId=`sfdx force:data:soql:query -q "SELECT Id FROM RegisteredExternalService WHERE ExternalServiceProviderId='$apexClassId' LIMIT 1" -r csv |tail -n +2`
                 sfdx force:data:record:create -s StoreIntegratedService -v "Integration=$registeredExternalServiceId StoreId=$storeId ServiceProviderType=$3"
             else
                 echo "There is already a mapping in this store for $3 ServiceProviderType: $storeIntegratedServiceId"
@@ -78,11 +80,33 @@ else
         fi
     }
 
+    function register_and_map_pricing_integration {
+        local serviceProviderType="Price"
+        local integrationName="Price__B2B_STOREFRONT__StandardPricing"
+
+        echo "Registering internal pricing ($integrationName) for $serviceProviderType integration."
+
+        local pricingIntegrationId=`sfdx force:data:soql:query -q "SELECT Id FROM StoreIntegratedService WHERE ServiceProviderType='$serviceProviderType' AND StoreId='$storeId' LIMIT 1" -r csv |tail -n +2`
+        if [ -z "$pricingIntegrationId" ]
+        then
+            sfdx force:data:record:create -s StoreIntegratedService -v "Integration=$integrationName StoreId=$storeId ServiceProviderType=$serviceProviderType"
+            echo "To register an external pricing integration, delete the internal pricing mapping and then add the external pricing mapping.  See the code for details how."
+        else
+            echo "There is already a mapping in this store for Price ServiceProviderType: $pricingIntegrationId"
+        fi
+    }
+
     register_and_map_integration "B2BCheckInventorySample" "CHECK_INVENTORY" "Inventory"
-    register_and_map_integration "B2BPricingSample" "COMPUTE_PRICE" "Price"
     register_and_map_integration "B2BShippingSample" "COMPUTE_SHIPPING" "Shipment"
     register_and_map_integration "B2BTaxSample" "COMPUTE_TAXES" "Tax"
-
+    
+    # By default, use the internal pricing integration
+    register_and_map_pricing_integration
+    # To use an external integration instead, use the code below: 
+    # register_and_map_integration "B2BPricingSample" "COMPUTE_PRICE" "Price"
+    # Or follow the documentation for setting up the integration manually:
+    # https://developer.salesforce.com/docs/atlas.en-us.b2b_comm_lex_dev.meta/b2b_comm_lex_dev/b2b_comm_lex_integration_setup.htm
+    
     echo "You can view the results of the mapping in the Store Integrations page at /lightning/page/storeDetail?lightning__webStoreId=$storeId&storeDetail__selectedTab=store_integrations"
    
     # Map the checkout flow with the checkout component in the store
