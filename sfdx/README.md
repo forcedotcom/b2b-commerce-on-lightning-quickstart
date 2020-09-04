@@ -62,7 +62,7 @@ This script will:
  - import Products and necessary related store data in order to get you started
  - create a Buyer User and attach a Buyer Profile to it
  - create a Buyer Account and add it to the relevant Buyer Group
- - add Contact Point Addresses for Shipping and Billing to your new Buyer Account
+ - add Contact Point Addresses for Shipping and Billing to your new buyer Account
  - activate the store
  - publish your store so that the changes are reflected
 
@@ -78,6 +78,10 @@ Full instructions are [here](https://help.salesforce.com/articleView?id=b2b_comm
 After running the steps above, you can then reset the password for the newly created Buyer User on the Setup page in Lightning UI. This will send an email to the Buyer User with a link to reset their password. You may also change the Buyer User's email if you have not changed it already prior to running the setup script. Full instructions are [here](https://help.salesforce.com/articleView?id=resetting_and_expiring_passwords.htm&type=5).
 
 If you prefer to use SFDX, instructions to generate a password for users via SFDX are located [here](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_passwd.htm).
+
+- 7.3 Setting up Credit Card Authorization
+
+Set up payment authorizations by credit card for your Checkout using the following documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
 
 ## The `sfdx-project.json` File
 

@@ -32,6 +32,9 @@ The example for Taxation implementation includes an Apex class (B2BTaxSample.apx
 
 A test class is also included for reference. The test coverage >74% will allow deployment from sandbox to production.
 
+## 5. Credit Card Authorization
+Set up payment authorizations by credit card for your Checkout using the following documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
+
 ## Error Handling
 There are two types of errors that surface from the reference implementations: user errors (which the buyer user sees and can correct) and admin errors (which the buyer user can’t fix).
 
@@ -40,4 +43,5 @@ To propagate an error to the user, add a new CartValidationOutput record. All re
 To propagate the error to the admin, throw the exception from the reference implementation. The user is presented with a generic error message telling them to contact their admin. At the same time, a Platform Status Alert Event platform event  is published. In order for the admin to see the error message, a notification is created.
 
 To learn how to create Platform Status Alert Event trigger for the notification, see PlatformStatusAlertEvent and Create a Custom Notification Flow.
+
 
