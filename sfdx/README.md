@@ -20,7 +20,7 @@ If you cannot clone from that location, download the .zip file and unzip it loca
 that will convert the examples from the metadata API format to the SFDX format and add them to the "path" you have specified in the sfdx-project.json file.
 
 3. Create a scratch org using SFDX:
-If you don't have a dev hub already autorized, do that now by running
+If you don't have a dev hub already authorized, do that now by running
 ```
 sfdx force:auth:web:login -d
 ```
