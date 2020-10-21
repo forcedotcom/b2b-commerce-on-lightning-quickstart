@@ -11,8 +11,8 @@ public class B2BCartToOrderDraft {
     
     /**
      * @description Maps a cart to an order. Activates it, and closes the cart. Returns the resulting order summary id.
-     * @param cartIds Requires a single cart id to be passed in and that cart will be converted to an order.
-     * @return The OrderSummaryId that resulted from this class.
+     * @param request The checkout session and cart id.
+     * @return The OrderId that resulted from this class.
      */
     @InvocableMethod(label='Map Cart to Order Draft' description='Maps the cart and related data to an order' category='B2B Commerce')
     public static List<ID> cartToOrder(List<B2BCartToOrderDraftRequest> request) {
@@ -24,11 +24,11 @@ public class B2BCartToOrderDraft {
         // load the primary delivery group (only one supported at this time)
         Id cartDeliveryGroupId = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :cartId][0].Id;
 
-        Id orderId = mapCartToOrder(cartId);
+        Id orderId = mapAndInsertCartToOrder(cartId);
         updateCheckoutSession(checkoutSessionId, orderId);
         
-        Id orderDeliveryGroupId = mapCartDeliveryGroupToOrderDeliveryGroup(cartDeliveryGroupId, orderId);
-        mapCartItems(cartDeliveryGroupId, orderId, orderDeliveryGroupId);
+        Id orderDeliveryGroupId = mapAndInsertCartDeliveryGroupToOrderDeliveryGroup(cartDeliveryGroupId, orderId);
+        mapAndInsertCartItems(cartDeliveryGroupId, orderId, orderDeliveryGroupId);
                 
         List<ID> orderIds = new List<ID>();
         orderIds.add(orderId);
@@ -54,7 +54,7 @@ public class B2BCartToOrderDraft {
      * @param cartId The cart id to map to an order.
      * @return The id of the order that was created.
      */
-    private static Id mapCartToOrder(Id cartId) {
+    private static Id mapAndInsertCartToOrder(Id cartId) {
         // Get the cart data needed to populate the order
         List<WebCart> carts = [SELECT Id,
                                AccountId,
@@ -72,7 +72,7 @@ public class B2BCartToOrderDraft {
                                FROM WebCart WHERE Id = :cartId];
         WebCart cart = carts[0];
         
-    // Create the order
+        // Create the order
         Date now = Date.today();    
         Order order = new Order(
             AccountId = cart.AccountId,
@@ -103,7 +103,7 @@ public class B2BCartToOrderDraft {
      * @param orderId The orderDeliveryGroup is linked to the original order.
      * @return The id of the order delivery group that was created.
      */
-    private static Id mapCartDeliveryGroupToOrderDeliveryGroup(Id cartDeliveryGroupId, Id orderId) {
+    private static Id mapAndInsertCartDeliveryGroupToOrderDeliveryGroup(Id cartDeliveryGroupId, Id orderId) {
         // Get the cart delivery group data needed to populate the order delivery group
         List<CartDeliveryGroup> cartDeliveryGroups = [SELECT
                                                       DesiredDeliveryDate,
@@ -148,7 +148,7 @@ public class B2BCartToOrderDraft {
      * @param orderId The items are linked to the original order.
      * @param orderDeliveryGroupId The items are linked to the order delivery group.
      */
-    private static void mapCartItems(Id cartDeliveryGroupId, Id orderId, Id orderDeliveryGroupId) {
+    private static void mapAndInsertCartItems(Id cartDeliveryGroupId, Id orderId, Id orderDeliveryGroupId) {
         // Get the cart items needed to populate the order items and adjustments
         List<CartItem> cartItems = [SELECT
                                     AdjustmentAmount,
@@ -160,10 +160,28 @@ public class B2BCartToOrderDraft {
                                     TotalLineAmount
                                     FROM CartItem WHERE CartDeliveryGroupId = :cartDeliveryGroupId];
         
+        List<OrderItem> orderItems = new List<OrderItem>();
         // For each item, map it to an order, then add adjustments
         for (CartItem cartItem : cartItems) {
-            String orderItemId = mapCartItem(cartItem, orderId, orderDeliveryGroupId);
-            mapOrderItemAdjustmentLineItem(cartItem, orderItemId);
+            orderItems.add(mapCartItemToOrderItem(cartItem, orderId, orderDeliveryGroupId));
+        }
+        
+        // If there are no items to insert, we can't do anything
+        if (orderItems.size() == 0 || cartItems.size() != orderItems.size()) {
+            return;
+        }
+        
+        insert(orderItems);
+
+		List<OrderItemAdjustmentLineItem> lineItemAdjustments = new List<OrderItemAdjustmentLineItem>();
+        for (Integer index = 0; index < cartItems.size(); index++) {
+            OrderItemAdjustmentLineItem lineItemAdjustment = mapOrderItemAdjustmentLineItemTo(cartItems.get(index), orderItems.get(index).Id);
+            if (lineItemAdjustment != null) {
+                lineItemAdjustments.add(lineItemAdjustment);
+            }
+        }
+        if (lineItemAdjustments.size() > 0) {
+            insert(lineItemAdjustments);
         }
     }
     
@@ -172,10 +190,10 @@ public class B2BCartToOrderDraft {
      * @param cartItem The cartItem to map to an order item.
      * @param orderId The item is linked to the original order.
      * @param orderDeliveryGroupId The item is linked to the order delivery group.
-     * @return The id of the order item that was created.
+     * @return The order item to be inserted.
      */
-    private static Id mapCartItem(CartItem cartItem, Id orderId, Id orderDeliveryGroupId) {
-    String orderItemType = getOrderItemType(cartItem.Type);
+    private static OrderItem mapCartItemToOrderItem(CartItem cartItem, Id orderId, Id orderDeliveryGroupId) {
+        String orderItemType = getOrderItemType(cartItem.Type);
         Decimal unitPrice = getUnitPrice(cartItem);
         
         OrderItem orderItem = new OrderItem(
@@ -189,19 +207,23 @@ public class B2BCartToOrderDraft {
             TotalLineAmount = cartItem.TotalLineAmount
         );
         
-        insert(orderItem);
-        return orderItem.Id;
+        return orderItem;
     }
     
-     /**
+
+
+    /**
      * @description Maps the cart item to create an adjustment line item. If the item would normally cost
      *              $100, but costs $80, this is where that adjustment is recorded.
      * @param cartItem The cartItem to map to an order adjustment line item.
      * @param orderItemId The adjustment is mapped to an order item.
-     * @return The id order item that was created.
+     * @return The order item adjustment to be inserted.
      */
-    private static Id mapOrderItemAdjustmentLineItem(CartItem cartItem, Id orderItemId) {
+    private static OrderItemAdjustmentLineItem mapOrderItemAdjustmentLineItemTo(CartItem cartItem, Id orderItemId) {
         Decimal adjustmentAmount = getAdjustmentAmount(cartItem);
+        if (adjustmentAmount == null || adjustmentAmount == 0.0) {
+            return null;
+        }
         
         OrderItemAdjustmentLineItem orderItemAdjustmentLineItem = new OrderItemAdjustmentLineItem(
             Amount = adjustmentAmount,
@@ -209,9 +231,9 @@ public class B2BCartToOrderDraft {
             Name = 'Price Adjustment'
         );
         
-        insert(orderItemAdjustmentLineItem);
-        return orderItemAdjustmentLineItem.Id;
-    }
+        return orderItemAdjustmentLineItem;
+    }    
+
 
     /**
      * @description Gets the adjustment amount from the cart item. If none exists, returns zero.

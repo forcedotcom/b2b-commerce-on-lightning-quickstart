@@ -437,7 +437,7 @@
             <targetReference>Start_Checkout_Session</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>cartId</name>
         <dataType>String</dataType>

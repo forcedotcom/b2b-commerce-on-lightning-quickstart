@@ -100,14 +100,6 @@ public class B2BPrepareDeliveryMethodSelections {
         private Decimal otherCost;
         private String serviceName;
 
-        public ShippingOptionsAndRatesFromExternalService() {
-            name = '';
-            provider = '';
-            rate = 0.0;
-            serviceName = '';
-            otherCost = 0.0;
-        }
-
         public ShippingOptionsAndRatesFromExternalService(String someName, String someProvider, Decimal someRate, Decimal someOtherCost, String someServiceName) {
             name = someName;
             provider = someProvider;
@@ -182,12 +174,6 @@ public class B2BPrepareDeliveryMethodSelections {
                 Type = 'Shipping'
             );
             insert(cartValidationError);
-    }
-
-    private static Id getShippingChargeProduct2Id(Id orderDeliveryMethodId) {
-        // The Order Delivery Method should have a Product2 associated with it, because we added that in getDefaultOrderDeliveryMethod if it didn't exist.
-        List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ProductId FROM OrderDeliveryMethod WHERE Id = :orderDeliveryMethodId];
-        return orderDeliveryMethods[0].ProductId;
     }
 
     private static List<Id> getOrderDeliveryMethods(List<ShippingOptionsAndRatesFromExternalService> shippingOptions) {
