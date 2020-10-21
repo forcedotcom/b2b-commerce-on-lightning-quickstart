@@ -12,5 +12,9 @@
         <members>YourCommunityNetworkNameHere</members>
         <name>Network</name>
     </types>
+    <types>
+        <members>Process_CommerceDiagnosticEvents</members>
+        <name>Flow</name>
+    </types>
     <version>49.0</version>
 </Package>

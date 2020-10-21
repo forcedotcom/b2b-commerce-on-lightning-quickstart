@@ -14,7 +14,7 @@ This framework helps you get started, but the integration examples are also impo
 
 ## Managed and Unmanaged Flows
 
-There are two versions of each flow in this package. Some flows are marked with an `Unmanaged` package type and have a version prefix (Summer 2020, for example). Other flows have a `Managed Installed` package type.
+There are two versions of each flow in this package. Some flows are marked with an `Unmanaged` package type and have a version prefix (Winter 2021, for example). Other flows have a `Managed Installed` package type.
 
 The `Unmanaged` versions of the flows are uploaded as part of this example and are your primary focus. They can be modified when necessary to suit the needs of individual checkouts. You can disregard the `Managed Installed `flows except to use as reference. The `Managed Installed` versions are automatically updated each release, which is convenient, but unstable. If your checkout relies on the behavior of a previous release, automatic updates could break your implementation. We suggest using the unmanaged flows.
 
@@ -31,4 +31,4 @@ After importing your flows and creating a store, make sure your store uses the c
 
 ### Flow Naming
 
-Checkout flows are prefixed with the version of the software they are expected to work with. For example, if you see a flow labelled "(Summer 2020) Checkout Flow", the flow was designed and tested to work with the Summer 2020 release. This naming structure is used primarily for convenience and transparency. Flows still work in future versions of the software, regardless of name.
+Checkout flows are prefixed with the version of the software they are expected to work with. For example, if you see a flow labelled "(Winter 2021) Checkout Flow", the flow was designed and tested to work with the Winter 2021 release. This naming structure is used primarily for convenience and transparency. Flows still work in future versions of the software, regardless of name.

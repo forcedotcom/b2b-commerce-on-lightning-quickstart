@@ -5,15 +5,15 @@
         <members>B2BCheckInventorySampleTest</members>
         <members>B2BPricingSample</members>
         <members>B2BPricingSampleTest</members>
-        <members>B2BShippingSample</members>
-        <members>B2BShippingSampleTest</members>
+        <members>B2BDeliverySample</members>
+        <members>B2BDeliverySampleTest</members>
         <members>B2BTaxSample</members>
         <members>B2BTaxSampleTest</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>GetSalesPricesResource</members>
-        <members>GetShippingRatesResource</members>
+        <members>GetDeliveryRatesResource</members>
         <members>GetInventoryResource</members>
         <members>GetTaxesResource</members>
         <name>StaticResource</name>

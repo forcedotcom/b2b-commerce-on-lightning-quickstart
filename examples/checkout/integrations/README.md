@@ -12,10 +12,10 @@ Reference Implementation samples for B2B checkout integrations. Include Apex cla
   
 # This repository includes examples for:
 
-## 1. Shipping
-The example for Shipping implementation includes an Apex class (B2BShippingSample.apxc) that makes a call to an external service to retrieve shipping rates and then saves that rate as an additional charge in the CartItems.
+## 1. Delivery
+The example for Delivery implementation includes an Apex class (B2BDeliverySample.apxc) that makes a call to an external service to retrieve shipping rates and then saves that rate as an additional charge in the CartItems.
 
-A test class is also included for reference. The test coverage of 80% will allow deployment from sandbox to production.
+A test class is also included for reference. The test coverage of 76% will allow deployment from sandbox to production.
 
 ## 2. Check Inventory
 The example for Check Inventory implementation includes an Apex class (B2BCheckInventorySample.apxc) that makes a call to an external service to verify if the quanity from the CartItems is available in the external service. For testing purposes, all items have an available quanity of 9999 in the external service.
@@ -31,9 +31,6 @@ A test class is also included for reference. The test coverage >74% will allow d
 The example for Taxation implementation includes an Apex class (B2BTaxSample.apxc) that makes a call to an external service to retrieve the tax percentages and amounts for all the CartItems, then adds those taxes to the CartTax.
 
 A test class is also included for reference. The test coverage >74% will allow deployment from sandbox to production.
-
-## 5. Credit Card Authorization
-Set up payment authorizations by credit card for your Checkout using the following documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
 
 ## Error Handling
 There are two types of errors that surface from the reference implementations: user errors (which the buyer user sees and can correct) and admin errors (which the buyer user can’t fix).

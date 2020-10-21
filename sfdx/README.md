@@ -20,7 +20,7 @@ If you cannot clone from that location, download the .zip file and unzip it loca
 that will convert the examples from the metadata API format to the SFDX format and add them to the "path" you have specified in the sfdx-project.json file.
 
 3. Create a scratch org using SFDX:
-If you don't have a dev hub already authorized, do that now by running
+If you don't have a dev hub already autorized, do that now by running
 ```
 sfdx force:auth:web:login -d
 ```
@@ -65,6 +65,7 @@ This script will:
  - add Contact Point Addresses for Shipping and Billing to your new buyer Account
  - activate the store
  - publish your store so that the changes are reflected
+ - set a password for the new Buyer User and display the user details (including user name and password) 
 
  7. Your new store is almost ready to go! Before you log in as the Buyer User, you need to perform these last steps manually:
  
@@ -72,16 +73,15 @@ This script will:
 
 Open the scratch org as administrator and go to your store. Build the store search index.
 Full instructions are [here](https://help.salesforce.com/articleView?id=b2b_comm_lex_search_index_rebuild.htm&type=5).
- 
-- 7.2 Setting the Buyer User's password
 
-After running the steps above, you can then reset the password for the newly created Buyer User on the Setup page in Lightning UI. This will send an email to the Buyer User with a link to reset their password. You may also change the Buyer User's email if you have not changed it already prior to running the setup script. Full instructions are [here](https://help.salesforce.com/articleView?id=resetting_and_expiring_passwords.htm&type=5).
+- 7.2 Setting up Credit Card Authorization
 
-If you prefer to use SFDX, instructions to generate a password for users via SFDX are located [here](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_passwd.htm).
+By default, a mocked gateway (SalesforceAdapter) integration has been set up.  You can quickly set up another integration with Payeezy and/or Stripe by running:
+```
+./quickstart-setup-payments.sh <YourStoreName>
+```
 
-- 7.3 Setting up Credit Card Authorization
-
-Set up payment authorizations by credit card for your Checkout using the following documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
+For further customizations to your gateway, see the documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
 
 ## The `sfdx-project.json` File
 

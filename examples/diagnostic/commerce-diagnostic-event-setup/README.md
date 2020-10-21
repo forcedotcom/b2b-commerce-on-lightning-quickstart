@@ -22,7 +22,7 @@ In Setup search for the Process Builder.
 
 Open the **Process CommerceDiagnosticEvents** process.
 
-In the first box after the "Start" box (called "Specify When to Start the Process"), update the Feed Item ID Value to a value of a feed item ID from your org and save.
+In the first box after the "Start" box (called "Specify When to Start the Process"), update the Store ID Value to an ID of a valid Webstore and save.
 
 Click "Activate" to activate the process. After this, whenever a CommerceDiagnosticEvent is generated, a new record will be added to the "Commerce Diagnostic Custom Object".
 
@@ -34,6 +34,5 @@ Log in as the administrator for your org.
 In the list of Lightning apps, search for "Commerce Diagnostic Custom Objects" and open that tab. The Admins should have access to that.
 
 From the List Views dropdown, select "Commerce Diagnostic Event Fields" that should show you the most useful fields that were populated from the CommerceDiagnosticEvent.
-
 
 

@@ -7,3 +7,5 @@
 .vscode/
 .prettierignore
 .prettierrc
+force-app
+experience-bundle-package

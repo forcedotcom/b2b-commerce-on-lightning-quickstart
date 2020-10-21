@@ -179,7 +179,7 @@
     <processMetadataValues>
         <name>ObjectType</name>
         <value>
-            <stringValue>FeedItem</stringValue>
+            <stringValue>WebStoreNetwork</stringValue>
         </value>
     </processMetadataValues>
     <processType>CustomEvent</processType>
@@ -899,13 +899,13 @@
             <processMetadataValues>
                 <name>leftHandSideLabel</name>
                 <value>
-                    <stringValue>Feed Item ID</stringValue>
+                    <stringValue>Store ID</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
                 <name>leftHandSideReferenceTo</name>
                 <value>
-                    <stringValue></stringValue>
+                    <stringValue>WebStore</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
@@ -926,17 +926,17 @@
                     <stringValue>ID</stringValue>
                 </value>
             </processMetadataValues>
-            <field>Id</field>
+            <field>WebStoreId</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>0D5R0000001ieARKAY</stringValue>
+                <stringValue>0ZER000000004ZaOAI</stringValue>
             </value>
         </filters>
-        <object>FeedItem</object>
+        <object>WebStoreNetwork</object>
         <outputReference>myVariable_event_context_collection</outputReference>
     </recordLookups>
     <startElementReference>myEventContextRecordLookup</startElementReference>
-    <status>Obsolete</status>
+    <status>Draft</status>
     <textTemplates>
         <description>text template for when multiple records are records found</description>
         <name>multipleRecordsFoundTextTemplate</name>
@@ -971,7 +971,7 @@ Salesforce Process Automation</text>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>FeedItem</objectType>
+        <objectType>WebStoreNetwork</objectType>
     </variables>
     <variables>
         <name>myVariable_event_context_collection</name>
@@ -979,7 +979,7 @@ Salesforce Process Automation</text>
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>FeedItem</objectType>
+        <objectType>WebStoreNetwork</objectType>
     </variables>
     <variables>
         <name>myVariable_event_current_record</name>
@@ -987,7 +987,7 @@ Salesforce Process Automation</text>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>FeedItem</objectType>
+        <objectType>WebStoreNetwork</objectType>
     </variables>
     <variables>
         <name>myVariable_event_record_count</name>
