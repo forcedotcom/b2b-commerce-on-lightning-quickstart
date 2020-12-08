@@ -1,6 +1,6 @@
 // This must implement the sfdc_checkout.CartTaxCalculations interface
 // in order to be processed by the checkout flow and used for your Taxes integration.
-global class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
+global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
     global sfdc_checkout.IntegrationStatus startCartProcessAsync(sfdc_checkout.IntegrationInfo jobInfo, Id cartId) {
         sfdc_checkout.IntegrationStatus integStatus = new sfdc_checkout.IntegrationStatus();
         try {
@@ -9,13 +9,13 @@ global class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
             // this sample should be updated to loop through all delivery groups.
 
             // We need to get the ID of the delivery group in order to get the DeliverTo info.
-            Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId][0].CartDeliveryGroupId;
-            CartDeliveryGroup deliveryGroup = [SELECT DeliverToState, DeliverToCountry FROM CartDeliveryGroup WHERE Id = :cartDeliveryGroupId][0];
+            Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].CartDeliveryGroupId;
+            CartDeliveryGroup deliveryGroup = [SELECT DeliverToState, DeliverToCountry FROM CartDeliveryGroup WHERE Id = :cartDeliveryGroupId WITH SECURITY_ENFORCED][0];
             
             // Get all SKUs, the cart item IDs, and the total prices from the cart items.
             Map<String, Id> cartItemIdsBySKU = new Map<String, Id>();
             Map<String, Decimal> cartItemTotalPriceBySKU = new Map<String, Decimal>();
-            for (CartItem cartItem : [SELECT Sku, TotalPrice, Type FROM CartItem WHERE CartId = :cartId]) {
+            for (CartItem cartItem : [SELECT Sku, TotalPrice, Type FROM CartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED]) {
                 String cartItemSKU = '';
                 if (cartItem.Type == 'Product') {
                     if (String.isBlank(cartItem.Sku)) {
@@ -46,7 +46,7 @@ global class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
             
             // If there are taxes from a previously cancelled checkout, delete them.
             List<Id> cartItemIds = cartItemIdsBySKU.values();
-            delete [SELECT Id FROM CartTax WHERE CartItemId IN :cartItemIds];
+            delete [SELECT Id FROM CartTax WHERE CartItemId IN :cartItemIds WITH SECURITY_ENFORCED];
             
             // For each cart item, insert a new tax line in the CartTax entity.
             // The total tax is automatically rolled up to TotalLineTaxAmount in the corresponding CartItem line.

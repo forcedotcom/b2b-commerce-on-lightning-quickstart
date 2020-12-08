@@ -1,12 +1,12 @@
 // This must implement the sfdc_checkout.CartInventoryValidation interface
 // in order to be processed by the checkout flow and used for your Check Inventory integration.
-global class B2BCheckInventorySample implements sfdc_checkout.CartInventoryValidation {
+global with sharing class B2BCheckInventorySample implements sfdc_checkout.CartInventoryValidation {
     global sfdc_checkout.IntegrationStatus startCartProcessAsync(sfdc_checkout.IntegrationInfo jobInfo, ID cartId) {
         sfdc_checkout.IntegrationStatus integStatus = new sfdc_checkout.IntegrationStatus();
         try {
             // Get all SKUs and their quantities from cart items.
             Map<String, Decimal> quantitiesFromSalesforce = new Map<String, Decimal>();
-            for (CartItem cartItem : [SELECT Sku, Quantity FROM CartItem WHERE CartId = :cartId AND Type = 'Product']) {
+            for (CartItem cartItem : [SELECT Sku, Quantity FROM CartItem WHERE CartId = :cartId AND Type = 'Product' WITH SECURITY_ENFORCED]) {
                 if (String.isBlank(cartItem.Sku)) {
                     String errorMessage = 'The SKUs for all products in your cart must be defined.';
                     return integrationStatusFailedWithCartValidationOutputError(

@@ -19,7 +19,6 @@ private class B2BPrepareDeliveryMethodSelectionsTest {
         insert cartItem;
 
     }
-    
 
     @isTest static void testIntegrationRunsSuccessfully() {
         // Because test methods don't support Web service callouts, we create a mock response based on a static resource.

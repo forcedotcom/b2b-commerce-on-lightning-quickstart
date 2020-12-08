@@ -1,18 +1,18 @@
 // This must implement the sfdc_checkout.CartShippingCharges interface
 // in order to be processed by the checkout flow for the "Shipping" integration
-global class B2BDeliverySample implements sfdc_checkout.CartShippingCharges {
+global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippingCharges {
     global sfdc_checkout.IntegrationStatus startCartProcessAsync(sfdc_checkout.IntegrationInfo jobInfo, Id cartId) {
         sfdc_checkout.IntegrationStatus integStatus = new sfdc_checkout.IntegrationStatus();
         try {
             // We need to get the ID of the cart delivery group in order to create the order delivery groups.
-            Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId][0].CartDeliveryGroupId;
+            Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].CartDeliveryGroupId;
 
             // Get the shipping options from an external service.
             // We're getting information like rates and carriers from this external service. 
             ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService();
 
             // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
-            delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId];
+            delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId WITH SECURITY_ENFORCED];
 
             // Create orderDeliveryMethods given your shipping options or fetch existing ones. 2 should be returned.
             List<Id> orderDeliveryMethodIds = getOrderDeliveryMethods(shippingOptionsAndRatesFromExternalService);
@@ -187,7 +187,7 @@ global class B2BDeliverySample implements sfdc_checkout.CartShippingCharges {
 
     private Id getShippingChargeProduct2Id(Id orderDeliveryMethodId) {
         // The Order Delivery Method should have a Product2 associated with it, because we added that in getDefaultOrderDeliveryMethod if it didn't exist.
-        List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ProductId FROM OrderDeliveryMethod WHERE Id = :orderDeliveryMethodId];
+        List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ProductId FROM OrderDeliveryMethod WHERE Id = :orderDeliveryMethodId WITH SECURITY_ENFORCED];
         return orderDeliveryMethods[0].ProductId;
     }
 
@@ -203,7 +203,7 @@ global class B2BDeliverySample implements sfdc_checkout.CartShippingCharges {
         for (ShippingOptionsAndRatesFromExternalService shippingOption: shippingOptions) {
             String shippingOptionNumber = String.valueOf(i);
             String name = defaultDeliveryMethodName + shippingOptionNumber;
-            List<OrderDeliveryMethod> odms = [SELECT Id, ProductId, Carrier, ClassOfService FROM OrderDeliveryMethod WHERE Name = :name];
+            List<OrderDeliveryMethod> odms = [SELECT Id, ProductId, Carrier, ClassOfService FROM OrderDeliveryMethod WHERE Name = :name WITH SECURITY_ENFORCED];
             // This is the case in which an Order Delivery method does not exist.
             if (odms.isEmpty()) {
                 OrderDeliveryMethod defaultOrderDeliveryMethod = new OrderDeliveryMethod(
@@ -242,7 +242,7 @@ global class B2BDeliverySample implements sfdc_checkout.CartShippingCharges {
         // Check to see if a Product2 with that name already exists.
         // If it doesn't exist, create one.
         String shippingChargeProduct2Name = 'Shipping Charge for this delivery method';
-        List<Product2> shippingChargeProducts = [SELECT Id FROM Product2 WHERE Name = :shippingChargeProduct2Name];
+        List<Product2> shippingChargeProducts = [SELECT Id FROM Product2 WHERE Name = :shippingChargeProduct2Name WITH SECURITY_ENFORCED];
         if (shippingChargeProducts.isEmpty()) {
             Product2 shippingChargeProduct = new Product2(
                 isActive = true,
