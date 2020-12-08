@@ -1,0 +1,35 @@
+{
+    "cartItems": [],
+    "cartSummary": {
+        "accountId": "001S7000001ntb6IAA",
+        "cartId": "0a6S700000000AmIAI",
+        "currencyIsoCode": "JPY",
+        "grandTotalAmount": "0",
+        "messagesSummary": {
+            "errorCount": 0,
+            "hasErrors": false,
+            "limitedMessages": [],
+            "relatedEntityId": "0a6S700000000AmIAI",
+            "totalLineItemsWithErrors": 0
+        },
+        "name": "Cart",
+        "ownerId": "005S7000000I3I5IAK",
+        "purchaseOrderNumber": null,
+        "status": "Active",
+        "totalChargeAmount": "0",
+        "totalListPrice": "0.0000000000000000000000000000000000000",
+        "totalProductAmount": "0",
+        "totalProductCount": "0",
+        "totalTaxAmount": "0",
+        "type": "Cart",
+        "uniqueProductCount": 0,
+        "webstoreId": "0ZES7000000008WOAQ"
+    },
+    "currentPageToken": null,
+    "currentPageUrl": null,
+    "hasErrors": false,
+    "nextPageToken": null,
+    "nextPageUrl": null,
+    "previousPageToken": null,
+    "previousPageUrl": null
+}

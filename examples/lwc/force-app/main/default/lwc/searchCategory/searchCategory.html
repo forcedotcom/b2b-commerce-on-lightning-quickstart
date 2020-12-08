@@ -1,0 +1,39 @@
+<template>
+    <lightning-accordion
+        allow-multiple-sections-open
+        onsectiontoggle={handleSectionToggle}
+        active-section-name={activeSections}
+    >
+        <lightning-accordion-section name="category" label="Category">
+            <ul>
+                <li
+                    class="slds-p-top_medium slds-p-left_large slds-text-title_bold slds-truncate"
+                    title={category.name}
+                >
+                    <lightning-formatted-rich-text
+                        value={category.name}
+                    ></lightning-formatted-rich-text>
+                </li>
+                <template for:each={children} for:item="child">
+                    <li
+                        key={child.id}
+                        class="slds-p-top_medium slds-p-left_x-large slds-text-body_small slds-truncate"
+                        title={child.displayName}
+                    >
+                        <a
+                            class="slds-text-link_reset"
+                            tabindex="0"
+                            onclick={notifyCategorySelection}
+                        >
+                            <lightning-formatted-rich-text
+                                value={child.displayName}
+                                data-category-id={child.id}
+                            >
+                            </lightning-formatted-rich-text>
+                        </a>
+                    </li>
+                </template>
+            </ul>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

@@ -12,9 +12,17 @@
         <members>*</members>
         <name>Network</name>
     </types>
-        <types>
+    <types>
         <members>*</members>
         <name>Flow</name>
     </types>
-    <version>50.0</version>
+    <types>
+        <members>*</members>
+        <name>SharingRules</name>
+    </types>
+    <types>
+	      <members>*</members>
+	      <name>NavigationMenu</name>
+    </types>
+    <version>51.0</version>
 </Package>

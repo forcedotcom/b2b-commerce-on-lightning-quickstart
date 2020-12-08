@@ -1,0 +1,6 @@
+{
+    "body": { "message": "Cart Id: '0a60t0000008OJc' is Deleted" },
+    "ok": false,
+    "status": 400,
+    "statusText": "Bad Request"
+}

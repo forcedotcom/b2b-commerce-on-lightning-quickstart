@@ -1,0 +1,23 @@
+{
+    "defaultImage": {
+        "alternativeText": null,
+        "url": "/cms/delivery/media/MCABCFAZBEVCJKWLBMECCK7M?recordId=01tRM0000897QdI"
+    },
+    "fields": {
+        "Description": "The ultimate in coffee making luxury. Create up to three gourmet coffees at the same time. Granular control of the froth and foaminess.",
+        "Name": "Bella Chrome Coffee Machine",
+        "StockKeepingUnit": "B-C-COFMAC-001"
+    },
+    "primaryProductCategoryPath": {
+        "path": [
+            {
+                "id": "0ZG560000008OI5GAM",
+                "name": "Machines"
+            },
+            {
+                "id": "0ZG560000008OIAGA2",
+                "name": "Coffee Machines"
+            }
+        ]
+    }
+}

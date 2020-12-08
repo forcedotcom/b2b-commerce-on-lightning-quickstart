@@ -1,0 +1,23 @@
+{
+    "accountId": "001RM000004mxVJYAY",
+    "cartId": "0a6RM0000004HoOYAU",
+    "currencyIsoCode": "USD",
+    "grandTotalAmount": "0",
+    "messagesSummary": {
+        "errorCount": null,
+        "hasErrors": null,
+        "limitedMessages": [],
+        "relatedEntityId": null
+    },
+    "name": "Cart",
+    "ownerId": "005RM0000029W9pYAE",
+    "status": "Active",
+    "totalChargeAmount": "0",
+    "totalListPrice": "0",
+    "totalProductAmount": "0",
+    "totalProductCount": "0",
+    "totalTaxAmount": "0",
+    "type": "Cart",
+    "uniqueProductCount": 0,
+    "webstoreId": "0ZERM00000004GB4AY"
+}

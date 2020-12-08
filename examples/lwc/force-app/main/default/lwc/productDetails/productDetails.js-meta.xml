@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>B2B Sample Product Details</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                name="recordId"
+                type="String"
+                label="Record Id"
+                description="Automatically bind the page's record id to the component variable"
+                default="{!recordId}"
+            />
+            <property
+                name="effectiveAccountId"
+                type="String"
+                label="Effective Account Id"
+                description="The ID of the account under which the user is acting (BETA)"
+                default="{!CurrentUser.effectiveAccountId}"
+            />
+            <property
+                name="customDisplayFields"
+                type="String"
+                label="Custom Display Fields (comma-separated and case-sensitive)"
+                description="The comma-separated fields to display on the product detail page"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

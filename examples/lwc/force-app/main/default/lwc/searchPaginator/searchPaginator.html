@@ -1,0 +1,17 @@
+<template>
+    <lightning-button-icon
+        disabled={isFirstPage}
+        variant="brand"
+        class="slds-p-around_medium"
+        icon-name="utility:chevronleft"
+        onclick={handlePrevious}
+    ></lightning-button-icon>
+    <p>{totalItemCount} items • page {currentPageNumber} of {totalPages}</p>
+    <lightning-button-icon
+        disabled={isLastPage}
+        variant="brand"
+        class="slds-p-around_medium"
+        icon-name="utility:chevronright"
+        onclick={handleNext}
+    ></lightning-button-icon>
+</template>

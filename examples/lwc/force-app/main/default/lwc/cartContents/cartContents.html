@@ -1,0 +1,64 @@
+<template>
+    <!-- Cart Header-->
+    <header class="slds-p-bottom_large">
+        <h1>{cartHeader}</h1>
+        <lightning-combobox
+            if:false={isCartEmpty}
+            class="sort-menu"
+            label={labels.sortBy}
+            value={sortParam}
+            options={sortOptions}
+            onchange={handleChangeSortSelection}
+        >
+        </lightning-combobox>
+    </header>
+
+    <!-- Active Cart with Cart Items -->
+    <template if:false={isCartClosed}>
+        <c-cart-items
+            cart-items={cartItems}
+            currency-code={currencyCode}
+            onquantitychanged={handleQuantityChanged}
+            onsinglecartitemdelete={handleCartItemDelete}
+            is-cart-disabled={isCartDisabled}
+        >
+        </c-cart-items>
+        <lightning-spinner
+            if:true={isCartItemListIndeterminate}
+            alternative-text={labels.loadingCartItems}
+            class="slds-is-relative slds-align_absolute-center slds-m-around_large"
+            variant="brand"
+        >
+        </lightning-spinner>
+        <div
+            if:true={isCartEmpty}
+            class="slds-text-align_center slds-text-color_weak slds-p-top_xx-large"
+        >
+            <h3 class="slds-text-heading_medium">
+                {labels.emptyCartHeaderLabel}
+            </h3>
+            <p class="slds-text-body_regular slds-p-top_small">
+                {labels.emptyCartBodyLabel}
+            </p>
+        </div>
+        <footer class="slds-p-around_small">
+            <lightning-button
+                if:false={isCartEmpty}
+                class="footer-action"
+                variant="base"
+                label={labels.clearCartButton}
+                onclick={handleClearCartButtonClicked}
+            >
+            </lightning-button>
+        </footer>
+    </template>
+
+    <!-- Closed/Deleted Cart -->
+    <template if:true={isCartClosed}>
+        <div
+            class="slds-text-align_center slds-text-color_weak slds-p-top_xx-large"
+        >
+            <h3 class="slds-text-heading_medium">{labels.closedCartLabel}</h3>
+        </div>
+    </template>
+</template>

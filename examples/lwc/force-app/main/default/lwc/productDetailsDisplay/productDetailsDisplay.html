@@ -1,0 +1,115 @@
+<template>
+    <lightning-breadcrumbs class="slds-p-bottom_medium">
+        <template for:each={_resolvedCategoryPath} for:item="level">
+            <lightning-breadcrumb
+                key={level.name}
+                label={level.name}
+                href={level.url}
+            >
+            </lightning-breadcrumb>
+        </template>
+    </lightning-breadcrumbs>
+    <div class="product-information">
+        <div class="image slds-m-right_small">
+            <figure
+                class="slds-p-around_xx-small slds-border_top slds-border_right slds-border_bottom slds-border_left"
+            >
+                <img src={image.url} alt={image.alternativeText} />
+            </figure>
+        </div>
+        <div class="details-area">
+            <div class="heading">
+                <h2 class="slds-text-heading_medium">{name}</h2>
+                <div class="slds-p-top_x-small">SKU: {sku}</div>
+                <div class="slds-p-bottom_medium">
+                    <template for:each={_displayableFields} for:item="field">
+                        <div
+                            key={field.id}
+                            if:true={field.value}
+                            class="slds-grid slds-p-top_x-small"
+                        >
+                            <p class="slds-m-right_xx-small">{field.name}:</p>
+                            <lightning-formatted-rich-text
+                                value={field.value}
+                            ></lightning-formatted-rich-text>
+                        </div>
+                    </template>
+                </div>
+                <div if:true={inStock} class="slds-p-bottom_small">
+                    <lightning-icon
+                        icon-name="utility:check"
+                        variant="success"
+                    ></lightning-icon>
+                    <span class="slds-p-horizontal_small">In stock</span>
+                </div>
+                <div if:false={inStock} class="slds-p-bottom_small">
+                    <lightning-icon
+                        icon-name="utility:ban"
+                        variant="error"
+                    ></lightning-icon>
+                    <span class="slds-p-horizontal_small">Out of stock</span>
+                </div>
+            </div>
+            <div class="price">
+                <span if:false={hasPrice}>Price Unavailable</span>
+                <lightning-formatted-number
+                    if:true={hasPrice}
+                    currency-code={price.currency}
+                    format-style="currency"
+                    value={price.negotiated}
+                >
+                </lightning-formatted-number>
+            </div>
+            <div class="slds-p-vertical_small">
+                <lightning-layout vertical-align="end">
+                    <lightning-layout-item size="2">
+                        <lightning-input
+                            type="number"
+                            name="quantity"
+                            label="qty"
+                            value="1"
+                            min="1"
+                            max="9999"
+                            step="1"
+                            message-when-step-mismatch="Enter a whole number."
+                            oncommit={handleQuantityChange}
+                        >
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button
+                            label="Add to Cart"
+                            variant="brand"
+                            class="slds-m-left_x-small"
+                            disabled={_isAddToCartDisabled}
+                            onclick={notifyAddToCart}
+                        >
+                        </lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button
+                            label="Add to List"
+                            variant="brand"
+                            class="slds-m-left_x-small"
+                            onclick={notifyCreateAndAddToList}
+                        >
+                        </lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            <lightning-accordion
+                active-section-name="description"
+                allow-multiple-sections-open
+            >
+                <lightning-accordion-section
+                    name="description"
+                    label="Description"
+                >
+                    <lightning-formatted-rich-text
+                        value={description}
+                    ></lightning-formatted-rich-text>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
+    </div>
+</template>

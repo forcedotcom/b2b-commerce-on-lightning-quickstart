@@ -1,0 +1,39 @@
+ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.layout-grid li {
+    display: grid;
+    flex-basis: 25%;
+    border-color: transparent;
+}
+
+.layout-list ul {
+    width: 100%;
+}
+
+.layout-list li {
+    width: 100%;
+}
+
+.layout-card {
+    padding: 1rem;
+}
+
+.slds-accordion__section {
+    padding-bottom: 1.5rem;
+}
+
+@media only screen and (max-width: 47.9375em) {
+    /* SLDS token: mqSmall */
+    ul {
+        display: block;
+        padding: 0;
+    }
+
+    .layout-card {
+        padding: 1rem 0;
+    }
+}

@@ -1,0 +1,29 @@
+<template>
+    <lightning-accordion
+        allow-multiple-sections-open
+        onsectiontoggle={handleSectionToggle}
+        class="slds-border_top"
+        active-section-name={activeSections}
+    >
+        <template for:each={facets} for:item="facet">
+            <lightning-accordion-section
+                name={facet.id}
+                label={facet.displayName}
+                key={facet.id}
+            >
+                <template for:each={facet.values} for:item="filter">
+                    <lightning-input
+                        class="slds-p-left_medium slds-p-bottom_small"
+                        key={filter.nameOrId}
+                        label={filter.displayLabel}
+                        data-filter-id={filter.nameOrId}
+                        data-facet-id={facet.id}
+                        type="checkbox"
+                        checked={facet.checked}
+                        onchange={handleCheckboxChange}
+                    ></lightning-input>
+                </template>
+            </lightning-accordion-section>
+        </template>
+    </lightning-accordion>
+</template>

@@ -1,0 +1,8 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+.slds-accordion__section {
+    padding-bottom: 1.5rem;
+}

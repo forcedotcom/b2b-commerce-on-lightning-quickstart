@@ -1,0 +1,48 @@
+{
+    "name": "b2b-advanced-reference-components",
+    "version": "1.0.0",
+    "description": "Reference component implementations for Business to Business (B2B) UI Lightning Web Components",
+    "license": "UNLICENSED",
+    "scripts": {
+        "lint": "npm run lint:lwc",
+        "lint:lwc": "eslint **/lwc/**",
+        "test": "npm run lint && npm run test:unit",
+        "test:unit": "sfdx-lwc-jest",
+        "test:unit:watch": "sfdx-lwc-jest --watch",
+        "test:unit:debug": "sfdx-lwc-jest --debug",
+        "test:unit:coverage": "sfdx-lwc-jest --coverage",
+        "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+        "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\""
+    },
+    "devDependencies": {
+        "@prettier/plugin-xml": "^0.12.0",
+        "@sa11y/jest": "^0.1.4-beta.0",
+        "@salesforce/eslint-config-lwc": "^0.7.0",
+        "@salesforce/eslint-plugin-aura": "^1.4.0",
+        "@salesforce/sfdx-lwc-jest": "^0.10.1",
+        "eslint": "^7.11.0",
+        "eslint-config-prettier": "^6.11.0",
+        "husky": "^4.3.0",
+        "jest-canvas-mock": "^2.3.0",
+        "lint-staged": "^10.4.0",
+        "prettier": "^2.1.2",
+        "prettier-plugin-apex": "^1.7.0"
+    },
+    "engines": {
+        "node": ">=12.16.0",
+        "npm": ">=6.5.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
+            "prettier --write"
+        ],
+        "**/{lwc}/**": [
+            "eslint"
+        ]
+    }
+}

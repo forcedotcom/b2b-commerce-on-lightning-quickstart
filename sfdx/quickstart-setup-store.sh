@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Use this command followed by a store name.
 #
 # Before running this script make sure that you completed all the previous steps in the setup
@@ -153,7 +153,7 @@ else
 	# Import Products and related data
 	# Get new Buyer Group Name
 	echo "4. Importing products."
-	buyergroupName=$(sh ./import_products.sh $1 | tail -n 1)
+	buyergroupName=$(bash ./import_products.sh $1 | tail -n 1)
 
 	# Assign a role to the admin user, else update user will error out
 	echo "5. Mapping Admin User to Role."
@@ -194,6 +194,7 @@ else
 		echo "There is already at least 1 Contact Point Address for your Buyer Account ${buyerusername}JITUserAccount"
 	fi
 
+
     echo "Setting up Commerce Diagnostic Event Process Builder"
     storeId=`sfdx force:data:soql:query -q "SELECT Id FROM WebStore WHERE Name='$communityNetworkName' LIMIT 1" -r csv | tail -n +2`
     processMetaFile="experience-bundle-package/unpackaged/flows/Process_CommerceDiagnosticEvents.flow"
@@ -201,6 +202,15 @@ else
     sed "s/<stringValue>0ZER000000004ZaOAI<\/stringValue>/<stringValue>$storeId<\/stringValue>/g;s/<status>Draft<\/status>/<status>Active<\/status>/g" $processMetaFile > $tmpfile
 	mv -f $tmpfile $processMetaFile
 
+	echo "Setup Guest Browsing."
+	echo "Checking if B2B or B2C"
+	storeType=`sfdx force:data:soql:query --query \ "SELECT Type FROM WebStore WHERE Name = '${communityNetworkName}'" -r csv |tail -n +2`
+	echo "Store Type is $storeType"
+	# Update Guest Profile with required CRUD and FLS
+	if [ "$storeType" = "B2C" ]
+	then
+		sh ./enable_guest_browsing.sh $communityNetworkName $buyergroupName true
+	fi	
 	#############################
 	#   Deploy Updated Store    #
 	#############################
@@ -225,9 +235,8 @@ else
 	sfdx force:community:publish -n "$communityNetworkName"
 	sleep 10s
 
-#   Add when 1commerce plugin goes live
-#	echo "Creating search index."
-#	sfdx 1commerce:search:start -n "$communityNetworkName"
+	echo "Creating search index."
+	sfdx 1commerce:search:start -n "$communityNetworkName"
 
 	echo "QUICK START COMPLETE!"
 

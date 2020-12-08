@@ -153,6 +153,49 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
+    <label>Commerce Diagnostic Custom Object</label>
+    <nameField>
+        <label>CommerceDiagnosticCustomObject Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Commerce Diagnostic Custom Objects</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+    <fields>
+        <fullName>B2B_Edition__c</fullName>
+        <description>Edition is Lightning (LB2B), CCRZ, or there can be future flavours.</description>
+        <externalId>false</externalId>
+        <label>B2B Edition</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>B2B_Version__c</fullName>
+        <description>Optional: If managed package, then Major, Minor, Patch revision numbers. If Lightning then optional service version.</description>
+        <externalId>false</externalId>
+        <label>B2B Version</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Browser_Device_Type__c</fullName>
+        <description>Code for the Browser and Device Type</description>
+        <externalId>false</externalId>
+        <label>Browser Device Type</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
     <fields>
         <fullName>Context_Id_2__c</fullName>
         <externalId>false</externalId>
@@ -259,6 +302,18 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>OS_Version__c</fullName>
+        <description>Code for operating system and version</description>
+        <externalId>false</externalId>
+        <label>OS Version</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Operation_Stage__c</fullName>
         <externalId>false</externalId>
         <label>Operation Stage</label>
@@ -339,7 +394,17 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>Commerce Diagnostic Custom Object</label>
+    <fields>
+        <fullName>WebStore_Type__c</fullName>
+        <description>Type of WebStore, ie. B2B, B2C, OMS</description>
+        <externalId>false</externalId>
+        <label>WebStore Type</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
     <listViews>
         <fullName>CommerceDiagnosticEventFields</fullName>
         <columns>CREATED_DATE</columns>
@@ -357,12 +422,4 @@
         <filterScope>Everything</filterScope>
         <label>Commerce Diagnostic Event Fields</label>
     </listViews>
-    <nameField>
-        <label>CommerceDiagnosticCustomObject Name</label>
-        <type>Text</type>
-    </nameField>
-    <pluralLabel>Commerce Diagnostic Custom Objects</pluralLabel>
-    <searchLayouts/>
-    <sharingModel>ReadWrite</sharingModel>
-    <visibility>Public</visibility>
 </CustomObject>

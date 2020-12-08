@@ -1,0 +1,57 @@
+<template>
+    <header class="slds-m-bottom_medium">
+        <p class="slds-truncate slds-text-heading_large">{headerText}</p>
+    </header>
+    <article class="slds-border_top slds-p-top_large layout-contiainer">
+        <lightning-spinner
+            if:true={isLoading}
+            class="slds-is-absolute slds-align_absolute-center"
+            alternative-text="Loading products..."
+            size="medium"
+            variant="brand"
+        >
+        </lightning-spinner>
+        <aside class="aside-section">
+            <div class="slds-p-bottom_medium filters-header">
+                <p class="slds-truncate slds-text-heading_medium">Filters</p>
+                <lightning-button
+                    class="clear-all-button slds-text-heading_small"
+                    variant="base"
+                    label="Clear All"
+                    onclick={handleClearAll}
+                >
+                </lightning-button>
+            </div>
+            <c-search-category
+                class="slds-border_top slds-p-bottom_small"
+                display-data={displayData.categoriesData}
+                oncategoryupdate={handleCategoryUpdate}
+            >
+            </c-search-category>
+            <c-search-filter
+                display-data={displayData.facetsData}
+                class="slds-p-bottom_medium"
+                onfacetvalueupdate={handleFacetValueUpdate}
+            >
+            </c-search-filter>
+        </aside>
+        <section class="main-section">
+            <c-search-layout
+                display-data={displayData.layoutData}
+                config={config.layoutConfig}
+                oncalltoaction={handleAction}
+                onshowdetail={handleShowDetail}
+            >
+            </c-search-layout>
+            <c-search-paginator
+                if:true={hasMorePages}
+                page-number={pageNumber}
+                page-size={displayData.pageSize}
+                total-item-count={displayData.total}
+                onprevious={handlePreviousPage}
+                onnext={handleNextPage}
+            >
+            </c-search-paginator>
+        </section>
+    </article>
+</template>

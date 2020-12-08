@@ -11,4 +11,4 @@ else
     storename=$1
 fi
 sfdx force:community:create --name "$storename" --templatename "B2B Commerce" --urlpathprefix "$storename" --description "Store $storename created by Quick Start script."
-echo "After verifying that the new store is created, run the quickstart-setup-store.sh script with the store name ('$storename') as parameter."
+echo "When your site (community) is ready it will appear in the list. After verifying that the new store is created, run the quickstart-setup-store.sh script with the store name ('$storename') as parameter."

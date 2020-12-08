@@ -1,0 +1,223 @@
+/*
+* — Cart Items —
+*/
+ul {
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    display: flex;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #f3f2f2;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+a {
+    color: #111111;
+    font-weight: var(--lwc-fontWeightRegular);
+    text-decoration: none;
+}
+
+figure {
+    cursor: pointer;
+    height: 130px;
+    width: 130px;
+}
+
+figure a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+img {
+    flex: 0 0 auto; /* IE11 sizing quirk that is resolved by flexbox */
+    max-height: 100%;
+    max-width: 100%;
+}
+
+figure + .details {
+    padding-left: var(--lwc-spacingSmall);
+}
+
+.line-item-properties {
+    display: flex;
+    justify-content: stretch;
+}
+
+.product-fields {
+    color: #4f4f4f;
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: var(--lwc-fontWeightRegular);
+}
+
+.product-fields dd {
+    width: 50%;
+}
+
+.product-fields dt {
+    padding-right: var(--lwc-spacingMedium);
+    width: 50%;
+}
+
+.quantity-price-remove {
+    display: flex;
+    flex-grow: 1;
+}
+
+.price {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.original-price {
+    color: #979797;
+    text-decoration: line-through;
+}
+
+.negotiated-price {
+    color: #4f4f4f;
+    font-weight: var(--lwc-fontWeightRegular);
+}
+
+.error-container {
+    color: var(--lwc-colorTextError);
+    padding-top: 1rem;
+}
+
+/*
+    Screens larger than a tablet (i.e. the default "desktop" size).
+    These settings are specific to the "desktop" view, i.e. the SLDS mqLarge responsive threshold
+*/
+@media only screen and (min-width: 64.01em) {
+    .product-fields {
+        width: 40%;
+    }
+
+    .quantity-price-remove {
+        width: 60%;
+    }
+}
+
+/* Tablet sized screens or smaller (smaller than the SLDS mqLarge responsive threshold) */
+@media only screen and (max-width: 64em) {
+    .item-name {
+        font-size: 0.875rem;
+    }
+
+    figure {
+        height: 100px;
+        width: 100px;
+    }
+
+    .line-item-properties {
+        flex-direction: column;
+    }
+
+    .quantity-price-remove {
+        padding-top: var(--lwc-spacingMedium);
+    }
+
+    .product-fields {
+        font-size: 0.75rem;
+    }
+
+    .product-fields dt {
+        width: 30%;
+    }
+
+    .product-fields dd {
+        width: 70%;
+    }
+
+    .original-price {
+        font-size: 0.625rem;
+    }
+
+    .negotiated-price {
+        font-size: 1rem;
+        font-weight: var(--lwc-fontWeightBold);
+    }
+
+    .price {
+        align-self: center;
+    }
+
+    .remove {
+        align-self: center;
+    }
+}
+
+/* Small form factor: devices smaller than tablet (i.e. the SLDS mqSmall responsive threshold)*/
+@media only screen and (max-width: 47.9375em) {
+    .quantity-selector {
+        /*
+            A tiny correction when the quantity control shows its "Qty" label so that we stay centered along the box.
+            Fortunately, this actually is a fixed height and we have plenty of padding above us.
+        */
+        margin-top: -0.5rem;
+    }
+
+    figure {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/*
+* — Quantity Selector Input —
+*/
+.quantity-selector {
+    align-items: center;
+}
+
+.selector-input {
+    max-width: 5.5rem;
+    height: 2.5rem;
+    border: var(--lwc-borderWidthThin) solid #bbb;
+    text-align: center;
+    outline: 0;
+}
+
+.selector-input:focus {
+    border-color: var(--lwc-colorBorderBrand);
+    box-shadow: 0 0 3px #0070d2;
+}
+
+.selector-input:invalid:not(:focus) {
+    border: var(--lwc-borderWidthThick) solid #c23934;
+    box-shadow: none;
+}
+
+.error-msg {
+    position: absolute;
+    margin-left: 2.2rem;
+}
+
+.disabled {
+    color: var(--lwc-brandDisabled);
+}
+
+@media only screen and (max-width: 48em) {
+    /* SLDS token: mqMedium */
+    .quantity-selector {
+        flex-direction: column;
+    }
+    .error-msg {
+        position: static;
+        margin-left: 0;
+    }
+    .selector-label {
+        font-size: 0.5rem;
+    }
+}

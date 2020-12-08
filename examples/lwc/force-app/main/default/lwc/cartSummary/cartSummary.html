@@ -1,0 +1,39 @@
+<template>
+    <!-- Cart Summary Header -->
+    <h2 class="summary-header slds-p-left_medium">
+        {labels.cartSummaryHeader}
+    </h2>
+
+    <div class="slds-grid slds-grid_vertical slds-p-top_medium">
+        <!-- ORIGINAL PRICE INFO -->
+        <lightning-formatted-number
+            if:true={showOriginal}
+            class="original-price slds-p-right_medium slds-text-heading_small"
+            aria-label={ariaLabelForOriginalPrice}
+            format-style="currency"
+            currency-code={currencyCode}
+            currency-display-as="symbol"
+            maximum-fraction-digits="2"
+            value={prices.originalPrice}
+        ></lightning-formatted-number>
+
+        <!-- FINAL PRICE INFO -->
+        <div
+            class="final-price-container"
+            aria-live="assertive"
+            aria-atomic="true"
+        >
+            <span class="slds-text-heading_medium slds-p-left_medium">
+                {labels.total}
+            </span>
+            <lightning-formatted-number
+                class="slds-p-right_medium slds-text-heading_large"
+                format-style="currency"
+                currency-code={currencyCode}
+                currency-display-as="symbol"
+                maximum-fraction-digits="2"
+                value={prices.finalPrice}
+            ></lightning-formatted-number>
+        </div>
+    </div>
+</template>

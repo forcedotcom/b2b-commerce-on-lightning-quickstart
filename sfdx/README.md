@@ -4,8 +4,15 @@ This is a quick and easy deployment of a Lightning B2B testing environment using
 
 This repository provides configuration files and scripts that a Salesforce developer can use to setup a SFDX project in order to deploy the testing environment. The SFDX will include the metadata from the **examples** directory, converted to the SFDX format, and will have additional scripts for deployment steps supported only in the SFDX environment.
 
-## Quick Start
-Before continuing with the steps below, see [Salesforce DX Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm) to setup SFDX.
+## Getting Started
+
+### SFDX Setup
+1. Before continuing with the steps below, see [Salesforce DX Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm) to setup SFDX.
+
+2. Additionally, please install the 1Commerce SFDX Plugin: https://github.com/forcedotcom/sfdx-1commerce-plugin
+
+
+### Quick Start
 
 1. Clone the whole b2b-commerce-for-lightning repository:
 ```
@@ -65,16 +72,13 @@ This script will:
  - add Contact Point Addresses for Shipping and Billing to your new buyer Account
  - activate the store
  - publish your store so that the changes are reflected
- - set a password for the new Buyer User and display the user details (including user name and password) 
+ - build the search index for your store
+ - set a password for the new Buyer User and display the user details (including user name and password)
+ - setup Guest Browsing by default for B2C stores
 
- 7. Your new store is almost ready to go! Before you log in as the Buyer User, you need to perform these last steps manually:
- 
-- 7.1 Build the Search Index for your store
+7. Your new store is almost ready to go! Before you log in as the Buyer User, you need to perform these last steps manually:
 
-Open the scratch org as administrator and go to your store. Build the store search index.
-Full instructions are [here](https://help.salesforce.com/articleView?id=b2b_comm_lex_search_index_rebuild.htm&type=5).
-
-- 7.2 Setting up Credit Card Authorization
+- 7.1 Setting up Credit Card Authorization
 
 By default, a mocked gateway (SalesforceAdapter) integration has been set up.  You can quickly set up another integration with Payeezy and/or Stripe by running:
 ```
@@ -82,6 +86,15 @@ By default, a mocked gateway (SalesforceAdapter) integration has been set up.  Y
 ```
 
 For further customizations to your gateway, see the documentation [here](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_commercepayments_adapter_intro.htm).  
+
+- 7.2 Enable Guest Browsing
+
+By default, Guest Browsing has been disabled for B2B stores but enabled in B2C stores. Even if Guest Browsing is currently disabled in your store, you can enable it by running 
+```
+./enable-guest-browsing.sh <YourStoreName> <NameOfBuyerGroup>
+```
+
+If you have used Quick Start to setup your store, the name of your Buyer Group will be "BUYERGROUP_FROM_QUICKSTART_1". 
 
 ## The `sfdx-project.json` File
 

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>AbstractTransactionService</members>
+        <members>AuthorizationTransactionService</members>
+        <members>CaptureTransactionService</members>
+        <members>DaoService</members>
         <members>PayeezyAdapter</members>
-        <members>PayeezyValidationExeption</members>
+        <members>PayeezyValidationException</members>
         <members>QueryUtils</members>
+        <members>ReferencedRefundTransactionService</members>
+        <members>SaleTransactionService</members>
+        <members>TokenizeTransactionService</members>
+        <members>TransactionServiceAdapter</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>*</members>
         <name>NamedCredential</name>
     </types>
-    <version>50.0</version>
+    <version>51.0</version>
 </Package>

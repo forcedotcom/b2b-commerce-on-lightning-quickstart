@@ -98,7 +98,7 @@
             <name>requestId</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <interviewLabel>Simple B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Simple B2B Checkout</label>
     <processMetadataValues>

@@ -3,6 +3,21 @@
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CommerceDiagnosticCustomObject__c.B2B_Edition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CommerceDiagnosticCustomObject__c.B2B_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CommerceDiagnosticCustomObject__c.Browser_Device_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CommerceDiagnosticCustomObject__c.Context_Id_2__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -58,6 +73,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CommerceDiagnosticCustomObject__c.OS_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CommerceDiagnosticCustomObject__c.Operation_Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -96,6 +116,11 @@
         <field>CommerceDiagnosticCustomObject__c.WebStore_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CommerceDiagnosticCustomObject__c.WebStore_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>CommerceDiagnosticCustomObject__c-Commerce Diagnostic Custom Object Layout</layout>
     </layoutAssignments>
@@ -105,8 +130,8 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <viewAllRecords>true</viewAllRecords>
         <object>CommerceDiagnosticCustomObject__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabVisibilities>
         <tab>CommerceDiagnosticCustomObject__c</tab>

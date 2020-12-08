@@ -1,0 +1,14 @@
+<template>
+    <ul role="listbox" class={layoutContainerClass}>
+        <template iterator:it={displayData}>
+            <li key={it.value.id} class="slds-border_bottom" role="option">
+                <c-search-card
+                    display-data={it.value}
+                    config={config.cardConfig}
+                    class="layout-card"
+                >
+                </c-search-card>
+            </li>
+        </template>
+    </ul>
+</template>

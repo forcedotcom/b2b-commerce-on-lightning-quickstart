@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>B2B Sample Search Results</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                name="recordId"
+                type="String"
+                label="Record Id"
+                description="The category ID of the results being displayed"
+                default="{!recordId}"
+            />
+            <property
+                name="term"
+                type="String"
+                label="Search Term"
+                description="Automatically bind the page's search term to the component variable"
+                default="{!term}"
+            />
+            <property
+                name="effectiveAccountId"
+                type="String"
+                label="Effective Account Id"
+                description="The ID of the account under which the user is acting (BETA)"
+                default="{!CurrentUser.effectiveAccountId}"
+            />
+            <property
+                name="resultsLayout"
+                label="Results Layout"
+                type="String"
+                default="grid"
+                datasource="java://siteforce.communitybuilder.datasource.B2BSearchResultsPanelLayoutDataSource"
+            />
+            <property
+                name="showProductImage"
+                label="Show Product Image"
+                type="Boolean"
+                default="true"
+            />
+            <property
+                name="cardContentMapping"
+                type="String"
+                label="Fields to Show on Card"
+                description="The comma-separated fields to display on the product detail page"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

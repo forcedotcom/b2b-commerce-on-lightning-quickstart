@@ -31,4 +31,4 @@ After importing your flows and creating a store, make sure your store uses the c
 
 ### Flow Naming
 
-Checkout flows are prefixed with the version of the software they are expected to work with. For example, if you see a flow labelled "(Winter 2021) Checkout Flow", the flow was designed and tested to work with the Winter 2021 release. This naming structure is used primarily for convenience and transparency. Flows still work in future versions of the software, regardless of name.
+Checkout flows are prefixed with the version of the software they are expected to work with. For example, if you see a flow labelled "(Spring 2021) Checkout Flow", the flow was designed and tested to work with the Winter 2021 release. This naming structure is used primarily for convenience and transparency. Flows still work in future versions of the software, regardless of name.

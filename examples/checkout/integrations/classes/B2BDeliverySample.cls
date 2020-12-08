@@ -5,10 +5,9 @@ global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippin
         sfdc_checkout.IntegrationStatus integStatus = new sfdc_checkout.IntegrationStatus();
         try {
             // We need to get the ID of the cart delivery group in order to create the order delivery groups.
-            Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].CartDeliveryGroupId;
+            Id cartDeliveryGroupId = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].Id;
 
-            // Get the shipping options from an external service.
-            // We're getting information like rates and carriers from this external service. 
+            // Get shipping options, including aspects like rates and carriers, from the external service. 
             ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService();
 
             // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
@@ -21,11 +20,12 @@ global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippin
             Integer i = 0;
             for (Id orderDeliveryMethodId: orderDeliveryMethodIds) {
                populateCartDeliveryGroupMethodWithShippingOptions(shippingOptionsAndRatesFromExternalService[i],
-                                                                cartDeliveryGroupId,
-                                                                orderDeliveryMethodId,
-                                                                cartId);
+                                                                  cartDeliveryGroupId,
+                                                                  orderDeliveryMethodId,
+                                                                  cartId);
                 i+=1;
-            }             
+            }
+            
             // If everything works well, the charge is added to the cart and our integration has been successfully completed.
             integStatus.status = sfdc_checkout.IntegrationStatus.Status.SUCCESS;
 
@@ -42,6 +42,7 @@ global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippin
                 errorMessage += 'Message = ' + de.getDmlMessage(errorIdx);
                 errorMessage += ' , ';
             }
+
             return integrationStatusFailedWithCartValidationOutputError(
                 integStatus,
                 errorMessage,
@@ -60,14 +61,17 @@ global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippin
     }
 
     private ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService () {
+        final Integer SuccessfulHttpRequest = 200;
+
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
+
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        Integer SuccessfulHttpRequest = 200;
         // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
         request.setEndpoint('https://b2b-commerce-test.herokuapp.com/calculate-shipping-rates-winter-21');
         request.setMethod('GET');
         HttpResponse response = http.send(request);
+
         // If the request is successful, parse the JSON response.
         // The response looks like this:
         // [{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},
@@ -99,14 +103,6 @@ global with sharing class B2BDeliverySample implements sfdc_checkout.CartShippin
         private Decimal rate;
         private Decimal otherCost;
         private String serviceName;
-
-        public ShippingOptionsAndRatesFromExternalService() {
-            name = '';
-            provider = '';
-            rate = 0.0;
-            serviceName = '';
-            otherCost = 0.0;
-        }
 
         public ShippingOptionsAndRatesFromExternalService(String someName, String someProvider, Decimal someRate, Decimal someOtherCost, String someServiceName) {
             name = someName;
