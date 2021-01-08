@@ -11,6 +11,7 @@
         <connector>
             <targetReference>Get_Order_Summary</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>cartId</name>
             <value>
@@ -29,13 +30,14 @@
         <description>Create a Draft Order</description>
         <name>Cart_to_Draft_Order</name>
         <label>Cart to Draft Order</label>
-        <locationX>1042</locationX>
+        <locationX>1030</locationX>
         <locationY>401</locationY>
         <actionName>B2BCartToOrderDraft</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Activate_Order</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>cartId</name>
             <value>
@@ -64,10 +66,36 @@
         <connector>
             <targetReference>Delivery_Method_Screen</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>cartIds</name>
             <value>
                 <elementReference>cartId</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Finds the buyer&apos;s cart delivery groups and updates the associated Delivery Group IDs.</description>
+        <name>Set_Checkout_Delivery_Method</name>
+        <label>Set Checkout Delivery Method</label>
+        <locationX>893</locationX>
+        <locationY>401</locationY>
+        <actionName>setCheckoutDeliveryMethod</actionName>
+        <actionType>setCheckoutDeliveryMethod</actionType>
+        <connector>
+            <targetReference>Checkout_Summary</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>deliveryMethodId</name>
+            <value>
+                <elementReference>orderDeliveryMethodId</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
@@ -81,6 +109,7 @@
         <connector>
             <targetReference>Shipping_Options</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>cartId</name>
             <value>
@@ -264,8 +293,8 @@
     <screens>
         <name>Checkout_Summary</name>
         <label>Checkout Summary</label>
-        <locationX>1042</locationX>
-        <locationY>218</locationY>
+        <locationX>1023</locationX>
+        <locationY>224</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -282,6 +311,27 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>RO_DeliveryMethod</name>
+            <extensionName>commerce_checkout:deliveryMethod</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>isReadOnly</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cartId</name>
+                <value>
+                    <elementReference>cartId</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -295,6 +345,7 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -310,7 +361,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Checkout_Summary</targetReference>
+            <targetReference>Set_Checkout_Delivery_Method</targetReference>
         </connector>
         <fields>
             <name>DeliveryMethod</name>
@@ -322,8 +373,12 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <outputParameters>
+                <assignToReference>orderDeliveryMethodId</assignToReference>
+                <name>orderDeliveryMethodId</name>
+            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -352,6 +407,7 @@
                     <elementReference>OrderSummaryId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -385,6 +441,7 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>shippingInstructions</assignToReference>
@@ -424,6 +481,7 @@
                     <elementReference>checkoutSessionId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -466,6 +524,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>CartCheckoutSession</objectType>
+    </variables>
+    <variables>
+        <name>orderDeliveryMethodId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>OrderId</name>
