@@ -3,7 +3,7 @@
   "edition": "Developer",
   "features": ["Communities", "B2BCommerce", "OrderManagement", "EnableSetPasswordInApi"],
   "settings": { 
-    "lightningExperienceSettings": {
+  "lightningExperienceSettings": {
         "enableS1DesktopEnabled": true
     },
     "experienceBundleSettings": {
