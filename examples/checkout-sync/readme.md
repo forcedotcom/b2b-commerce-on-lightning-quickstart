@@ -1,3 +1,6 @@
+## Limitations
+This currently only works for orgs with multiple currencies enabled.
+
 ## Use Metadata API to deploy this using Workbench:
  1. From this folder as your current location, create a .zip file: 
 	```zip -r -x README.md -X checkout-sync.zip *```
