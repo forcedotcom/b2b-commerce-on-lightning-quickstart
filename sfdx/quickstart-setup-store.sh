@@ -160,7 +160,8 @@ else
 	ceoID=`sfdx force:data:soql:query --query \ "SELECT Id FROM UserRole WHERE Name = 'CEO'" -r csv |tail -n +2`
 	sfdx force:data:record:create -s UserRole -v "ParentRoleId='$ceoID' Name='AdminRoleFromQuickstart' DeveloperName='AdminRoleFromQuickstart' RollupDescription='AdminRoleFromQuickstart' "
 	newRoleID=`sfdx force:data:soql:query --query \ "SELECT Id FROM UserRole WHERE Name = 'AdminRoleFromQuickstart'" -r csv |tail -n +2`
-	username=`sfdx force:user:display | tail -n 1 | sed -E "s/Username[[:space:]]+//g"`
+	username=`sfdx force:user:display | grep "Username" | sed 's/Username//g;s/^[[:space:]]*//g'`
+
 	sfdx force:data:record:update -s User -v "UserRoleId='$newRoleID'" -w "Username='$username'"
 
 	# Create Buyer User. Go to config/buyer-user-def.json to change name, email and alias.
