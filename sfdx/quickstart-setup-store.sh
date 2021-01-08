@@ -135,7 +135,7 @@ else
 
 	# Map the checkout flow with the checkout component in the store
 	echo "2. Updating flow associated to checkout."
-	checkoutMetaFile="experience-bundle-package/unpackaged/experiences/$communityExperienceBundleName/views/checkout.json"
+	checkoutMetaFile="experience-bundle-package/unpackaged/experiences/$communityExperienceBundleName/views/Checkout.json"
 	tmpfile=$(mktemp)
 	# This determines the name of the main flow as it will always be the only flow to terminate in "Checkout.flow"
 	mainFlowName=`ls ../examples/checkout/framework/flows/*Checkout.flow | sed 's/.*flows\/\(.*\).flow/\1/'`
