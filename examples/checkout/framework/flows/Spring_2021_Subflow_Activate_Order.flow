@@ -57,7 +57,13 @@
                 <stringValue>Activated</stringValue>
             </value>
         </inputParameters>
-        <inputParameters>
+	<inputParameters>
+            <name>orderLifeCycleType</name>
+            <value>
+                <stringValue>UNMANAGED</stringValue>
+            </value>
+        </inputParameters>
+	<inputParameters>
             <name>runAsync</name>
             <value>
                 <booleanValue>true</booleanValue>
