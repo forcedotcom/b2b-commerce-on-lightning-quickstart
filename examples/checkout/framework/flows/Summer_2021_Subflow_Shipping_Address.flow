@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description>Only get the ContactPointAddress record associated with the new address selected and update</description>
         <name>Update_address_if_changed</name>
@@ -37,7 +37,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Shipping Address</label>
+    <label>(Summer 2021) Subflow Subflow - Shipping Address</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -225,6 +225,7 @@
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>contactPointAddressId</assignToReference>
@@ -253,7 +254,7 @@
         <label>Set State</label>
         <locationX>1250</locationX>
         <locationY>250</locationY>
-        <flowName>Spring_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Summer_2021_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -280,7 +281,7 @@
         <label>Show Error</label>
         <locationX>870</locationX>
         <locationY>750</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -304,7 +305,7 @@
         <connector>
             <targetReference>Update_address_if_changed</targetReference>
         </connector>
-        <flowName>Spring_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Summer_2021_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

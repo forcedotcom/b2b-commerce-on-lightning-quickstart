@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <description>Assigns the current cartValidationOutput record&apos;s message to a list of strings that we display to users.</description>
         <name>Assignment</name>
@@ -79,7 +79,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Error</label>
+    <label>(Summer 2021) Subflow Subflow - Error</label>
     <loops>
         <description>Loops through the list of CartValidationOutput messages.</description>
         <name>Loop</name>
@@ -168,6 +168,7 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -197,6 +198,7 @@
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
