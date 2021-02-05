@@ -34,7 +34,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description>Checks that all conditions are met to close the cart</description>
         <name>Should_Close_Cart</name>
@@ -71,7 +71,7 @@
     </decisions>
     <interviewLabel>Order Confirmation {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Order Confirmation</label>
+    <label>(Summer 2021) Subflow Subflow - Order Confirmation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -195,6 +195,7 @@
                     <elementReference>orderSummaryId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -216,7 +217,7 @@
         <label>Show Error</label>
         <locationX>275</locationX>
         <locationY>750</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

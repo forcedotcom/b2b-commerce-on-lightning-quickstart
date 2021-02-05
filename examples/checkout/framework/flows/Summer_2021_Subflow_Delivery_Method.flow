@@ -28,7 +28,7 @@
         </inputParameters>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description></description>
         <name>Update_Delivery_Method_If_Changed</name>
@@ -65,7 +65,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Delivery Method</label>
+    <label>(Summer 2021) Subflow Subflow - Delivery Method</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -137,7 +137,7 @@
         <label>Set State</label>
         <locationX>950</locationX>
         <locationY>250</locationY>
-        <flowName>Spring_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Summer_2021_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -167,7 +167,7 @@
         <connector>
             <targetReference>Update_Delivery_Method_If_Changed</targetReference>
         </connector>
-        <flowName>Spring_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Summer_2021_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -188,7 +188,7 @@
         <label>Show Error</label>
         <locationX>800</locationX>
         <locationY>750</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

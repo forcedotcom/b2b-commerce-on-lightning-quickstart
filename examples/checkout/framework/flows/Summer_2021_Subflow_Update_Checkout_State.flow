@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <name>Set_State</name>
         <label>Set State</label>
@@ -46,7 +46,7 @@
     </decisions>
     <interviewLabel>Shipping {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Update Checkout State</label>
+    <label>(Summer 2021) Subflow Subflow - Update Checkout State</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -94,7 +94,7 @@
         <connector>
             <targetReference>Check_Session_isProcessing</targetReference>
         </connector>
-        <flowName>Spring_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Summer_2021_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -119,7 +119,7 @@
         <label>Show Error</label>
         <locationX>900</locationX>
         <locationY>500</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -140,7 +140,7 @@
         <label>Refresh page</label>
         <locationX>400</locationX>
         <locationY>500</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
