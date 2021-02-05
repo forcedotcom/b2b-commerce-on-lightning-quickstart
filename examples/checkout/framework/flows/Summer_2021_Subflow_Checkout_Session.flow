@@ -32,7 +32,7 @@
         </outputParameters>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description></description>
         <name>Validate_Checkout_State</name>
@@ -79,7 +79,7 @@
     </decisions>
     <interviewLabel>Basic Checkout Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Spring 2021) Subflow - Checkout Session</label>
+    <label>(Summer 2021) Subflow Subflow - Checkout Session</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -144,7 +144,7 @@
         <label>Show Error</label>
         <locationX>275</locationX>
         <locationY>500</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -165,7 +165,7 @@
         <label>Refresh page</label>
         <locationX>658</locationX>
         <locationY>500</locationY>
-        <flowName>Spring_2021_Subflow_Error</flowName>
+        <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
