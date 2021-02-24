@@ -140,6 +140,7 @@ else
 	checkoutFileToGrep="Checkout.json"
 	# Do a case insensitive grep and capture file
 	greppedFile=`ls $checkoutMetaFolder | egrep -i '^$checkoutFileToGrep'`
+	echo "Grepped File is: " $greppedFile
 	checkoutMetaFile=$checkoutMetaFolder$greppedFile	
 	tmpfile=$(mktemp)
 	# This determines the name of the main flow as it will always be the only flow to terminate in "Checkout.flow"
