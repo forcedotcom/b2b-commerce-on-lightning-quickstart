@@ -134,8 +134,13 @@ else
 	echo "You can view the results of the mapping in the Store Integrations page at /lightning/page/storeDetail?lightning__webStoreId=$storeId&storeDetail__selectedTab=store_integrations"
 
 	# Map the checkout flow with the checkout component in the store
+	# This is to allow for changes in case for the checkout meta file which we have noticed to shift around quite a lot.
 	echo "2. Updating flow associated to checkout."
-	checkoutMetaFile="experience-bundle-package/unpackaged/experiences/$communityExperienceBundleName/views/Checkout.json"
+	checkoutMetaFolder="experience-bundle-package/unpackaged/experiences/$communityExperienceBundleName/views/"
+	checkoutFileToGrep="Checkout.json"
+	# Do a case insensitive grep and capture file
+	greppedFile=`ls $checkoutMetaFolder | egrep -i '^$checkoutFileToGrep'`
+	checkoutMetaFile=$checkoutMetaFolder$greppedFile	
 	tmpfile=$(mktemp)
 	# This determines the name of the main flow as it will always be the only flow to terminate in "Checkout.flow"
 	mainFlowName=`ls ../examples/checkout/framework/flows/*Checkout.flow | sed 's/.*flows\/\(.*\).flow/\1/'`
