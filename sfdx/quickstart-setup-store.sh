@@ -139,7 +139,7 @@ else
 	checkoutMetaFolder="experience-bundle-package/unpackaged/experiences/$communityExperienceBundleName/views/"
 	checkoutFileToGrep="Checkout.json"
 	# Do a case insensitive grep and capture file
-	greppedFile=`ls $checkoutMetaFolder | egrep -i '^$checkoutFileToGrep'`
+	greppedFile=`ls $checkoutMetaFolder | egrep -i "^$checkoutFileToGrep"`
 	echo "Grepped File is: " $greppedFile
 	checkoutMetaFile=$checkoutMetaFolder$greppedFile	
 	tmpfile=$(mktemp)
