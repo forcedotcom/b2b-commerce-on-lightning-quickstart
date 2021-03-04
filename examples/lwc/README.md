@@ -14,7 +14,7 @@ This repository is an SFDX project that you can deploy directly to an org and mo
 
 1. Clone the repository.
 1. Create a B2B Commerce org.
-    Optional: Use the included [project-scratch-def.json](examples/lwc/sfdx-project.json), e.g. `sfdx force:org:create -f ./config/project-scratch-def.json`
+    Optional: Use the included [project-scratch-def.json](config/project-scratch-def.json), e.g. `sfdx force:org:create -f ./config/project-scratch-def.json`
 1. Push the source code in this repository to the new org, e.g. `sfdx force:source:push -u <org username>`.
 1. Grant permissions to the APEX class (do this only once):
 
