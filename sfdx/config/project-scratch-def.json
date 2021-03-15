@@ -19,6 +19,9 @@
       "enableOrders": true,
       "enableEnhancedCommerceOrders": true,
       "enableOptionalPricebook": true
+    },
+    "commerceSettings": {
+      "commerceEnabled": true
     }
   }
 }
