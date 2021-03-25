@@ -54,4 +54,10 @@ public with sharing class B2BUtils {
       }
       return sortOrderCache.get(sortParam);
   }
+    
+  public static String getUserAccountID() {
+      String userId = UserInfo.getUserId();
+      String contactId = [SELECT ContactId FROM User WHERE Id = :userId].ContactId;
+      return [SELECT AccountId FROM Contact WHERE Id = :contactId].AccountId; 
+  }
 }

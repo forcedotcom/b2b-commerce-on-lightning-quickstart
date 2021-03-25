@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="xmlns=http://soap.sforce.com/2006/04/metadata">
+    <isExposed>true</isExposed>
+    <masterLabel>Payment Method</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="cartId" label="Cart ID" type="String" description="The current record id" default="" role="inputOnly" />
+            <property name="hidePurchaseOrder" label="Hide Purchase Order" type="Boolean" description="" default="false" role="inputOnly" />
+            <property name="hideCreditCard" label="Hide Credit Card" type="Boolean" description="" default="false" role="inputOnly" />
+            <property name="poRequired" label="Require Purchase Order Number" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="selectedPaymentType" label="Selected Payment Type" type="String" description="The selected payment type" role="inputOnly" />
+            <!-- These are the internal billingAddressSelector cmp -->
+            <property name="hideBillingAddress" label="Hide Billing Address" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="billingAddressRequired" label="Require Billing Address" type="Boolean" description="" default="false" role="inputOnly"/>
+            <!-- The following are for the internal cardPaymentMethod cmp -->
+            <property name="cardHolderNameRequired" label="Require Card Holder Name" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="cardTypeRequired" label="Require Card Type" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="cvvRequired" label="Require CVV" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="expiryMonthRequired" label="Require Expiry Month" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="expiryYearRequired" label="Require Expiry Year" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="hideCardHolderName" label="Hide Card Holder Name" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="hideCardType" label="Hide Card Type" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="hideCvv" label="Hide CVV" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="hideExpiryMonth" label="Hide Expiry Month" type="Boolean" description="" default="false" role="inputOnly"/>
+            <property name="hideExpiryYear" label="Hide Expiry Year" type="Boolean" description="" default="false" role="inputOnly"/>
+            <!-- OUTPUT only fields-->
+            <property name="selectedBillingAddress" label="Selected Billing Address ID" type="String" description="The address ID" role="outputOnly"/>
+            <property name="purchaseOrderNumber" label="Purchase Order Number" type="String" description="The entered purchase order number" role="outputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

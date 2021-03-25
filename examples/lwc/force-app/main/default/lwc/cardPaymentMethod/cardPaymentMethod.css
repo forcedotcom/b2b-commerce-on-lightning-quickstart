@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-auth-error {
+    background-color: #fafaf9;
+    color: #c23934;
+    border: 0.125rem solid #c23934;
+}
