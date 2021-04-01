@@ -1,0 +1,142 @@
+<template>
+    <!-- Credit Card Error Message -->
+    <div
+        if:true={creditCardErrorMessage}
+        class="card-auth-error slds-scoped-notification slds-media slds-media_center slds-theme_error"
+        role="alert"
+    >
+        <div class="slds-media__figure">
+            <lightning-icon
+                icon-name="utility:error"
+                variant="error"
+                size="small"
+            ></lightning-icon>
+        </div>
+        <div class="slds-media__body">
+            <p>{creditCardErrorMessage}</p>
+        </div>
+    </div>
+
+    <div if:false={hideCardHolderName} class="slds-form-element">
+        <lightning-input
+            data-validate
+            data-cardholder-name
+            class="cardHolderName"
+            onblur={handleCardHolderNameChange}
+            name="cardHolderName"
+            value={cardHolderName}
+            label={labels.CardHolderNameLabel}
+            placeholder={labels.CardHolderNamePlaceholder}
+            max-length="26"
+            required={cardHolderNameRequired}
+            onkeyup={preventSensitiveInformationPropagation}
+            onkeydown={preventSensitiveInformationPropagation}
+            onkeypress={preventSensitiveInformationPropagation}
+            onchange={preventSensitiveInformationPropagation}
+        >
+        </lightning-input>
+    </div>
+
+    <div if:false={hideCardType} class="slds-form-element">
+        <lightning-combobox
+            data-validate
+            data-card-type
+            class="cardType"
+            onchange={handleCardTypeChange}
+            name="cardType"
+            value={cardType}
+            label={labels.CardTypeLabel}
+            placeholder={labels.CardTypePlaceholder}
+            options={cardTypes}
+            required={cardTypeRequired}
+        >
+        </lightning-combobox>
+    </div>
+
+    <div class="slds-grid">
+        <div class={cardNumberClass}>
+            <lightning-input
+                data-validate
+                data-card-number
+                class="cardNumber"
+                onblur={handleCardNumberChange}
+                name="cardNumber"
+                value={cardNumber}
+                label={labels.CardNumberLabel}
+                placeholder={labels.CardNumberPlaceholder}
+                pattern="[0-9]{14,16}"
+                autocomplete="off"
+                max-length="16"
+                required
+                message-when-pattern-mismatch={labels.InvalidCreditCardNumber}
+                onkeyup={preventSensitiveInformationPropagation}
+                onkeydown={preventSensitiveInformationPropagation}
+                onkeypress={preventSensitiveInformationPropagation}
+                onchange={preventSensitiveInformationPropagation}
+            >
+            </lightning-input>
+        </div>
+        <div
+            if:false={hideCvv}
+            class="slds-form-element slds-size_1-of-3 slds-p-left_x-small"
+        >
+            <lightning-input
+                data-validate
+                data-cvv
+                class="cvv"
+                onblur={handleCvvChange}
+                name="cvv"
+                value={cvv}
+                label={labels.CvvLabel}
+                placeholder={labels.CvvPlaceholder}
+                type="password"
+                pattern="[0-9]{3,4}"
+                required={cvvRequired}
+                max-length="4"
+                autocomplete="off"
+                field-level-help={labels.CvvInfo}
+                message-when-pattern-mismatch={labels.InvalidCvv}
+                onkeyup={preventSensitiveInformationPropagation}
+                onkeydown={preventSensitiveInformationPropagation}
+                onkeypress={preventSensitiveInformationPropagation}
+                onchange={preventSensitiveInformationPropagation}
+            ></lightning-input>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div
+            if:false={hideExpiryMonth}
+            class="slds-form-element slds-col slds-p-right_x-small"
+        >
+            <lightning-combobox
+                data-validate
+                data-expiry-month
+                class="expiryMonth"
+                onchange={handleExpiryMonthChange}
+                name="expiryMonth"
+                value={expiryMonth}
+                label={labels.ExpiryMonthLabel}
+                placeholder={labels.ExpiryMonthPlaceholder}
+                options={expiryMonths}
+                required={expiryMonthRequired}
+            >
+            </lightning-combobox>
+        </div>
+        <div if:false={hideExpiryYear} class="slds-form-element slds-col">
+            <lightning-combobox
+                data-validate
+                data-expiry-year
+                class="expiryYear"
+                onchange={handleExpiryYearChange}
+                name="expiryYear"
+                value={expiryYear}
+                label={labels.ExpiryYearLabel}
+                placeholder={labels.ExpiryYearPlaceholder}
+                options={expiryYears}
+                required={expiryYearRequired}
+            >
+            </lightning-combobox>
+        </div>
+    </div>
+</template>

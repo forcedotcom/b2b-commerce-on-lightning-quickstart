@@ -1,0 +1,116 @@
+<template>
+    <!-- This version shows a text box and can display errors -->
+    <div class="slds-box" if:false={hidePurchaseOrder}>
+        <input
+            type="radio"
+            id="po-number"
+            value={paymentTypes.poNumber}
+            name="payment-type-option"
+            onclick={handlePaymentTypeSelected}
+            checked={isPoNumberSelected}
+        />
+        <label
+            class="slds-radio__label slds-p-horizontal_x-small"
+            for="po-number"
+        >
+            <span class="slds-form-element__label slds-text-title_bold"
+                >{labels.purchaseOrderOptionLabel}</span
+            >
+        </label>
+
+        <div class="slds-p-top_medium" if:true={isPoNumberSelected}>
+            
+            <!-- Purchase Order Error Message -->
+            <div
+                if:true={_purchaseOrderErrorMessage}
+                class="purchase-order-error slds-scoped-notification slds-media slds-media_center slds-theme_error"
+                role="alert"
+            >
+                <div class="slds-media__figure">
+                    <lightning-icon
+                        icon-name="utility:error"
+                        variant="error"
+                        size="small"
+                    ></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <p>{_purchaseOrderErrorMessage}</p>
+                </div>
+            </div>
+
+            <lightning-input
+                data-po-number
+                type="text"
+                name="PONumberInput"
+                label={labels.purchaseOrderEntryHeader}
+                value={purchaseOrderNumber}
+                onblur={handleUpdate}
+                required={poRequired}
+                max-length="80"
+            >
+            </lightning-input>
+            <div if:false={hideBillingAddress} class="slds-form-element">
+                <c-billing-address-selector
+                    addresses={addresses}
+                    onsetbillingaddress={handleChangeSelectedAddress}
+                    billing-address-required={billingAddressRequired}
+                    billing-address-error-message={billingAddressErrorMessage}
+                >
+                </c-billing-address-selector>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-box slds-m-top_large" if:false={hideCreditCard}>
+        <input
+            type="radio"
+            id="card-payment"
+            value={paymentTypes.cardPayment}
+            name="payment-type-option"
+            onclick={handlePaymentTypeSelected}
+            checked={isCardPaymentSelected}
+        />
+        <label
+            class="slds-radio__label slds-p-horizontal_x-small"
+            for="card-payment"
+        >
+            <span class="slds-form-element__label slds-text-title_bold"
+                >{labels.cardPaymentOptionLabel}</span
+            >
+        </label>
+        <div class="slds-p-top_medium" if:true={isCardPaymentSelected}>
+            <c-card-payment-method
+                data-credit-payment-method
+                card-holder-name-required={cardHolderNameRequired}
+                card-type-required={cardTypeRequired}
+                expiry-month-required={expiryMonthRequired}
+                expiry-year-required={expiryYearRequired}
+                cvv-required={cvvRequired}
+                hide-card-holder-name={hideCardHolderName}
+                hide-card-type={hideCardType}
+                hide-cvv={hideCvv}
+                hide-expiry-month={hideExpiryMonth}
+                hide-expiry-year={hideExpiryYear}
+                credit-card-error-message={_creditCardErrorMessage}
+            >
+            </c-card-payment-method>
+            <div if:false={hideBillingAddress} class="slds-form-element">
+                <c-billing-address-selector
+                    addresses={addresses}
+                    onsetbillingaddress={handleChangeSelectedAddress}
+                    billing-address-required={billingAddressRequired}
+                    billing-address-error-message={billingAddressErrorMessage}
+                >
+                </c-billing-address-selector>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-card__footer slds-p-vertical_x-small">
+        <div class="slds-button slds-button_brand">
+            <a href="javascript:void(0)" onclick={handlePaymentButton}
+                >{labels.buttonLabel}</a
+            >
+        </div>
+    </div>
+</template>

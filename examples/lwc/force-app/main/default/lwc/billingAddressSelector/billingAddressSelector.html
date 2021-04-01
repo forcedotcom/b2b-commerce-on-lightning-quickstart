@@ -1,0 +1,12 @@
+<template>
+    <lightning-combobox
+        name="billingAddressSelector"
+        label={title}
+        options={selectableAddresses}
+        value={initialSelectedAddressId}
+        class="slds-p-bottom_medium"
+        onchange={handleChangeAddress}
+        required={billingAddressRequired}
+    >
+    </lightning-combobox>
+</template>

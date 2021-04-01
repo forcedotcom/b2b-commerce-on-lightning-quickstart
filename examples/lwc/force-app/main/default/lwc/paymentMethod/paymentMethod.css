@@ -1,0 +1,9 @@
+div.slds-p-bottom_x-small {
+    font-weight: var(--lwc-fontWeightBold);
+}
+
+.purchase-order-error {
+    background-color: #fafaf9;
+    color: #c23934;
+    border: 0.125rem solid #c23934;
+}
