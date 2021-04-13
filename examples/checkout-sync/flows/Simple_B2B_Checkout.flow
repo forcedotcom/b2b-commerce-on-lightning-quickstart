@@ -4,8 +4,8 @@
         <description>Create an Order Summary</description>
         <name>Activate_Order</name>
         <label>Activate Order</label>
-        <locationX>1159</locationX>
-        <locationY>401</locationY>
+        <locationX>1130</locationX>
+        <locationY>399</locationY>
         <actionName>activateOrderAction</actionName>
         <actionType>activateOrderAction</actionType>
         <connector>
@@ -30,8 +30,8 @@
         <description>Create a Draft Order</description>
         <name>Cart_to_Draft_Order</name>
         <label>Cart to Draft Order</label>
-        <locationX>1030</locationX>
-        <locationY>401</locationY>
+        <locationX>984</locationX>
+        <locationY>400</locationY>
         <actionName>B2BCartToOrderDraft</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -59,8 +59,8 @@
         <description>Prepare delivery options</description>
         <name>Prepare_Delivery_Options</name>
         <label>Prepare Delivery Options</label>
-        <locationX>729</locationX>
-        <locationY>397</locationY>
+        <locationX>700</locationX>
+        <locationY>395</locationY>
         <actionName>B2BPrepareDeliveryMethodSelections</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -78,8 +78,8 @@
         <description>Finds the buyer&apos;s cart delivery groups and updates the associated Delivery Group IDs.</description>
         <name>Set_Checkout_Delivery_Method</name>
         <label>Set Checkout Delivery Method</label>
-        <locationX>893</locationX>
-        <locationY>401</locationY>
+        <locationX>847</locationX>
+        <locationY>615</locationY>
         <actionName>setCheckoutDeliveryMethod</actionName>
         <actionType>setCheckoutDeliveryMethod</actionType>
         <connector>
@@ -128,6 +128,39 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>51.0</apiVersion>
+    <decisions>
+        <description>No sense updating a delivery method that hasn&apos;t changed from the default suggestion.</description>
+        <name>Update_Delivery_Method_If_Changed</name>
+        <label>Update Delivery Method if Changed</label>
+        <locationX>828</locationX>
+        <locationY>401</locationY>
+        <defaultConnector>
+            <targetReference>Checkout_Summary</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Delivery Method Unchanged</defaultConnectorLabel>
+        <rules>
+            <name>Delivery_Method_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>orderDeliveryMethodId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>orderDeliveryMethodId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Checkout_Delivery_Method</targetReference>
+            </connector>
+            <label>Delivery Method Changed</label>
+        </rules>
+    </decisions>
     <interviewLabel>Simple B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Simple B2B Checkout</label>
     <processMetadataValues>
@@ -173,8 +206,8 @@
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1282</locationX>
-        <locationY>401</locationY>
+        <locationX>1276</locationX>
+        <locationY>399</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Order_Confirmation_Redirect</targetReference>
@@ -293,8 +326,8 @@
     <screens>
         <name>Checkout_Summary</name>
         <label>Checkout Summary</label>
-        <locationX>1023</locationX>
-        <locationY>224</locationY>
+        <locationX>930</locationX>
+        <locationY>223</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -355,13 +388,13 @@
     <screens>
         <name>Delivery_Method_Screen</name>
         <label>Delivery Method Screen</label>
-        <locationX>885</locationX>
+        <locationX>779</locationX>
         <locationY>218</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Set_Checkout_Delivery_Method</targetReference>
+            <targetReference>Update_Delivery_Method_If_Changed</targetReference>
         </connector>
         <fields>
             <name>DeliveryMethod</name>
@@ -386,8 +419,8 @@
     <screens>
         <name>Order_Confirmation_Redirect</name>
         <label>Order Confirmation Redirect</label>
-        <locationX>1282</locationX>
-        <locationY>218</locationY>
+        <locationX>1274</locationX>
+        <locationY>219</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -458,8 +491,8 @@
     <screens>
         <name>Wait_Delivery_Options</name>
         <label>Wait for Delivery Options</label>
-        <locationX>564</locationX>
-        <locationY>213</locationY>
+        <locationX>573</locationX>
+        <locationY>216</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
