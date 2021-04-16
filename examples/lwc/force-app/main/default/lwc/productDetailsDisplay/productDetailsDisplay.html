@@ -50,6 +50,25 @@
                     <span class="slds-p-horizontal_small">Out of stock</span>
                 </div>
             </div>
+            <template if:true={variationAttributeInfo}>
+                <div class="variationAttributeInfo">
+                    <template for:each={variationAttributeInfo} for:item="attribute">
+                        <div key={attribute.apiName} class="slds-grid slds-p-top_x-small">
+                            <p class="slds-m-right_xx-small">{attribute.label}:</p>
+                            <div class="slds-select_container">
+                                <select class="slds-select" data-attribute-name={attribute.apiName} onchange={handleAttributeSelect}>
+                                    <option data-field={apiName} value=""></option>
+                                    <template if:true={attribute.availableValues}>
+                                        <template for:each={attribute.availableValues} for:item="value">
+                                            <option data-field={apiName} key={value} value={value}>{value}</option>
+                                        </template>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
             <div class="price">
                 <span if:false={hasPrice}>Price Unavailable</span>
                 <lightning-formatted-number

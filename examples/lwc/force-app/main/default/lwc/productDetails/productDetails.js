@@ -140,34 +140,37 @@ export default class ProductDetails extends LightningElement {
      * @readonly
      */
     get displayableProduct() {
-        return {
-            categoryPath: this.product.data.primaryProductCategoryPath.path.map(
-                (category) => ({
-                    id: category.id,
-                    name: category.name
-                })
-            ),
+        let productData = {
+            categoryPath: this.product.data.primaryProductCategoryPath.path.map((category) => ({
+                id: category.id,
+                name: category.name
+            })),
             description: this.product.data.fields.Description,
             image: {
                 alternativeText: this.product.data.defaultImage.alternativeText,
                 url: resolve(this.product.data.defaultImage.url)
             },
-            inStock: this.inStock.data === true,
             name: this.product.data.fields.Name,
             price: {
-                currency: ((this.productPrice || {}).data || {})
-                    .currencyIsoCode,
+                currency: ((this.productPrice || {}).data || {}).currencyIsoCode,
                 negotiated: ((this.productPrice || {}).data || {}).unitPrice
             },
             sku: this.product.data.fields.StockKeepingUnit,
-            customFields: Object.entries(
-                this.product.data.fields || Object.create(null)
-            )
-                .filter(([key]) =>
-                    (this.customDisplayFields || '').includes(key)
-                )
+            customFields: Object.entries(this.product.data.fields || Object.create(null))
+                .filter(([key]) => (this.customDisplayFields || '').includes(key))
                 .map(([key, value]) => ({ name: key, value }))
         };
+        if (this.product.data && this.product.data.variationInfo) {
+            const variationAttributeInfo = this.product.data.variationInfo.variationAttributeInfo;
+            const attributesToProductMappings = this.product.data.variationInfo.attributesToProductMappings;
+            let variationAttributeInfoList = [];
+            Object.keys(variationAttributeInfo).forEach((key) => {
+                variationAttributeInfoList.push(variationAttributeInfo[key]);
+            });
+            productData.variationAttributeInfo = variationAttributeInfoList;
+            productData.attributeMappings = attributesToProductMappings;
+        }
+        return productData;
     }
 
     /**
@@ -180,6 +183,15 @@ export default class ProductDetails extends LightningElement {
     get _isCartLocked() {
         const cartStatus = (this.cartSummary || {}).status;
         return cartStatus === 'Processing' || cartStatus === 'Checkout';
+    }
+
+    /**
+     * Detects wether the record Id has been changed on selecting a given varation product
+     * @param {object} event 
+     */
+    productSelected(event) {
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
+        this.recordId = event.detail.selectedSKU;
     }
 
     /**
