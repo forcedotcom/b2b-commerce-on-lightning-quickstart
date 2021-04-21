@@ -52,7 +52,7 @@ Notice that the existing settings in the ```project-scratch-def.json``` file wil
 
 4. Make sure that your current directory is sfdx and create and setup a new store in your new scratch org by running the following script:
 ```
-./quickstart-create-store.sh
+./quickstart-create-and-setup-store.sh
 ```
 
 You are done!
