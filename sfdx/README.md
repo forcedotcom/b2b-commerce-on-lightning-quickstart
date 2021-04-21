@@ -27,7 +27,7 @@ If you cannot clone from that location, download the .zip file and unzip it loca
 that will convert the examples from the metadata API format to the SFDX format and add them to the "path" you have specified in the sfdx-project.json file.
 
 3. Create a scratch org using SFDX:
-If you don't have a dev hub already autorized, do that now by running
+If you don't have a dev hub already authorized, do that now by running
 ```
 sfdx force:auth:web:login -d
 ```
@@ -50,15 +50,22 @@ sfdx force:config:set defaultusername=<YourScratchOrgUsernameInEmailFormat>
 
 Notice that the existing settings in the ```project-scratch-def.json``` file will enable all the necessary licenses and org perms and prefs required for Lightning B2B. If the scratch org creation is successful you should not need to modify any org perms or prefs. This is only available for the scratch orgs though, and will not work for sandboxes or other environments. For those orgs, follow the documentation about the licenses and org preferences that need to be enabled for B2B on Lightning.
 
-4. Push your samples to the new org:
-```
-sfdx force:source:push -f
-```
-5. Make sure that your current directory is sfdx and create a new store in your new scratch org by running the following script:
+4. Make sure that your current directory is sfdx and create and setup a new store in your new scratch org by running the following script:
 ```
 ./quickstart-create-store.sh
 ```
-6. If you have a store already created (from the previous step or because you created it manually), first, make sure to adjust configuration settings such as Username and/or Email in the definition file for your Buyer User at config/buyer-user-def.json. Then run the following script to setup your store:
+
+You are done!
+
+### Manual Steps
+
+## Push Samples
+This is taken care of in step 4 of the Quick Start instructions above. However, if you wish to push updated samples to the new org:
+```
+sfdx force:source:push -f
+```
+## Setup Store
+This is also triggered by step 4 of the Quick Start instructions above. You would only need to run this step if you wanted to setup a store again. If you have a store already created (from the previous step or because you created it manually), first, make sure to adjust configuration settings such as Username and/or Email in the definition file for your Buyer User at config/buyer-user-def.json. Then run the following script to setup your store:
 ```
 ./quickstart-setup-store.sh <YourStoreName>
 ```
