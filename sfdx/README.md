@@ -59,12 +59,12 @@ You are done!
 
 ### Manual Steps
 
-## Push Samples
+#### Push Samples
 This is taken care of in step 4 of the Quick Start instructions above. However, if you wish to push updated samples to the new org:
 ```
 sfdx force:source:push -f
 ```
-## Setup Store
+#### Setup Store
 This is also triggered by step 4 of the Quick Start instructions above. You would only need to run this step if you wanted to setup a store again. If you have a store already created (from the previous step or because you created it manually), first, make sure to adjust configuration settings such as Username and/or Email in the definition file for your Buyer User at config/buyer-user-def.json. Then run the following script to setup your store:
 ```
 ./quickstart-setup-store.sh <YourStoreName>
