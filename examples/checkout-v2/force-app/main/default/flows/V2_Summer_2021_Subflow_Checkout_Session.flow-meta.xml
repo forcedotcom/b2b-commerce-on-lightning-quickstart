@@ -75,7 +75,7 @@
     </decisions>
     <interviewLabel>Basic Checkout Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Checkout Session</label>
+    <label>(V2 Summer 2021) Subflow - Checkout Session</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

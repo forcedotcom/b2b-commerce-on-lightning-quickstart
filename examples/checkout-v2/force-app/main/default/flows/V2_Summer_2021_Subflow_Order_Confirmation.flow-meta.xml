@@ -70,7 +70,7 @@
     </decisions>
     <interviewLabel>Order Confirmation {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Order Confirmation</label>
+    <label>(V2 Summer 2021) Subflow - Order Confirmation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

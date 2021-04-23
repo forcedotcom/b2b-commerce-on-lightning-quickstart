@@ -3,7 +3,7 @@
     <apiVersion>52.0</apiVersion>
     <interviewLabel>Checkout Summary {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Checkout Summary</label>
+    <label>(V2 Summer 2021) Subflow - Checkout Summary</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

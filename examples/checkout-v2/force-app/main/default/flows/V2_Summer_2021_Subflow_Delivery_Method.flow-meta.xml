@@ -63,7 +63,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Delivery Method</label>
+    <label>(V2 Summer 2021) Subflow - Delivery Method</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

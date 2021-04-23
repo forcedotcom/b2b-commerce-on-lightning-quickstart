@@ -61,7 +61,7 @@
     <description>For your checkout flow to function properly, you need working integrations. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
     <interviewLabel>Compute Price {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Confirm Price</label>
+    <label>(V2 Summer 2021) Subflow - Confirm Price</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

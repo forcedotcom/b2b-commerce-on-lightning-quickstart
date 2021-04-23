@@ -523,7 +523,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Subflow_Authorize_Payment</flowName>
+        <flowName>V2_Summer_2021_Subflow_Authorize_Payment</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

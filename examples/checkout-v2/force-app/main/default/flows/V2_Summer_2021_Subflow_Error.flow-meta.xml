@@ -77,7 +77,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Error</label>
+    <label>(V2 Summer 2021) Subflow - Error</label>
     <loops>
         <description>Loops through the list of CartValidationOutput messages.</description>
         <name>Loop</name>

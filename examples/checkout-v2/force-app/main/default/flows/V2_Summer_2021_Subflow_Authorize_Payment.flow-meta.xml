@@ -68,8 +68,8 @@
     <decisions>
         <name>Should_Authorize_Payment</name>
         <label>Should Authorize Payment?</label>
-        <locationX>346</locationX>
-        <locationY>393</locationY>
+        <locationX>142</locationX>
+        <locationY>402</locationY>
         <defaultConnector>
             <targetReference>Set_State</targetReference>
         </defaultConnector>
@@ -85,15 +85,15 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>EnsureNoTransactionsBeforeApexCall</targetReference>
+                <targetReference>Authorize_Tokenized_Payment</targetReference>
             </connector>
             <label>Authorize Payment</label>
         </rules>
     </decisions>
     <description>Authorizes Credit Card Payment.</description>
-    <interviewLabel>(V2 Summer 2021) Subflow Subflow - Authorize Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>(V2 Summer 2021) Subflow - Authorize Payment {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow Subflow - Authorize Payment</label>
+    <label>(V2 Summer 2021) Subflow - Authorize Payment</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -135,34 +135,6 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <runInMode>DefaultMode</runInMode>
-    <screens>
-        <name>EnsureNoTransactionsBeforeApexCall</name>
-        <label>Ensure No Uncommitted Work Before Apex Call</label>
-        <locationX>144</locationX>
-        <locationY>548</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Authorize_Tokenized_Payment</targetReference>
-        </connector>
-        <fields>
-            <name>Wait</name>
-            <extensionName>forceCommunity:commerceScreenWait</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>cartCheckoutSessionId</name>
-                <value>
-                    <elementReference>checkoutSession.Id</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <showFooter>false</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
     <start>
         <locationX>24</locationX>
         <locationY>40</locationY>
