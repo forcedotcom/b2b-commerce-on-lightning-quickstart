@@ -1,41 +1,75 @@
-public class B2BPrepareDeliveryMethodSelections {
-    /**
-     * @description This creates a couple of delivery methods for the user to select from.
-     *              This hits a heroku server to get at the data, simulating a call to a third party system.
-     * @param cartIds Expects a single cart id that we are preparing delivery methods for.
-     */
-    @InvocableMethod(label='Prepare the Delivery Method Options' description='Update Web Cart with possible delivery method options' category='B2B Commerce')
-    public static void prepDeliveryMethods(List<ID> cartIds) {
-        Id cartId = cartIds[0];
-        Id cartDeliveryGroupId = [SELECT CartDeliveryGroupId FROM CartItem WHERE CartId = :cartId][0].CartDeliveryGroupId;
-
-        // Get the shipping options from an external service.
-        // We're getting information like rates and carriers from this external service. 
-        ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService();
-
-        // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
-        delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId];
-
-        // Create orderDeliveryMethods given your shipping options or fetch existing ones. 2 should be returned.
-        List<Id> orderDeliveryMethodIds = getOrderDeliveryMethods(shippingOptionsAndRatesFromExternalService);
-
-        // Create a CartDeliveryGroupMethod record for every shipping option returned from the external service
-        Integer i = 0;
-        for (Id orderDeliveryMethodId: orderDeliveryMethodIds) {
-            populateCartDeliveryGroupMethodWithShippingOptions(shippingOptionsAndRatesFromExternalService[i],
-                                                               cartDeliveryGroupId,
-                                                               orderDeliveryMethodId,
-                                                               cartId);
-            i+=1;
+// This class determines if we can ship to the buyer's shipping address and creates
+// CartDeliveryGroupMethods for the different options and prices the buyer may choose from
+public class B2BSyncDelivery {
+    // This invocable method only expects one ID
+    @InvocableMethod(callout=true label='Prepare the Delivery Method Options' description='Runs a synchronous version of delivery method preparation' category='B2B Commerce')
+    public static void syncDelivery(List<ID> cartIds) {
+        // Validate the input
+        if (cartIds == null || cartIds.size() != 1) {
+            String errorMessage = 'A cart id must be included to B2BSyncDelivery';
+            saveCartValidationOutputError(errorMessage, '');
+            throw new CalloutException (errorMessage);
         }
-  }
-    // Don't hit Heroku Server: You can uncomment this out if you want to remove the Heroku Service from this class. Comment out the
+        
+        // Extract cart id and start processing
+        Id cartId = cartIds[0];
+        startCartProcessSync(cartId);
+    }
+
+    private static void startCartProcessSync(Id cartId) {
+        try {
+            // We need to get the ID of the cart delivery group in order to create the order delivery groups.
+            Id cartDeliveryGroupId = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].Id;
+
+            // Get shipping options, including aspects like rates and carriers, from the external service. 
+            ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService(cartId);
+
+            // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
+            delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId WITH SECURITY_ENFORCED];
+
+            // Create orderDeliveryMethods given your shipping options or fetch existing ones. 2 should be returned.
+            List<Id> orderDeliveryMethodIds = getOrderDeliveryMethods(shippingOptionsAndRatesFromExternalService);
+
+            // Create a CartDeliveryGroupMethod record for every shipping option returned from the external service
+            Integer i = 0;
+            for (Id orderDeliveryMethodId: orderDeliveryMethodIds) {
+               populateCartDeliveryGroupMethodWithShippingOptions(shippingOptionsAndRatesFromExternalService[i],
+                                                                  cartDeliveryGroupId,
+                                                                  orderDeliveryMethodId,
+                                                                  cartId);
+                i+=1;
+            }
+        } catch (CalloutException e) {
+            throw e;
+        // For testing purposes, this example treats exceptions as user errors, which means they are displayed to the buyer user.
+        // In production you probably want this to be an admin-type error. In that case, throw the exception here
+        // and make sure that a notification system is in place to let the admin know that the error occurred.
+        // See the readme section about error handling for details about how to create that notification.
+        } catch (DmlException de) {
+            // Catch any exceptions thrown when trying to insert the shipping charge to the CartItems
+            Integer numErrors = de.getNumDml();
+            String errorMessage = 'There were ' + numErrors + ' errors when trying to insert the charge in the CartItem: ';
+            for(Integer errorIdx = 0; errorIdx < numErrors; errorIdx++) {
+                errorMessage += 'Field Names = ' + de.getDmlFieldNames(errorIdx);
+                errorMessage += 'Message = ' + de.getDmlMessage(errorIdx);
+                errorMessage += ' , ';
+            }
+
+            saveCartValidationOutputError(errorMessage, cartId);
+            throw new CalloutException (errorMessage);
+        } catch(Exception e) {
+            String errorMessage = 'An exception of type ' + e.getTypeName() + ' has occurred: ' + e.getMessage();
+            saveCartValidationOutputError(errorMessage, cartId);
+            throw new CalloutException (errorMessage);
+        }
+    }
+
+    // Don't hit Heroku Server: You can uncomment out this if you want to remove the Heroku Service from this class. Comment out the
     // method below instead.
     /*
-    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService () {
+    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String id) {
         // Don't actually call heroku
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
-
         // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
         // If the request is successful, parse the JSON response.
         // The response looks like this:
@@ -59,15 +93,18 @@ public class B2BPrepareDeliveryMethodSelections {
     }*/
     
     // Do hit Heroku Server: You can comment this out and uncomment out the above class if you don't want to hit the Heroku Service.
-    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService () {
+    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String cartId) {
+        final Integer SuccessfulHttpRequest = 200;
+
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
+
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        Integer SuccessfulHttpRequest = 200;
         // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
         request.setEndpoint('https://b2b-commerce-test.herokuapp.com/calculate-shipping-rates-winter-21');
         request.setMethod('GET');
         HttpResponse response = http.send(request);
+
         // If the request is successful, parse the JSON response.
         // The response looks like this:
         // [{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},
@@ -88,7 +125,9 @@ public class B2BPrepareDeliveryMethodSelections {
             return shippingOptions;
         }
         else {
-            throw new CalloutException ('There was a problem with the request. Error: ' + response.getStatusCode());
+            String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
+            saveCartValidationOutputError(errorMessage, cartId);
+            throw new CalloutException (errorMessage);
         }
     }
 
@@ -131,9 +170,9 @@ public class B2BPrepareDeliveryMethodSelections {
 
     // Create a CartDeliveryGroupMethod record for every shipping option returned from the external service
     private static void populateCartDeliveryGroupMethodWithShippingOptions(ShippingOptionsAndRatesFromExternalService shippingOption,
-                                                                           Id cartDeliveryGroupId,
-                                                                           Id deliveryMethodId,
-                                                                           Id webCartId){
+                                                                  Id cartDeliveryGroupId,
+                                                                  Id deliveryMethodId,
+                                                                  Id webCartId){
         // When inserting a new CartDeliveryGroupMethod, the following fields have to be populated:
         // CartDeliveryGroupId: Id of the delivery group of this shipping option
         // DeliveryMethodId: Id of the delivery method for this shipping option
@@ -152,9 +191,7 @@ public class B2BPrepareDeliveryMethodSelections {
         insert(cartDeliveryGroupMethod);
     }
 
-    private static void integrationStatusFailedWithCartValidationOutputError(
-        sfdc_checkout.IntegrationStatus integrationStatus, String errorMessage, sfdc_checkout.IntegrationInfo jobInfo, Id cartId) {
-            integrationStatus.status = sfdc_checkout.IntegrationStatus.Status.FAILED;
+    private static void saveCartValidationOutputError(String errorMessage, Id cartId) {
             // In order for the error to be propagated to the user, we need to add a new CartValidationOutput record.
             // The following fields must be populated:
             // BackgroundOperationId: Foreign Key to the BackgroundOperation
@@ -165,15 +202,20 @@ public class B2BPrepareDeliveryMethodSelections {
             // RelatedEntityId (required): Foreign key to WebCart, CartItem, CartDeliveryGroup
             // Type (required): One of the following - SystemError, Inventory, Taxes, Pricing, Shipping, Entitlement, Other
             CartValidationOutput cartValidationError = new CartValidationOutput(
-                BackgroundOperationId = jobInfo.jobId,
                 CartId = cartId,
                 Level = 'Error',
                 Message = errorMessage.left(255),
-                Name = (String)cartId + ':' + jobInfo.jobId,
+                Name = (String)cartId,
                 RelatedEntityId = cartId,
                 Type = 'Shipping'
             );
             insert(cartValidationError);
+    }
+
+    private static Id getShippingChargeProduct2Id(Id orderDeliveryMethodId) {
+        // The Order Delivery Method should have a Product2 associated with it, because we added that in getDefaultOrderDeliveryMethod if it didn't exist.
+        List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ProductId FROM OrderDeliveryMethod WHERE Id = :orderDeliveryMethodId WITH SECURITY_ENFORCED];
+        return orderDeliveryMethods[0].ProductId;
     }
 
     private static List<Id> getOrderDeliveryMethods(List<ShippingOptionsAndRatesFromExternalService> shippingOptions) {
@@ -188,7 +230,7 @@ public class B2BPrepareDeliveryMethodSelections {
         for (ShippingOptionsAndRatesFromExternalService shippingOption: shippingOptions) {
             String shippingOptionNumber = String.valueOf(i);
             String name = defaultDeliveryMethodName + shippingOptionNumber;
-            List<OrderDeliveryMethod> odms = [SELECT Id, ProductId, Carrier, ClassOfService FROM OrderDeliveryMethod WHERE Name = :name];
+            List<OrderDeliveryMethod> odms = [SELECT Id, ProductId, Carrier, ClassOfService FROM OrderDeliveryMethod WHERE Name = :name WITH SECURITY_ENFORCED];
             // This is the case in which an Order Delivery method does not exist.
             if (odms.isEmpty()) {
                 OrderDeliveryMethod defaultOrderDeliveryMethod = new OrderDeliveryMethod(
@@ -227,7 +269,7 @@ public class B2BPrepareDeliveryMethodSelections {
         // Check to see if a Product2 with that name already exists.
         // If it doesn't exist, create one.
         String shippingChargeProduct2Name = 'Shipping Charge for this delivery method';
-        List<Product2> shippingChargeProducts = [SELECT Id FROM Product2 WHERE Name = :shippingChargeProduct2Name];
+        List<Product2> shippingChargeProducts = [SELECT Id FROM Product2 WHERE Name = :shippingChargeProduct2Name WITH SECURITY_ENFORCED];
         if (shippingChargeProducts.isEmpty()) {
             Product2 shippingChargeProduct = new Product2(
                 isActive = true,

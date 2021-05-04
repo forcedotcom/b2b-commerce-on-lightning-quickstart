@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>B2BPrepareDeliveryMethodSelections</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>B2BCartToOrderDraft</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>B2BPrepareDeliveryMethodSelectionsTest</members>
+        <members>B2BSyncCheckInventory</members>
+        <members>B2BSyncCheckInventoryTest</members>
+        <members>B2BSyncDelivery</members>
+        <members>B2BSyncDeliveryTest</members>
+        <members>B2BSyncPricing</members>
+        <members>B2BSyncPricingTest</members>
+        <members>B2BSyncTax</members>
+        <members>B2BSyncTaxTest</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>Simple_B2B_Checkout</members>
+        <members>Summer_2021_Subflow_Error</members>
         <name>Flow</name>
     </types>
-    <version>51.0</version>
+    <version>52.0</version>
 </Package>

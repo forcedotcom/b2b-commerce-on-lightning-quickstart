@@ -1,6 +1,5 @@
 @isTest
-private class B2BPrepareDeliveryMethodSelectionsTest {
-    
+public class B2BSyncDeliveryTest {
     @testSetup static void setup() {
         Account testAccount = new Account(Name='TestAccount');
         insert testAccount;
@@ -19,6 +18,7 @@ private class B2BPrepareDeliveryMethodSelectionsTest {
         insert cartItem;
 
     }
+    
 
     @isTest static void testIntegrationRunsSuccessfully() {
         // Because test methods don't support Web service callouts, we create a mock response based on a static resource.
@@ -27,26 +27,21 @@ private class B2BPrepareDeliveryMethodSelectionsTest {
         mock.setStaticResource('GetDeliveryRatesResource');
         mock.setStatusCode(200);
         mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        Test.startTest();
         // Associate the callout with a mock response.
         Test.setMock(HttpCalloutMock.class, mock);
         
-        List<ID> cartIds = new List<ID>();
-        WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
-        cartIds.add(webCart.Id);
-        
-        Test.startTest();
-
         // Test: execute the integration for the test cart ID.
-        B2BPrepareDeliveryMethodSelections.prepDeliveryMethods(cartIds);
-        List<CartDeliveryGroupMethod> methods = [SELECT ShippingFee FROM CartDeliveryGroupMethod WHERE WebCartId=:webCart.Id AND ShippingFee=15.99];
-        System.assertEquals(1, methods.size());
-        methods = [SELECT ShippingFee FROM CartDeliveryGroupMethod WHERE WebCartId=:webCart.Id AND ShippingFee=11.99];
-        System.assertEquals(1, methods.size());
+        WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
+        List<Id> webCarts = new List<Id>{webCart.Id};
+        B2BSyncDelivery.syncDelivery(webCarts);
+
+        // No status is returned from the syncCheckInventory check, but if no exception is thrown, the test passes
 
         Test.stopTest();
     }
     
-/*
+
     @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsCreated() {
         // Because test methods do not support Web service callouts, we create a mock response based on a static resource.
         // To create the static resource from the the Developer Console, select File | New | Static Resource
@@ -59,18 +54,25 @@ private class B2BPrepareDeliveryMethodSelectionsTest {
         // Associate the callout with a mock response.
         Test.setMock(HttpCalloutMock.class, mock);
         
-        // Test: execute the integration for the test cart ID and integration info.
-        B2BDeliverySample apexSample = new B2BDeliverySample();
-        sfdc_checkout.IntegrationInfo integInfo = new sfdc_checkout.IntegrationInfo();
-        integInfo.jobId = null;
+        // Test: execute the integration for the test cart ID.
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name = 'Cart' LIMIT 1];
-        sfdc_checkout.IntegrationStatus integrationResult = apexSample.startCartProcessAsync(integInfo, webCart.Id);
+        List<Id> webCarts = new List<Id>{webCart.Id};
+        String expectedErrorMessage = 'There was a problem with the request. Error: 404';
+
+        try {
+            B2BSyncDelivery.syncDelivery(webCarts);
+            
+            // An exception should have been thrown before getting to this point:
+            System.assert(false);
+        } catch (CalloutException e) {
+            System.assertEquals(expectedErrorMessage, e.getMessage());
+        }
         
-        // Validate: IntegrationStatus.Status is FAILED
-        // and a new CartValidationOutput record with level 'Error' was created.
-        System.assertEquals(sfdc_checkout.IntegrationStatus.Status.FAILED, integrationResult.status);
-        List<CartValidationOutput> cartValidationOutputs = [SELECT Id FROM CartValidationOutput WHERE Level = 'Error'];
+        // A new CartValidationOutput record with level 'Error' was created.
+        List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
         System.assertEquals(1, cartValidationOutputs.size());
+        System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        
         Test.stopTest();
-    }*/
+    }
 }
