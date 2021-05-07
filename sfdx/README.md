@@ -55,6 +55,12 @@ Notice that the existing settings in the ```project-scratch-def.json``` file wil
 ./quickstart-create-and-setup-store.sh
 ```
 
+5. To complete a checkout, your buyer will need access to run the B2BPaymentController class. 
+   * In Setup on your instance, go to to the Apex Classes list.
+   * Select Security next to the B2BPaymentController.
+   * Add the Buyer_User_Profile_From_QuickStart to the Enabled Profiles.
+   * Save.
+
 You are done!
 
 ### Manual Steps

@@ -551,8 +551,8 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
             <label>Delivery Method Changed</label>
         </rules>
     </decisions>
-    <interviewLabel>Simple B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Simple B2B Checkout</label>
+    <interviewLabel>(Summer 2021) B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>(Summer 2021) B2B Checkout</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
