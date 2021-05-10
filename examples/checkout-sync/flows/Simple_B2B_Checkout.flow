@@ -235,6 +235,7 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
             <name>requestId</name>
         </outputParameters>
     </actionCalls>
+<<<<<<< HEAD
     <actionCalls>
         <description>Adds taxes to the cart. This calls a custom inventory invocable action that should be further customized.</description>
         <name>Taxes</name>
@@ -518,6 +519,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
             <label>Authorize Payment</label>
         </rules>
     </decisions>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description>No sense updating a delivery method that hasn&apos;t changed from the default suggestion.</description>
         <name>Update_Delivery_Method_If_Changed</name>
