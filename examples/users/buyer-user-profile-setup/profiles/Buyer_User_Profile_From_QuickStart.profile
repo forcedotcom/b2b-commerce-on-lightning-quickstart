@@ -196,4 +196,8 @@
         <object>Wishlist</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <classAccesses>
+        <apexClass>B2BPaymentController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </Profile>
