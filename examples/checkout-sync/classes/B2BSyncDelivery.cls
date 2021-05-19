@@ -219,7 +219,7 @@ public class B2BSyncDelivery {
     }
 
     private static List<Id> getOrderDeliveryMethods(List<ShippingOptionsAndRatesFromExternalService> shippingOptions) {
-        String defaultDeliveryMethodName = 'Order Delivery Method';
+        String defaultDeliveryMethodName = 'Delivery Method ';
         Id product2IdForThisDeliveryMethod = getDefaultShippingChargeProduct2Id();
 
         // Check to see if a default OrderDeliveryMethod already exists.
