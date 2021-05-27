@@ -172,6 +172,75 @@ public class B2BPaymentControllerTest {
         }
     }
 
+    // Verifies that the purchase order can be set in the setPayment class
+    @isTest static void testSetPurchaseOrderNumber() {
+        WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId, Address
+                                    FROM ContactPointAddress WHERE Name='CPA1'];
+
+        String expectedPONumber = 'ImAPoNumber';
+        String paymentType = 'PurchaseOrderNumber';
+        String cartId = webCart.Id;
+        Map<String, Object> billingAddress = createBillingMapFromAddress(cpa1.Address);
+        Map<String, Object> paymentInfo = new Map<String, Object>();
+        paymentInfo.put('poNumber', expectedPONumber);
+        
+        Test.startTest();
+        
+        B2BPaymentController.setPayment(paymentType, cartId, billingAddress, paymentInfo);
+
+        // Get the updated cart
+        WebCart updatedCart = [SELECT PaymentMethodId, PONumber FROM WebCart WHERE Name='Cart' LIMIT 1];
+        System.assertEquals(null, updatedCart.PaymentMethodId);        
+        System.assertEquals(expectedPONumber, updatedCart.PONumber);
+        
+        Test.stopTest();
+
+    }
+
+    // Tests credit card but without providing a payment gateway
+    @isTest static void testCreditNoPaymentGateway() {
+        WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId, Address
+                                    FROM ContactPointAddress WHERE Name='CPA1'];
+
+        String paymentType = 'CreditCard';
+        String cartId = webCart.Id;
+        Map<String, Object> billingAddress = createBillingMapFromAddress(cpa1.Address);
+        Map<String, Object> paymentInfo = new Map<String, Object>();
+        
+        Test.startTest();
+        
+        try {
+            B2BPaymentController.setPayment(paymentType, cartId, billingAddress, paymentInfo);
+            // Exception should have been thrown
+            System.assert(false, 'Expected an exception because no Payment Gateway is setup');
+        } catch (AuraHandledException e) {
+            System.assertEquals('Script-thrown exception', e.getMessage());
+            // The string we'd expect is: 'This store is not authorized to process payments.'
+            // However, the way the auraHandledException is thrown, this isn't available unless we call setMessage() prior to
+            // throwing the exception. So, we'll make due with a generic exception message for this reference
+        }
+        
+        Test.stopTest();
+
+    }
+
+    // The payment expects a billing map with certain keys, this fills that out given an address
+    static Map<String, Object> createBillingMapFromAddress(Address address) {
+        Map<String, Object> billingMap = new Map<String, Object>();
+        billingMap.put('street', address.Street);
+        billingMap.put('city', address.City);
+        billingMap.put('state', address.State);
+        billingMap.put('country', address.Country);
+        billingMap.put('postalCode', address.PostalCode);
+        billingMap.put('latitude', address.Latitude);
+        billingMap.put('longitude', address.Longitude);
+        
+        return billingMap;
+    }
+
+    // Copies the specified address into the BillingAddress in the cart
     static void setAddressInCart(WebCart webCart, Address address) {
         webCart.BillingStreet = address.Street;
         webCart.BillingCity = address.City;
@@ -183,6 +252,7 @@ public class B2BPaymentControllerTest {
         update(webCart);
     }
 
+    // Verifies that the address matches the expected values
     static void testAddressMatches(Map<String, Object> address, Id id, String name, String street, String city,
             String country, String postalCode, Boolean isDefault, Boolean isSelected) {
         System.assertEquals(id, address.get('id'));

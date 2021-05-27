@@ -105,7 +105,7 @@ public with sharing class B2BPaymentController {
     public static void setPayment(String paymentType,
                                   String cartId,
                                   Map<String, Object> billingAddress,
-                                  Map<String, Object> paymentInfo) {                        
+                                  Map<String, Object> paymentInfo) {
         try {
             String queryFields = 'PONumber, PaymentMethodId, WebStoreId';
 
@@ -138,6 +138,7 @@ public with sharing class B2BPaymentController {
                 cart.PONumber = null;
                 // Let's first check that paymentGateway has been setup
                 String paymentGatewayId = getPaymentGatewayId(webStoreId);
+
                 // Cannot proceed if paymentGatewayId does not exist
                 if (paymentGatewayId == null || paymentGatewayId.equals('')) {
                     throw new AuraHandledException('This store is not authorized to process payments.');
@@ -165,12 +166,12 @@ public with sharing class B2BPaymentController {
            if(Schema.sObjectType.WebCart.isAccessible()) {
                update cart;                    
            }
+        } catch (AuraHandledException e) {
+            throw e;
         } catch (DmlException e) {
             throw new AuraHandledException('Unexpected error occurred while updating the cart: ' + e.getMessage());
         } catch (ConnectApi.ConnectApiException e) {
             throw new AuraHandledException('Unexpected error occurred while processing payment: ' + e.getMessage());
-        } catch (AuraHandledException e) { 
-            throw e;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -178,8 +179,11 @@ public with sharing class B2BPaymentController {
     
     /**
      *  Makes an authorization on the credit card through the payments connect-api.
-     * 
-    **/
+     *
+     *  This is example code if authorization is done through the apex class. If the tokenization code above is used, this
+     *  is not necessary as the authorization can occur through the authorization done in B2BAuthorizeTokenizedPayment.cls.
+     *  You can uncomment this code out though if you wish to bypass the tokenization step.
+     *
     @AuraEnabled
     public static void authorizePaymentInfo(String cartId,
                 Map<String, Object> selectedBillingAddress,
@@ -249,7 +253,7 @@ public with sharing class B2BPaymentController {
     
     private static String getOrderId(String cartId) {
             return [SELECT OrderId FROM CartCheckoutSession WHERE WebCartId=:cartId AND IsArchived=false].OrderId;
-    }
+    }**/
     
     private static String getPaymentGatewayId(String webStoreId) {
         String paymentGatewayId = null;

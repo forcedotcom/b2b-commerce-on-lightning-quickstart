@@ -30,7 +30,7 @@ mkdir force-app/main/default/lwc/
 cp ../examples/lwc/force-app/main/default/classes/B2BGetInfo.cls* force-app/main/default/classes/
 cp ../examples/lwc/force-app/main/default/classes/B2BUtils.cls* force-app/main/default/classes/
 cp ../examples/lwc/force-app/main/default/classes/B2BPaymentController* force-app/main/default/classes/
-cp ../examples/lwc/force-app/main/default/classes/B2BAuthorizeTokenizedPayment.cls* force-app/main/default/classes/
+cp ../examples/lwc/force-app/main/default/classes/B2BAuthorizeTokenizedPayment* force-app/main/default/classes/
 cp -r ../examples/lwc/force-app/main/default/lwc/paymentMethod force-app/main/default/lwc/
 cp -r ../examples/lwc/force-app/main/default/lwc/billingAddressSelector force-app/main/default/lwc/
 cp -r ../examples/lwc/force-app/main/default/lwc/cardPaymentMethod force-app/main/default/lwc/
