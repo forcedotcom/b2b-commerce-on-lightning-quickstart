@@ -3,67 +3,98 @@ public with sharing class B2BPaymentController {
     private static final String PAYMENT_STATE = 'Payment And Billing Address';
     
     @AuraEnabled
-    public static Map<String, Object> getPaymentInfo(String cartId, String communityId) {
+    public static Map<String, Object> getPaymentInfo(String cartId) {
         // Get the effectiveAccountId
         String accountId = B2BUtils.getUserAccountID();
 
         // Get the 'purchaseOrderNumber' from the WebCart
-        ConnectApi.CartSummary cartData = B2BGetInfo.getCartSummary(
-                  communityId,
-                  accountId);
+        WebCart webCart = [SELECT Id, BillingAddress, PoNumber FROM WebCart WHERE Id=:cartId
+                           WITH SECURITY_ENFORCED];
 
         Map<String, Object> paymentInfo = new Map<String, Object>();
-        paymentInfo.put('purchaseOrderNumber', cartData.purchaseOrderNumber);
+        paymentInfo.put('purchaseOrderNumber', webCart.PoNumber);
 
         // Get the billingAddresses
-        List<Map<String, Object>> addresses = getAddresses(cartId, accountId);
+        List<Map<String, Object>> addresses = getAddresses(webCart, accountId);
         paymentInfo.put('addresses', addresses);
 
         return paymentInfo;
     }
 
-    public static List<Map<String, Object>> getAddresses(String cartId, String accountId) {
+    public static List<Map<String, Object>> getAddresses(WebCart webCart, String accountId) {
         // Get the billingAddresses
         List<ContactPointAddress> addresses = 
         [
          SELECT Id, IsDefault, City, Street, State, Country, PostalCode, GeocodeAccuracy, Latitude, Longitude, Name 
          FROM ContactPointAddress 
          WHERE AddressType='Billing' AND ParentId=:accountId
+         WITH SECURITY_ENFORCED
         ];
         
-        // Get the current selected Billing Address from the WebCart
-        boolean selected = false;
-        String selectedBillingID = null;
-        Address selectedBilling = [SELECT BillingAddress FROM WebCart WHERE Id=:cartId].BillingAddress;
-        if (selectedBilling != null && selectedBilling.Street != null && selectedBilling.City != null
-           && selectedBilling.Country != null && selectedBilling.postalcode != null) {
-            selectedBillingID = [SELECT Id FROM ContactPointAddress WHERE AddressType='Billing' AND
-                Street=:selectedBilling.Street AND
-                City=:selectedBilling.City AND
-                Country=:selectedBilling.Country AND
-                PostalCode=:selectedBilling.PostalCode].Id;
-        }
+        Address selectedBillingAddress = webCart.BillingAddress;
 
+        boolean anySelected = false;
         List<Map<String, Object>> billingAddresses = new List<Map<String, Object>>();
+
+        // Add each contact point address to the list of addresses
         for (ContactPointAddress cpa : addresses) {
+            // See if this address is the selected addresses, then regardless add to the list
+            boolean selected = selectedBillingAddress != null && cpa.Street == selectedBillingAddress.Street &&
+                    cpa.City == selectedBillingAddress.City && cpa.PostalCode == selectedBillingAddress.PostalCode &&
+                    cpa.State == selectedBillingAddress.State && cpa.Country == selectedBillingAddress.Country;
+            addContactPointAddressToList(billingAddresses, cpa, selected);
 
-            if(selectedBillingID != null) selected = selectedBillingID == cpa.Id;
-            Map<String, Object> bill = new Map<String, Object>();
-            bill.put('id', cpa.Id);
-            bill.put('name', cpa.Name);
-            bill.put('street', cpa.Street);
-            bill.put('city', cpa.City);
-            bill.put('country', cpa.Country);
-            bill.put('postalCode', cpa.PostalCode);
-            bill.put('latitude', cpa.Latitude);
-            bill.put('longitude', cpa.Longitude);
-            bill.put('geocodeAccuracy', cpa.GeocodeAccuracy);
-            bill.put('default', cpa.IsDefault);
-            bill.put('selected', selected);
-
-            billingAddresses.add(bill);
+            // Keep track if there was a match on any contact point address. It's possible for none to match
+            anySelected = (selected) ? true : anySelected;
         }
+
+        // If there were no matches for the selected address, add it as the first item in the list
+        if (!anySelected && selectedBillingAddress != null && selectedBillingAddress.Street != null) {
+            prependAddressToList(billingAddresses, selectedBillingAddress, true, webCart.Id);
+        }
+
         return billingAddresses;
+    }
+    
+    /**
+     * Appends the contact point address to the end of the list, marking it selected if indicated to do so.
+     * 
+    **/
+    private static void addContactPointAddressToList(List<Map<String, Object>> billingAddresses, ContactPointAddress cpa, boolean selected) {
+        Map<String, Object> bill = new Map<String, Object>();
+        bill.put('id', cpa.Id);
+        bill.put('name', cpa.Name);
+        bill.put('street', cpa.Street);
+        bill.put('city', cpa.City);
+        bill.put('country', cpa.Country);
+        bill.put('postalCode', cpa.PostalCode);
+        bill.put('latitude', cpa.Latitude);
+        bill.put('longitude', cpa.Longitude);
+        bill.put('geocodeAccuracy', cpa.GeocodeAccuracy);
+        bill.put('default', cpa.IsDefault);
+        bill.put('selected', selected);
+
+        billingAddresses.add(bill);
+    }
+
+    /**
+     * Prepends the address to the start of the list, marking it selected if indicated to do so.
+     * 
+    **/
+    private static void prependAddressToList(List<Map<String, Object>> billingAddresses, Address address, boolean selected, Id id) {
+        Map<String, Object> bill = new Map<String, Object>();
+        bill.put('id', id);
+        bill.put('street', address.Street);
+        bill.put('city', address.City);
+        bill.put('country', address.Country);
+        bill.put('postalCode', address.PostalCode);
+        bill.put('latitude', address.Latitude);
+        bill.put('longitude', address.Longitude);
+        bill.put('geocodeAccuracy', address.GeocodeAccuracy);
+        bill.put('default', false);
+        bill.put('selected', selected);
+
+        billingAddresses.add(0, bill);
     }
     
     /**
@@ -74,22 +105,16 @@ public with sharing class B2BPaymentController {
     public static void setPayment(String paymentType,
                                   String cartId,
                                   Map<String, Object> billingAddress,
-                                  Map<String, Object> paymentInfo) {                        
+                                  Map<String, Object> paymentInfo) {
         try {
-        
-            // First let's make sure the buyer is in the right state in checkout
-            CartCheckoutSession checkoutSession = [SELECT State FROM CartCheckoutSession WHERE WebCartId=:cartId LIMIT 1];
-            if (!(PAYMENT_STATE).equals(checkoutSession.State)) {
-                System.debug('Buyer user is not in the correct state.');
-                return;
-            }
-
             String queryFields = 'PONumber, PaymentMethodId, WebStoreId';
+
             // Billing Address might have been hidden
             boolean billAddressSet = billingAddress != null && !billingAddress.isEmpty();
             if (billAddressSet) {
                queryFields += ', BillingAddress';
             }
+
             String soqlQuery = 'SELECT ' + queryFields + ' FROM WebCart WHERE Id=:cartId LIMIT 1';
             WebCart cart = Database.query(soqlQuery);
 
@@ -113,6 +138,7 @@ public with sharing class B2BPaymentController {
                 cart.PONumber = null;
                 // Let's first check that paymentGateway has been setup
                 String paymentGatewayId = getPaymentGatewayId(webStoreId);
+
                 // Cannot proceed if paymentGatewayId does not exist
                 if (paymentGatewayId == null || paymentGatewayId.equals('')) {
                     throw new AuraHandledException('This store is not authorized to process payments.');
@@ -137,13 +163,15 @@ public with sharing class B2BPaymentController {
             }
 
            // Now update the webCart
-           update cart;                    
+           if(Schema.sObjectType.WebCart.isAccessible()) {
+               update cart;                    
+           }
+        } catch (AuraHandledException e) {
+            throw e;
         } catch (DmlException e) {
             throw new AuraHandledException('Unexpected error occurred while updating the cart: ' + e.getMessage());
         } catch (ConnectApi.ConnectApiException e) {
             throw new AuraHandledException('Unexpected error occurred while processing payment: ' + e.getMessage());
-        } catch (AuraHandledException e) { 
-            throw e;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -151,8 +179,11 @@ public with sharing class B2BPaymentController {
     
     /**
      *  Makes an authorization on the credit card through the payments connect-api.
-     * 
-    **/
+     *
+     *  This is example code if authorization is done through the apex class. If the tokenization code above is used, this
+     *  is not necessary as the authorization can occur through the authorization done in B2BAuthorizeTokenizedPayment.cls.
+     *  You can uncomment this code out though if you wish to bypass the tokenization step.
+     *
     @AuraEnabled
     public static void authorizePaymentInfo(String cartId,
                 Map<String, Object> selectedBillingAddress,
@@ -222,7 +253,7 @@ public with sharing class B2BPaymentController {
     
     private static String getOrderId(String cartId) {
             return [SELECT OrderId FROM CartCheckoutSession WHERE WebCartId=:cartId AND IsArchived=false].OrderId;
-    }
+    }**/
     
     private static String getPaymentGatewayId(String webStoreId) {
         String paymentGatewayId = null;
