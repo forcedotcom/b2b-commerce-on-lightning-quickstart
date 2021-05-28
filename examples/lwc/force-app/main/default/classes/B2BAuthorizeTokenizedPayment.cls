@@ -45,10 +45,12 @@ public class B2BAuthorizeTokenizedPayment {
             ConnectApi.AuthorizationResponse authResponse = ConnectApi.Payments.authorize(authRequest);
 
             if (authResponse.error != null) {
-                throw new AuraHandledException('AuthResponseError: ' + authResponse.error.message);
+                String errorMessage = 'AuthResponseError: ' + authResponse.error.message;
+                System.debug(errorMessage);
+                errors.add(errorMessage);
             }
         } catch (ConnectApi.ConnectApiException e) {
-            System.debug('An error occurred authorizing tokenized payment: ' + e.getMessage());
+            System.debug('A Connect Api exception occurred authorizing tokenized payment: ' + e.getMessage());
             errors.add(e.getMessage());
         } catch (Exception e) {
             System.debug('An error occurred authorizing tokenized payment: ' + e.getMessage());
@@ -59,17 +61,27 @@ public class B2BAuthorizeTokenizedPayment {
     }
 
     private static ConnectApi.PaymentGroupRequest getPaymentGroup(String cartId) {
-        ConnectApi.PaymentGroupRequest paymentGroup = new ConnectApi.PaymentGroupRequest();
+        try {
+            ConnectApi.PaymentGroupRequest paymentGroup = new ConnectApi.PaymentGroupRequest();
         
-        paymentGroup.createPaymentGroup = true;
-        paymentGroup.currencyIsoCode = UserInfo.getDefaultCurrency();
+            paymentGroup.createPaymentGroup = true;
+            paymentGroup.currencyIsoCode = UserInfo.getDefaultCurrency();
         
-        String orderId = getOrderId(cartId);
-        if (orderId != null && !orderId.equals('')) {
-            paymentGroup.sourceObjectId = getOrderId(cartId);            
-        }
+            String orderId = getOrderId(cartId);
+            if (orderId != null && !orderId.equals('')) {
+                paymentGroup.sourceObjectId = getOrderId(cartId);            
+            } else {
+                NoDataFoundException e = new NoDataFoundException();
+                e.setMessage('No order is associated with this cart');
+                throw e;
+            }
 
-        return paymentGroup;
+            return paymentGroup;
+        } catch (Exception e) {
+            NoDataFoundException ndfe = new NoDataFoundException();
+            ndfe.setMessage('No order is associated with this cart');
+            throw ndfe;
+        }
     }
     
     private static String getOrderId(String cartId) {

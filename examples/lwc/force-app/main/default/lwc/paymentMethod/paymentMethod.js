@@ -2,7 +2,6 @@ import { LightningElement, api, track } from 'lwc';
 import { FlowNavigationNextEvent } from 'lightning/flowSupport';
 import * as Constants from './constants';
 
-import communityId from '@salesforce/community/Id';
 import getPaymentInfo from '@salesforce/apex/B2BPaymentController.getPaymentInfo';
 import setPayment from '@salesforce/apex/B2BPaymentController.setPayment';
 
@@ -259,7 +258,7 @@ export default class PaymentMethod extends LightningElement {
      */
     initializePaymentData(cartId) {
         // If we don't have those values yet
-        getPaymentInfo({ cartId: cartId, communityId: communityId })
+        getPaymentInfo({ cartId: cartId })
             .then((data) => {
                 this._purchaseOrderNumber = data.purchaseOrderNumber;
                 this._addresses = data.addresses;
