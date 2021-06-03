@@ -8,7 +8,7 @@ while getopts f: flag
 do
     case "${flag}" in
         f) flow=${OPTARG}
-        flow=`echo "${flow,,}"` # Ensure lower case
+        flow=`echo "${flow}"` # Ensure lower case
          ;;
     esac
 done
