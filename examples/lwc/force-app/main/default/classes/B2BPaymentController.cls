@@ -66,6 +66,7 @@ public with sharing class B2BPaymentController {
         bill.put('name', cpa.Name);
         bill.put('street', cpa.Street);
         bill.put('city', cpa.City);
+        bill.put('state', cpa.State);
         bill.put('country', cpa.Country);
         bill.put('postalCode', cpa.PostalCode);
         bill.put('latitude', cpa.Latitude);
@@ -86,6 +87,7 @@ public with sharing class B2BPaymentController {
         bill.put('id', id);
         bill.put('street', address.Street);
         bill.put('city', address.City);
+        bill.put('state', address.State);
         bill.put('country', address.Country);
         bill.put('postalCode', address.PostalCode);
         bill.put('latitude', address.Latitude);
