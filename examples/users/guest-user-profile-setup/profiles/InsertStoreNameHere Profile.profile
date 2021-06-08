@@ -454,5 +454,5 @@
         <tab>standard-OrderSummary</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
-    <userLicense>Guest</userLicense>
+    <userLicense>Guest User License</userLicense>
 </Profile>
