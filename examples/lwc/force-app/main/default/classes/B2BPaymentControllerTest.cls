@@ -17,9 +17,9 @@ public class B2BPaymentControllerTest {
         insert cartDeliveryGroup;
 
         // The cpas are related to the account (and through it to the contact)
-        ContactPointAddress cpa1 = new ContactPointAddress(Name='CPA1', Street='Street1', City='city1',
+        ContactPointAddress cpa1 = new ContactPointAddress(Name='CPA1', Street='Street1', City='city1', State='state1',
                 Country='country1', PostalCode='12345', IsDefault=true, AddressType='Billing', ParentId=account.Id);
-        ContactPointAddress cpa2 = new ContactPointAddress(Name='CPA2', Street='Street2', City='city2',
+        ContactPointAddress cpa2 = new ContactPointAddress(Name='CPA2', Street='Street2', City='city2', State='state2',
                 Country='country2', PostalCode='12345', IsDefault=false, AddressType='Billing', ParentId=account.Id);
 
         // This contact point address should not show up because it's set to AddressType Shipping
@@ -48,9 +48,9 @@ public class B2BPaymentControllerTest {
         // Get the data we'll need to use for running the test or for verification
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
         User buyer = [SELECT Id FROM User WHERE Username='buyer@example.com'];
-        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId
                                     FROM ContactPointAddress WHERE Name='CPA1'];
-        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId
+        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId
                                     FROM ContactPointAddress WHERE Name='CPA2'];
 
         Test.startTest();
@@ -71,8 +71,8 @@ public class B2BPaymentControllerTest {
         Map<String, Object> address1 = addresses.get(0);
         Map<String, Object> address2 = addresses.get(1);
         
-        testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, false);
-        testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
+        testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.State, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, false);
+        testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.State, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
         
         Test.stopTest();
     }
@@ -82,9 +82,9 @@ public class B2BPaymentControllerTest {
         // Get the data we'll need to use for running the test or for verification
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
         User buyer = [SELECT Id FROM User WHERE Username='buyer@example.com'];
-        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId, Address
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId, Address
                                     FROM ContactPointAddress WHERE Name='CPA1'];
-        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId
+        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId
                                     FROM ContactPointAddress WHERE Name='CPA2'];
 
         // This change could affect other tests, so make sure to undo this at the end of the test
@@ -111,8 +111,8 @@ public class B2BPaymentControllerTest {
             Map<String, Object> address1 = addresses.get(0);
             Map<String, Object> address2 = addresses.get(1);
         
-            testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, true);
-            testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
+            testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.State, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, true);
+            testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.State, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
     
             Test.stopTest();
         } finally {
@@ -128,9 +128,9 @@ public class B2BPaymentControllerTest {
         // Get the data we'll need to use for running the test or for verification
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
         User buyer = [SELECT Id FROM User WHERE Username='buyer@example.com'];
-        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId, Address
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId, Address
                                     FROM ContactPointAddress WHERE Name='CPA1'];
-        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId
+        ContactPointAddress cpa2 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId
                                     FROM ContactPointAddress WHERE Name='CPA2'];
 
         // This change could affect other tests, so make sure to undo this at the end of the test
@@ -161,9 +161,9 @@ public class B2BPaymentControllerTest {
 
             final String noName = null;
             testAddressMatches(selectedAddress, webCart.Id, noName, webCartBillingAddress.Street, webCartBillingAddress.City,
-                   webCartBillingAddress.Country, webCartBillingAddress.PostalCode, false, true);
-            testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, false);
-            testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
+                   webCartBillingAddress.State, webCartBillingAddress.Country, webCartBillingAddress.PostalCode, false, true);
+            testAddressMatches(address1, cpa1.Id, cpa1.Name, cpa1.Street, cpa1.City, cpa1.State, cpa1.Country, cpa1.PostalCode, cpa1.IsDefault, false);
+            testAddressMatches(address2, cpa2.Id, cpa2.Name, cpa2.Street, cpa2.City, cpa2.State, cpa2.Country, cpa2.PostalCode, cpa2.IsDefault, false);
     
             Test.stopTest();
         } finally {
@@ -175,7 +175,7 @@ public class B2BPaymentControllerTest {
     // Verifies that the purchase order can be set in the setPayment class
     @isTest static void testSetPurchaseOrderNumber() {
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name='Cart' LIMIT 1];
-        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, Country, PostalCode, IsDefault, ParentId, Address
+        ContactPointAddress cpa1 = [SELECT Id, Name, Street, City, State, Country, PostalCode, IsDefault, ParentId, Address
                                     FROM ContactPointAddress WHERE Name='CPA1'];
 
         String expectedPONumber = 'ImAPoNumber';
@@ -195,7 +195,6 @@ public class B2BPaymentControllerTest {
         System.assertEquals(expectedPONumber, updatedCart.PONumber);
         
         Test.stopTest();
-
     }
 
     // Tests credit card but without providing a payment gateway
@@ -254,11 +253,12 @@ public class B2BPaymentControllerTest {
 
     // Verifies that the address matches the expected values
     static void testAddressMatches(Map<String, Object> address, Id id, String name, String street, String city,
-            String country, String postalCode, Boolean isDefault, Boolean isSelected) {
+            String state, String country, String postalCode, Boolean isDefault, Boolean isSelected) {
         System.assertEquals(id, address.get('id'));
         System.assertEquals(name, address.get('name'));
         System.assertEquals(street, address.get('street'));
         System.assertEquals(city, address.get('city'));
+        System.assertEquals(state, address.get('state'));
         System.assertEquals(country, address.get('country'));
         System.assertEquals(postalCode, address.get('postalCode'));
         System.assertEquals(isDefault, address.get('default'));
