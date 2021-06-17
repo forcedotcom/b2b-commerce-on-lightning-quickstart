@@ -8,7 +8,7 @@ while getopts f: flag
 do
     case "${flag}" in
         f) flow=${OPTARG}
-        flow=`echo "${flow}"` # Ensure lower case
+        flow=`echo "$flow" | awk '{print tolower($0)}'` # Force to lowercase
          ;;
     esac
 done
@@ -26,7 +26,9 @@ sfdx force:mdapi:convert -r ../examples/checkout/integrations/
 sfdx force:mdapi:convert -r ../tests/integration/
 
 # Payments related changes
-mkdir force-app/main/default/lwc/
+newdir="force-app/main/default/lwc/"
+[ -d "$newdir" ] || mkdir $newdir
+
 cp ../examples/lwc/force-app/main/default/classes/B2BGetInfo.cls* force-app/main/default/classes/
 cp ../examples/lwc/force-app/main/default/classes/B2BUtils.cls* force-app/main/default/classes/
 cp ../examples/lwc/force-app/main/default/classes/B2BPaymentController* force-app/main/default/classes/
