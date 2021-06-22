@@ -26,6 +26,9 @@
             <property name="hideCvv" label="Hide CVV" type="Boolean" description="" default="false" role="inputOnly"/>
             <property name="hideExpiryMonth" label="Hide Expiry Month" type="Boolean" description="" default="false" role="inputOnly"/>
             <property name="hideExpiryYear" label="Hide Expiry Year" type="Boolean" description="" default="false" role="inputOnly"/>
+            <!-- Labels -->
+            <property name="previousButtonLabel" label="Previous Button Label" type="String" description="The text string to place on the Previous button" default="Previous" role="inputOnly"/>
+            <property name="nextButtonLabel" label="Next Button Label" type="String" description="The text string to place on the Next button" default="Next" role="inputOnly"/>
             <!-- OUTPUT only fields-->
             <property name="selectedBillingAddress" label="Selected Billing Address ID" type="String" description="The address ID" role="outputOnly"/>
             <property name="purchaseOrderNumber" label="Purchase Order Number" type="String" description="The entered purchase order number" role="outputOnly" />

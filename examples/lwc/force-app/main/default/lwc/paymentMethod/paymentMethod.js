@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { FlowNavigationNextEvent } from 'lightning/flowSupport';
+import { FlowNavigationNextEvent, FlowNavigationBackEvent } from 'lightning/flowSupport';
 import * as Constants from './constants';
 
 import getPaymentInfo from '@salesforce/apex/B2BPaymentController.getPaymentInfo';
@@ -10,6 +10,7 @@ import setPayment from '@salesforce/apex/B2BPaymentController.setPayment';
  * and to fill out the required information for the chosen type.
  *
  * @fires FlowNavigationNextEvent
+ * @fires FlowNavigationBackEvent
  * @fires PaymentMethod#submitpayment
  */
 export default class PaymentMethod extends LightningElement {
@@ -99,6 +100,18 @@ export default class PaymentMethod extends LightningElement {
      * @type {Boolean}
      */
     @api hideCreditCard = false;
+
+    /**
+     * Text to display on the Previous button. Defaults to "Previous".
+     * @type {String}
+     */
+    @api previousButtonLabel = 'Previous';
+
+    /**
+     * Text to display on the Next button. Defaults to "Next".
+     * @type {String}
+     */
+    @api nextButtonLabel = 'Next';
 
     /**
      * The list of labels used in the cmp. 
@@ -284,6 +297,15 @@ export default class PaymentMethod extends LightningElement {
      */
     handlePaymentTypeSelected(event) {
         this._selectedPaymentType = event.currentTarget.value;
+    }
+
+    /**
+     * Navigates to the previous page. Doesn't save any information, so that information is lost on clicking
+     * Previous.
+     */
+    handlePreviousButton() {
+        const navigatePreviousEvent = new FlowNavigationBackEvent();
+        this.dispatchEvent(navigatePreviousEvent);
     }
 
     /**
