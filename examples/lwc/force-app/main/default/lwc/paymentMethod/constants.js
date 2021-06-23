@@ -5,7 +5,6 @@ export const PaymentTypeEnum  = Object.freeze({
 
 export const labels  = {
     paymentMethodHeader: 'Payment Method',
-    buttonLabel: 'Submit Payment',
     purchaseOrderOptionLabel: 'Purchase Order',
     purchaseOrderEntryHeader: 'Enter PO Number',
     cardPaymentOptionLabel: 'Credit Card'
