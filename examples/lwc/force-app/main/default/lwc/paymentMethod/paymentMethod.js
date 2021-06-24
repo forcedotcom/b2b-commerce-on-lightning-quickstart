@@ -315,12 +315,16 @@ export default class PaymentMethod extends LightningElement {
      * then makes an apex call which in turns makes a call to Payment.tokenize endpoint
      */
     handlePaymentButton() {
-        //Get the address selected
-        const selectedAddress = this._addresses.filter(add => add.id === this.selectedBillingAddress)[0];
+        const selectedAddressResult = this.getBillingAddress();
 
         if (
             this.selectedPaymentType !== Constants.PaymentTypeEnum.CARDPAYMENT
         ) {
+            if (selectedAddressResult.error) {
+                this._purchaseOrderErrorMessage = selectedAddressResult.error;
+                return;
+            }
+
             const poInput = this.getComponent('[data-po-number]');            
             // Make sure that PO input is valid first
             if (
@@ -337,7 +341,7 @@ export default class PaymentMethod extends LightningElement {
             setPayment({
                 paymentType: this.selectedPaymentType,
                 cartId: this.cartId,
-                billingAddress: selectedAddress,
+                billingAddress: selectedAddressResult.address,
                 paymentInfo: paymentInfo
             }).then(() => {
                 // After making the server calls, navigate NEXT in the flow
@@ -347,6 +351,11 @@ export default class PaymentMethod extends LightningElement {
                 this._purchaseOrderErrorMessage = error.body.message;
             });
         } else {
+            if (selectedAddressResult.error) {
+                this._creditCardErrorMessage = selectedAddressResult.error;
+                return;
+            }
+
             // First let's get the cc data
             const creditPaymentComponent = this.getComponent(
                 '[data-credit-payment-method]'
@@ -367,7 +376,7 @@ export default class PaymentMethod extends LightningElement {
             setPayment({
                 paymentType: this.selectedPaymentType,
                 cartId: this.cartId,
-                billingAddress: selectedAddress,
+                billingAddress: selectedAddressResult.address,
                 paymentInfo: creditCardData
             }).then(() => {
                 // After making the server calls, navigate NEXT in the flow
@@ -377,6 +386,23 @@ export default class PaymentMethod extends LightningElement {
                 this._creditCardErrorMessage = error.body.message;
             });
         }
+    }
+
+    /**
+     * @returns The selected billing address in an object { address: <the selected billing address> } or
+     *          { error: <the error message> } if the field is required but missing. It can return an empty
+     *          object if there is no billing address and it's not a required field.
+     */
+    getBillingAddress() {
+        if (!Array.isArray(this._addresses) || !this._addresses.length) {
+            if (this.billingAddressRequired) {
+                return { error: 'Billing Address is required' };
+            }
+        } else {
+            return { address: this._addresses.filter(add => add.id === this.selectedBillingAddress)[0] };
+        }
+
+        return {};
     }
 
     getCreditCardFromComponent(creditPaymentComponent) {
