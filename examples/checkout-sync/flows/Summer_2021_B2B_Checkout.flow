@@ -276,6 +276,23 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
         </connector>
     </assignments>
     <assignments>
+        <description>If there&apos;s no payment method on the cart or a purchase order on the order, then the order is in an invalid state and processing should not continue.</description>
+        <name>Set_Missing_Payment_Error_Message</name>
+        <label>Set Missing Payment Error Message</label>
+        <locationX>4758</locationX>
+        <locationY>1513</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cannot complete order. Missing Payment Information.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Session_had_an_Error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>cartToOrder was designed to be run asynchronously and expects a &quot;Next State&quot;. Without a next state, cartToOrder assumes a failure, so we provide when even though it&apos;s not necessary for the rest of the flow.</description>
         <name>Update_Next_State_to_ActivateOrder</name>
         <label>Update Next State to ActivateOrder</label>
@@ -312,8 +329,8 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
     <decisions>
         <name>Activate_Order_has_Errors</name>
         <label>Activate Order has Errors?</label>
-        <locationX>5357</locationX>
-        <locationY>1331</locationY>
+        <locationX>5356</locationX>
+        <locationY>1335</locationY>
         <defaultConnector>
             <targetReference>Get_Final_Checkout_Session</targetReference>
         </defaultConnector>
@@ -517,6 +534,35 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
             </connector>
             <label>Authorize Payment</label>
         </rules>
+        <rules>
+            <name>No_Purchase_Order_or_Payment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Po_Number.PoNumber</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>webCart.PaymentMethodId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>webCart.GrandTotalAmount</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Missing_Payment_Error_Message</targetReference>
+            </connector>
+            <label>No Purchase Order or Payment</label>
+        </rules>
     </decisions>
     <decisions>
         <description>No sense updating a delivery method that hasn&apos;t changed from the default suggestion.</description>
@@ -575,11 +621,11 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
     <recordLookups>
         <name>Get_Cart</name>
         <label>Get Cart</label>
-        <locationX>4528</locationX>
-        <locationY>1103</locationY>
+        <locationX>4440</locationX>
+        <locationY>1102</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Should_Authorize_Payment</targetReference>
+            <targetReference>Get_Order_Po_Number</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -593,6 +639,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <outputReference>webCart</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>PaymentMethodId</queriedFields>
+        <queriedFields>GrandTotalAmount</queriedFields>
     </recordLookups>
     <recordLookups>
         <description>Cart Status is used to ensure the cart exists and if the cart is already complete, then forward buyer to the Order Confirmation page.</description>
@@ -752,6 +799,29 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <queriedFields>OrderId</queriedFields>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Po_Number</name>
+        <label>Get Order Po Number</label>
+        <locationX>4585</locationX>
+        <locationY>1102</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Should_Authorize_Payment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>mainCheckoutSession.OrderId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Order</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>PoNumber</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>On the Order Confirmation, we show data from the Order Summary. This gets the order summary id.</description>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
@@ -864,6 +934,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <outputReference>mainCheckoutSession</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>IsError</queriedFields>
+        <queriedFields>OrderId</queriedFields>
     </recordLookups>
     <recordUpdates>
         <description>Copies the contact point address fields into the CartDeliveryGroup. Also, adds the shipping instructions.</description>
@@ -1110,6 +1181,18 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
                     <elementReference>cartId</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>nextButtonLabel</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>previousButtonLabel</name>
+                <value>
+                    <stringValue>Previous</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1329,13 +1412,19 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <description>This error subflow catches the cases where the built in cartToOrder/activateOrder marked the session as having had an error.</description>
         <name>Session_had_an_Error</name>
         <label>Session had an Error</label>
-        <locationX>4807</locationX>
-        <locationY>1596</locationY>
+        <locationX>4758</locationX>
+        <locationY>1752</locationY>
         <flowName>Summer_2021_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
                 <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ErrorMessage</name>
+            <value>
+                <elementReference>errorMessage</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1356,6 +1445,14 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
     </variables>
     <variables>
         <name>contactPointAddressId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Used to put error messages in for the error subflow</description>
+        <name>errorMessage</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
