@@ -280,7 +280,7 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
         <name>Set_Missing_Payment_Error_Message</name>
         <label>Set Missing Payment Error Message</label>
         <locationX>4758</locationX>
-        <locationY>1513</locationY>
+        <locationY>1544</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -1403,7 +1403,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <inputAssignments>
             <name>ErrorMessage</name>
             <value>
-                <stringValue>Looks like you don&apos;t have an activat CartCheckoutSession. Do you have a checkout running in another tab?</stringValue>
+                <stringValue>Looks like you don&apos;t have an active CartCheckoutSession. Do you have a checkout running in another tab?</stringValue>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
