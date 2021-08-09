@@ -135,3 +135,13 @@ Deploy your changes to production using [packaging](https://developer.salesforce
 ## More Information about what is installed
 
 Once installed, you should be able actually take a cart through checkout as a buyer user. However, while the flow of the checkout functions, much of the important work is mocked. To see what was installed so you can determine what to update, you should go to the Examples directory and then navigate into the directories you care about. For instance, the *framework* directory contains all of the flows that control the flow of the checkout. The *integrations* directory is where you'll find Apex classes that can be updated to hook up to real systems to determine shipping and taxes.
+
+## Known Issues
+
+### Flow Debugging
+
+Debugging with the flow typically requires impersonating a buyer [Run flow as another user](https://help.salesforce.com/articleView?id=release-notes.rn_ls_debug_flow_as_another_user.htm&type=5&release=232). However, the custom payment component installed as a part of this installation will be run as the user that is debugging, and not the buyer. This typically causes some malfunctioning behavior like missing billing addresses. There are a few workarounds.
+
+1. Don't debug and instead run as the buyer within the store relying on errors sent to the email specified in `Process Automation Settings` to find problems.
+1. If you know the buyer's account you can make a change in [B2BPaymentController.cls](../examples/lwc/force-app/main/default/classes/B2BPaymentController.cls). Directions are specified near the top of `getPaymentInfo()`.
+1. You can also make a change in the `getUserAccountInfo()` method in [B2BUtils.cls](../examples/lwc/force-app/main/default/classes/B2BUtils.cls). Here you would put the ID of the user instead of the call to `UserInfo.getUserId();`. This was not documented within the class as the effects would be farther reaching than in B2BPaymentController.cls.
