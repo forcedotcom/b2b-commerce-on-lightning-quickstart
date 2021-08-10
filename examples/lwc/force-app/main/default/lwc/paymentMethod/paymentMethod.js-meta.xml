@@ -11,7 +11,7 @@
             <property name="hidePurchaseOrder" label="Hide Purchase Order" type="Boolean" description="" default="false" role="inputOnly" />
             <property name="hideCreditCard" label="Hide Credit Card" type="Boolean" description="" default="false" role="inputOnly" />
             <property name="poRequired" label="Require Purchase Order Number" type="Boolean" description="" default="false" role="inputOnly"/>
-            <property name="selectedPaymentType" label="Selected Payment Type" type="String" description="The selected payment type" role="inputOnly" />
+            <property name="selectedPaymentType" label="Selected Payment Type" type="String" description="The selected payment type (PurchaseOrderNumber, CardPayment)" role="inputOnly" />
             <!-- These are the internal billingAddressSelector cmp -->
             <property name="hideBillingAddress" label="Hide Billing Address" type="Boolean" description="" default="false" role="inputOnly"/>
             <property name="billingAddressRequired" label="Require Billing Address" type="Boolean" description="" default="false" role="inputOnly"/>
