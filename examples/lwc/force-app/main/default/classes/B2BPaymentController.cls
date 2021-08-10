@@ -7,6 +7,17 @@ public with sharing class B2BPaymentController {
         // Get the effectiveAccountId
         String accountId = B2BUtils.getUserAccountID();
 
+        /////////////////////////////////////////////////////////////////////////////////////
+        // When debugging within the flow, calls to this controller cannot be impersonated,
+        // meaning the buyer won't be used. Therefore, the getUserAccountID() will not return
+        // correctly. For debugging purposes, one can temporarily specify the account ID of
+        // the buyer under test to get around this limitation. This will impact any user
+        // trying to use this method, so this is only suggested on non-production orgs.
+        // 
+        // Example:
+        // String accountId = '001xx000003GZBjAAO';
+        /////////////////////////////////////////////////////////////////////////////////////
+        
         // Get the 'purchaseOrderNumber' from the WebCart
         WebCart webCart = [SELECT Id, BillingAddress, PoNumber FROM WebCart WHERE Id=:cartId
                            WITH SECURITY_ENFORCED];

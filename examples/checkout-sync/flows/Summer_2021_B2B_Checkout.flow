@@ -1403,7 +1403,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <inputAssignments>
             <name>ErrorMessage</name>
             <value>
-                <stringValue>Looks like you don&apos;t have an active CartCheckoutSession. Do you have a checkout running in another tab?</stringValue>
+                <stringValue>Checkout was modified outside of this session. Please exit this checkout and start a new checkout or return to the concurrent checkout.</stringValue>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>

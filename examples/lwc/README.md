@@ -61,3 +61,13 @@ Connect APIs for search don't have Apex enabled yet. So we can call those Connec
 * To call third-party APIs from your component’s JavaScript, add the API endpoint as a CSP Trusted Site.
 * To call Salesforce APIs, make the API calls from your component’s Apex controller. Use a named credential to authenticate to Salesforce. (Documentation is [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/apex_api_calls.htm) and [here](https://developer.salesforce.com/docs/atlas.en-us.228.0.apexcode.meta/apexcode/apex_callouts_named_credentials.htm).)
 * Create a Named Credential callout. The steps are documented [here](/examples/lwc/docs/NamedCredentials.md).
+
+## Known Issues
+
+### Flow Debugging
+
+Debugging with the flow typically requires impersonating a buyer [Run flow as another user](https://help.salesforce.com/articleView?id=release-notes.rn_ls_debug_flow_as_another_user.htm&type=5&release=232). However, the custom payment component installed as a part of this installation will be run as the user that is debugging, and not the buyer. This typically causes some malfunctioning behavior like missing billing addresses. There are a few workarounds.
+
+1. Don't debug and instead run as the buyer within the store relying on errors sent to the email specified in `Process Automation Settings` to find problems.
+1. If you know the buyer's account you can make a change in [B2BPaymentController.cls](force-app/main/default/classes/B2BPaymentController.cls). Directions are specified near the top of `getPaymentInfo()`.
+1. You can also make a change in the `getUserAccountInfo()` method in [B2BUtils.cls](force-app/main/default/classes/B2BUtils.cls). Here you would put the ID of the user instead of the call to `UserInfo.getUserId();`. This was not documented within the class as the effects would be farther reaching than in B2BPaymentController.cls.
