@@ -4,7 +4,7 @@
     <description>For your payment component to function properly, you need a Payment Gateway integration. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
     <interviewLabel>Enter Payment and Billing {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Payment and Billing Address</label>
+    <label>(Async) Subflow - Payment and Billing Address</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -28,11 +28,11 @@
         <description>Choose between Purchase Order and Credit Card to pay for your order. Also enter or select a billing address.</description>
         <name>paymentMethodScreen</name>
         <label>paymentMethodScreen</label>
-        <locationX>151</locationX>
+        <locationX>150</locationX>
         <locationY>250</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Validate_Checkout_State</targetReference>
         </connector>
@@ -157,7 +157,7 @@
         <label>Set State</label>
         <locationX>611</locationX>
         <locationY>250</locationY>
-        <flowName>V2_Summer_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Async_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -179,7 +179,7 @@
         <connector>
             <targetReference>Set_State</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

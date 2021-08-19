@@ -4,8 +4,8 @@
         <description>Finds the buyer&apos;s cart delivery groups and updates the associated Delivery Group IDs.</description>
         <name>Set_Checkout_Delivery_Method</name>
         <label>Set Checkout Delivery Method</label>
-        <locationX>800</locationX>
-        <locationY>500</locationY>
+        <locationX>682</locationX>
+        <locationY>250</locationY>
         <actionName>setCheckoutDeliveryMethod</actionName>
         <actionType>setCheckoutDeliveryMethod</actionType>
         <connector>
@@ -29,41 +29,9 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
-    <decisions>
-        <name>Update_Delivery_Method_If_Changed</name>
-        <label>Update Delivery Method If Changed</label>
-        <locationX>652</locationX>
-        <locationY>252</locationY>
-        <defaultConnector>
-            <targetReference>Set_State</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Delivery Method Unchanged</defaultConnectorLabel>
-        <rules>
-            <name>Delivery_Method_Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>orderDeliveryMethodId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>orderDeliveryMethodId</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue></stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_Checkout_Delivery_Method</targetReference>
-            </connector>
-            <label>Delivery Method Changed</label>
-        </rules>
-    </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Delivery Method</label>
+    <label>(Async) Subflow - Delivery Method</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -134,7 +102,7 @@
         <label>Set State</label>
         <locationX>950</locationX>
         <locationY>250</locationY>
-        <flowName>V2_Summer_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Async_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -158,9 +126,9 @@
         <description>Shows the Buyer errors that have occurred.</description>
         <name>Show_Error</name>
         <label>Show Error</label>
-        <locationX>800</locationX>
-        <locationY>750</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <locationX>682</locationX>
+        <locationY>508</locationY>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -181,9 +149,9 @@
         <locationX>400</locationX>
         <locationY>250</locationY>
         <connector>
-            <targetReference>Update_Delivery_Method_If_Changed</targetReference>
+            <targetReference>Set_Checkout_Delivery_Method</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
