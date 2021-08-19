@@ -21,8 +21,11 @@ public class B2BSyncDelivery {
             // We need to get the ID of the cart delivery group in order to create the order delivery groups.
             Id cartDeliveryGroupId = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :cartId WITH SECURITY_ENFORCED][0].Id;
 
+            // Used to increase the cost by a multiple of the number of items in the cart (useful for testing but should not be done in the final code)
+            Integer numberOfUniqueItems = [SELECT count() from cartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED];
+
             // Get shipping options, including aspects like rates and carriers, from the external service. 
-            ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService(cartId);
+            ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService(cartId, numberOfUniqueItems);
 
             // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
             delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId WITH SECURITY_ENFORCED];
@@ -67,7 +70,7 @@ public class B2BSyncDelivery {
     // Don't hit Heroku Server: You can uncomment out this if you want to remove the Heroku Service from this class. Comment out the
     // method below instead.
     /*
-    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String id) {
+    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String id, Integer numberOfUniqueItems) {
         // Don't actually call heroku
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
         // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
@@ -76,7 +79,7 @@ public class B2BSyncDelivery {
         // [{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},
         // {"status":"calculated","rate":{"name":"Delivery Method 2","serviceName":"Test Carrier 2","serviceCode":"SNC9600","shipmentCost":15.99,"otherCost":6.99}}]
         String body = '[{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},' +
-					   '{"status":"calculated","rate":{"name":"Delivery Method 2","serviceName":"Test Carrier 2","serviceCode":"SNC9600","shipmentCost":15.99,"otherCost":6.99}}]';
+                       '{"status":"calculated","rate":{"name":"Delivery Method 2","serviceName":"Test Carrier 2","serviceCode":"SNC9600","shipmentCost":15.99,"otherCost":6.99}}]';
         List<Object> results = (List<Object>) JSON.deserializeUntyped(body);
         for (Object result: results) {
             Map<String, Object> subresult = (Map<String, Object>) result;
@@ -84,7 +87,7 @@ public class B2BSyncDelivery {
             shippingOptions.add( new ShippingOptionsAndRatesFromExternalService(
                 (String) providerAndRate.get('name'),
                 (String) providerAndRate.get('serviceCode'),
-                (Decimal) providerAndRate.get('shipmentCost'),
+                (Decimal) providerAndRate.get('shipmentCost') * numberOfUniqueItems,
                 (Decimal) providerAndRate.get('otherCost'),
                 (String) providerAndRate.get('serviceName')
             ));
@@ -93,7 +96,7 @@ public class B2BSyncDelivery {
     }*/
     
     // Do hit Heroku Server: You can comment this out and uncomment out the above class if you don't want to hit the Heroku Service.
-    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String cartId) {
+    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String cartId, Integer numberOfUniqueItems) {
         final Integer SuccessfulHttpRequest = 200;
 
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
@@ -117,7 +120,7 @@ public class B2BSyncDelivery {
                 shippingOptions.add( new ShippingOptionsAndRatesFromExternalService(
                     (String) providerAndRate.get('name'),
                     (String) providerAndRate.get('serviceCode'),
-                    (Decimal) providerAndRate.get('shipmentCost'),
+                    (Decimal) providerAndRate.get('shipmentCost') * numberOfUniqueItems, // Multiply so shipping costs can change; remove when using a real shipping provider
                     (Decimal) providerAndRate.get('otherCost'),
                     (String) providerAndRate.get('serviceName')
                 ));

@@ -44,7 +44,7 @@
     </decisions>
     <interviewLabel>Shipping {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Update Checkout State</label>
+    <label>(Async) Subflow - Update Checkout State</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -91,7 +91,7 @@
         <connector>
             <targetReference>Check_Session_isProcessing</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -114,7 +114,7 @@
         <label>Refresh page</label>
         <locationX>400</locationX>
         <locationY>500</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -134,7 +134,7 @@
         <label>Show Error</label>
         <locationX>900</locationX>
         <locationY>500</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
