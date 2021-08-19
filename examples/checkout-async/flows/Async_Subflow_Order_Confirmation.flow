@@ -70,7 +70,7 @@
     </decisions>
     <interviewLabel>Order Confirmation {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Order Confirmation</label>
+    <label>(Async) Subflow - Order Confirmation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -215,7 +215,7 @@
         <label>Show Error</label>
         <locationX>275</locationX>
         <locationY>750</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

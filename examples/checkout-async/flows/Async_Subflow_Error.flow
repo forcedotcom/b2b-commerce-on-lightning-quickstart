@@ -77,7 +77,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Summer 2021) Subflow - Error</label>
+    <label>(Async) Subflow - Error</label>
     <loops>
         <description>Loops through the list of CartValidationOutput messages.</description>
         <name>Loop</name>
@@ -141,7 +141,7 @@
         <sortField>CreatedDate</sortField>
         <sortOrder>Desc</sortOrder>
     </recordLookups>
-    <runInMode>SystemModeWithSharing</runInMode>
+    <runInMode>DefaultMode</runInMode>
     <screens>
         <description>Shows the list of error messages.</description>
         <name>Error</name>

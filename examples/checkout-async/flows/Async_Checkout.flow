@@ -308,7 +308,7 @@ Asynchronous invocable actions set mainCheckoutSession.isProcess = True.</descri
     <description>B2B Commerce stores use the checkout flow to convert carts to activated orders. It supports asynchronous invocable actions that can be customized to call external systems. If async calls take too long, end users can close the page and resume the checkout later.</description>
     <interviewLabel>Checkout Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Checkout Flow</label>
+    <label>(Async) Checkout Flow</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -523,7 +523,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Authorize_Payment</flowName>
+        <flowName>Async_Subflow_Authorize_Payment</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -595,7 +595,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Summary</flowName>
+        <flowName>Async_Subflow_Checkout_Summary</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -624,7 +624,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Confirm_Price</flowName>
+        <flowName>Async_Subflow_Confirm_Price</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -658,7 +658,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Delivery_Method</flowName>
+        <flowName>Async_Subflow_Delivery_Method</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -685,7 +685,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <label>Error</label>
         <locationX>807</locationX>
         <locationY>617</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -702,7 +702,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Debug_Screen_Decision</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -723,7 +723,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Inventory</flowName>
+        <flowName>Async_Subflow_Inventory</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -758,7 +758,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Order_Confirmation</flowName>
+        <flowName>Async_Subflow_Order_Confirmation</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -805,7 +805,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Payment_Billing_Address</flowName>
+        <flowName>Async_Subflow_Payment_Billing_Address</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -840,7 +840,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Debug_Screen_Decision</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -861,7 +861,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Shipping_Address</flowName>
+        <flowName>Async_Subflow_Shipping_Address</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -890,7 +890,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Shipping_Cost</flowName>
+        <flowName>Async_Subflow_Shipping_Cost</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -925,7 +925,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Taxes</flowName>
+        <flowName>Async_Subflow_Taxes</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

@@ -410,10 +410,10 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <description>Ensures that if the buyer starts a second checkout that we don&apos;t attempt to progress this duplicate checkout.</description>
         <name>Is_Session_Still_Valid_After_Delivery</name>
         <label>Is Session Still Valid After Delivery?</label>
-        <locationX>2630</locationX>
-        <locationY>1295</locationY>
+        <locationX>2875</locationX>
+        <locationY>1323</locationY>
         <defaultConnector>
-            <targetReference>Update_Delivery_Method_If_Changed</targetReference>
+            <targetReference>Set_Checkout_Delivery_Method</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Session is Valid</defaultConnectorLabel>
         <rules>
@@ -564,41 +564,8 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
             <label>No Purchase Order or Payment</label>
         </rules>
     </decisions>
-    <decisions>
-        <description>No sense updating a delivery method that hasn&apos;t changed from the default suggestion.</description>
-        <name>Update_Delivery_Method_If_Changed</name>
-        <label>Update Delivery Method if Changed</label>
-        <locationX>2873</locationX>
-        <locationY>1297</locationY>
-        <defaultConnector>
-            <targetReference>Taxes</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Delivery Method Unchanged</defaultConnectorLabel>
-        <rules>
-            <name>Delivery_Method_Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>orderDeliveryMethodId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>orderDeliveryMethodId</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue></stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_Checkout_Delivery_Method</targetReference>
-            </connector>
-            <label>Delivery Method Changed</label>
-        </rules>
-    </decisions>
-    <interviewLabel>(Summer 2021) B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>(Summer 2021) B2B Checkout</label>
+    <interviewLabel>(Sync) B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>(Sync) B2B Checkout</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -1163,7 +1130,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
     <screens>
         <name>Payment_And_Billing_Address</name>
         <label>Payment And Billing Address</label>
-        <locationX>3424</locationX>
+        <locationX>3425</locationX>
         <locationY>830</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1191,6 +1158,30 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
                 <name>previousButtonLabel</name>
                 <value>
                     <stringValue>Previous</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cvvRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cardTypeRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>poRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>billingAddressRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1311,7 +1302,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>912</locationX>
         <locationY>408</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1332,7 +1323,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>2025</locationX>
         <locationY>379</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1352,7 +1343,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>4597</locationX>
         <locationY>250</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1373,7 +1364,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>3049</locationX>
         <locationY>358</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1393,7 +1384,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error - Invalid Session</label>
         <locationX>3238</locationX>
         <locationY>2198</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1403,7 +1394,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <inputAssignments>
             <name>ErrorMessage</name>
             <value>
-                <stringValue>Checkout was modified outside of this session. Please exit this checkout and start a new checkout or return to the concurrent checkout.</stringValue>
+                <stringValue>Looks like you don&apos;t have an active CartCheckoutSession. Do you have a checkout running in another tab?</stringValue>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1414,7 +1405,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Session had an Error</label>
         <locationX>4758</locationX>
         <locationY>1752</locationY>
-        <flowName>Summer_2021_Subflow_Error</flowName>
+        <flowName>Sync_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

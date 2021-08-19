@@ -3,7 +3,7 @@
     <apiVersion>52.0</apiVersion>
     <interviewLabel>Checkout Summary {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Checkout Summary</label>
+    <label>(Async) Subflow - Checkout Summary</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -103,7 +103,7 @@
         <label>Set State</label>
         <locationX>400</locationX>
         <locationY>250</locationY>
-        <flowName>V2_Summer_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Async_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

@@ -36,7 +36,7 @@
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(V2 Summer 2021) Subflow - Shipping Address</label>
+    <label>(Async) Subflow - Shipping Address</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -252,7 +252,7 @@
         <label>Set State</label>
         <locationX>1250</locationX>
         <locationY>250</locationY>
-        <flowName>V2_Summer_2021_Subflow_Update_Checkout_State</flowName>
+        <flowName>Async_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -277,7 +277,7 @@
         <label>Show Error</label>
         <locationX>870</locationX>
         <locationY>750</locationY>
-        <flowName>V2_Summer_2021_Subflow_Error</flowName>
+        <flowName>Async_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -300,7 +300,7 @@
         <connector>
             <targetReference>Update_address_if_changed</targetReference>
         </connector>
-        <flowName>V2_Summer_2021_Subflow_Checkout_Session</flowName>
+        <flowName>Async_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
