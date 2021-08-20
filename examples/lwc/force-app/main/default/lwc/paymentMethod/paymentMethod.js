@@ -24,6 +24,13 @@ export default class PaymentMethod extends LightningElement {
     _selectedPaymentType = Constants.PaymentTypeEnum.PONUMBER;
 
     /**
+     * Comes from the flow itself and only available in flow. Given this component is only designed
+     * for use in flows, this is probably fine. The actions will tell us if "Previous" is available
+     * so we can display the "Previous" button only when it's available.
+     */
+    @api availableActions;
+
+    /**
      * Determines if Purchase Order is a required field.
      * @type {Boolean}
      */
@@ -218,6 +225,14 @@ export default class PaymentMethod extends LightningElement {
         if (cartId) {
             this.initializePaymentData(cartId);
         }
+    }
+
+    /**
+     * Determines if the "Previous" button is available in this flow.
+     * @returns {Boolean} True if "BACK" is found, False otherwise
+     */
+    get canGoPrevious() {
+        return (this.availableActions && this.availableActions.some(element => element == 'BACK'));
     }
 
     /**
