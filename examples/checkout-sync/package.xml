@@ -12,8 +12,8 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>Summer_2021_B2B_Checkout</members>
-        <members>Summer_2021_Subflow_Error</members>
+        <members>Sync_B2B_Checkout</members>
+        <members>Sync_Subflow_Error</members>
         <name>Flow</name>
     </types>
     <version>52.0</version>
