@@ -4,7 +4,7 @@
     <description>For your payment component to function properly, you need a Payment Gateway integration. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
     <interviewLabel>Enter Payment and Billing {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Payment and Billing Address</label>
+    <label>(Re-entrant) Subflow - Payment and Billing Address</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -157,7 +157,7 @@
         <label>Set State</label>
         <locationX>611</locationX>
         <locationY>250</locationY>
-        <flowName>Async_Subflow_Update_Checkout_State</flowName>
+        <flowName>Reentrant_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -179,7 +179,7 @@
         <connector>
             <targetReference>Set_State</targetReference>
         </connector>
-        <flowName>Async_Subflow_Checkout_Session</flowName>
+        <flowName>Reentrant_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

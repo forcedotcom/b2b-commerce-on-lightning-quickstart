@@ -1,8 +1,8 @@
 #!/bin/bash
 # Comment out the modules that you don't want to setup in your org
 # Usage:
-# Synchronous Flow installation:  ./convert-examples-to-sfdx.sh
-# Asynchronous Flow installation: ./convert-examples-to-sfdx.sh -f async
+# Primary Flow installation:  ./convert-examples-to-sfdx.sh
+# Re-entrant Flow installation: ./convert-examples-to-sfdx.sh -f reentrant
 
 while getopts f: flag
 do
@@ -36,14 +36,15 @@ cp ../examples/lwc/force-app/main/default/classes/B2BAuthorizeTokenizedPayment* 
 cp -r ../examples/lwc/force-app/main/default/lwc/paymentMethod force-app/main/default/lwc/
 cp -r ../examples/lwc/force-app/main/default/lwc/billingAddressSelector force-app/main/default/lwc/
 cp -r ../examples/lwc/force-app/main/default/lwc/cardPaymentMethod force-app/main/default/lwc/
+cp -r ../examples/lwc/force-app/main/default/lwc/navigationButtons force-app/main/default/lwc/
 
-if [[ "$flow" = "async" ]]
+if [[ "$flow" = "reentrant" ]]
 then
-    # Async Checkout
-    sfdx force:mdapi:convert -r ../examples/checkout-async
-    printf "\nConverted the asynchronous flow.\n"
+    # Re-entrant Checkout
+    sfdx force:mdapi:convert -r ../examples/checkout-reentrant
+    printf "\nConverted the re-entrant checkout flow.\n"
 else
-    # Sync Checkout
-    sfdx force:mdapi:convert -r ../examples/checkout-sync
-    printf "\nConverted the synchronous flow.\n"
+    # Main Checkout
+    sfdx force:mdapi:convert -r ../examples/checkout-main
+    printf "\nConverted the main checkout flow.\n"
 fi

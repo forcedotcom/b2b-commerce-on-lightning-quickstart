@@ -30,3 +30,7 @@ After importing your flows and creating a store, make sure your store uses the c
 ## Navigate to the Checkout page.
 From the content pane, select the checkout component.
 Find the Checkout Flow Name attribute. Select your primary Checkout Flow. Don't select any of the flows with Subflow in the name even if they are available.
+
+## Enabling Promotions and Using built in Pricing
+
+Salesforce provides engines for Pricing and Promotions. We have provided a second main flow that includes Salesforce pricing and promotions. This flow is slightly more complicated and uses more subflows, but comes with some more functionality. Some of the integrations, Pricing and Promotions, run asynchronously which can cause delays during checkout.
