@@ -82,20 +82,29 @@ function register_and_map_integration() {
 	fi
 }
 
-function register_and_map_pricing_integration {
-	local serviceProviderType="Price"
-	local integrationName="Price__B2B_STOREFRONT__StandardPricing"
+# Maps a standard integration. This is for nodes like pricing and promotions which don't require external services to run.
+function map_standard_integration {
+	local serviceProviderType=$1
+	local integrationName=$2
 
-	echo "Registering internal pricing ($integrationName) for $serviceProviderType integration."
+	echo "Mapping internal ($integrationName) for $serviceProviderType integration."
 
-	local pricingIntegrationId=`sfdx force:data:soql:query -q "SELECT Id FROM StoreIntegratedService WHERE ServiceProviderType='$serviceProviderType' AND StoreId='$storeId' LIMIT 1" -r csv |tail -n +2`
-	if [ -z "$pricingIntegrationId" ]
+	local integrationId=`sfdx force:data:soql:query -q "SELECT Id FROM StoreIntegratedService WHERE ServiceProviderType='$serviceProviderType' AND StoreId='$storeId' LIMIT 1" -r csv |tail -n +2`
+	if [ -z "$integrationId" ]
 	then
 		sfdx force:data:record:create -s StoreIntegratedService -v "Integration=$integrationName StoreId=$storeId ServiceProviderType=$serviceProviderType"
-		echo "To register an external pricing integration, delete the internal pricing mapping and then add the external pricing mapping.  See the code for details how."
+		echo "To register an external ($serviceProviderType) integration, delete the internal mapping and then add the external ($serviceProviderType) mapping.  See the code for details how."
 	else
-		echo "There is already a mapping in this store for Price ServiceProviderType: $pricingIntegrationId"
+		echo "There is already a mapping in this store for ($serviceProviderType) ServiceProviderType: $integrationId"
 	fi
+}
+
+function register_and_map_pricing_integration {
+	map_standard_integration "Price" "Price__B2B_STOREFRONT__StandardPricing"
+}
+
+function register_and_map_promotions_integration {
+	map_standard_integration "Promotions" "Promotions__B2B_STOREFRONT__StandardPromotions"
 }
 
 function register_and_map_credit_card_payment_integration {
@@ -130,6 +139,9 @@ register_and_map_pricing_integration
 # register_and_map_integration "B2BPricingSample" "COMPUTE_PRICE" "Price"
 # Or follow the documentation for setting up the integration manually:
 # https://developer.salesforce.com/docs/atlas.en-us.b2b_comm_lex_dev.meta/b2b_comm_lex_dev/b2b_comm_lex_integration_setup.htm
+
+# By default, use the internal promotions integration
+register_and_map_promotions_integration 
 
 register_and_map_credit_card_payment_integration
 

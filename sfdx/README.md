@@ -136,6 +136,24 @@ Deploy your changes to production using [packaging](https://developer.salesforce
 
 Once installed, you should be able actually take a cart through checkout as a buyer user. However, while the flow of the checkout functions, much of the important work is mocked. To see what was installed so you can determine what to update, you should go to the Examples directory and then navigate into the directories you care about. For instance, the *framework* directory contains all of the flows that control the flow of the checkout. The *integrations* directory is where you'll find Apex classes that can be updated to hook up to real systems to determine shipping and taxes.
 
+## Enabling Promotions and Using built in Pricing
+
+ Salesforce provides engines for Pricing and Promotions. We have provided a second main flow that includes Salesforce pricing and promotions. This flow is slightly more complicated and uses more subflows, but comes with some more functionality. Some of the integrations, Pricing and Promotions, run asynchronously which can cause delays during checkout
+
+## Installing the Re-entrant flow
+
+The re-entrant flow is a bit more complicated than the main flow, but has some advantages like allowing customers to leave the checkout and come back later and it'll save their spot in the checkout. It also uses the built in pricing and promotions by default, but also runs asynchronously which can cause delays during checkout. It's possible to install this flow manually by following the [readme](../examples/checkout-reentrant). Alternatively, you can have it installed by default instead of the primary flow by installing it slightly differently than specified in the instructions above.
+
+1. Before step 2 above, make sure you delete the force-app directory. This will delete everything in that directory, so make sure you either back it up or don't have any local changes in there before doing this.
+```
+rm -rf force-app
+```
+2. Instead of step 2 above, type the following:
+```
+./convert-examples-to-sfdx.sh -f reentrant
+```
+3. Continue on with installation on step 3 above normally.
+
 ## Known Issues
 
 ### Flow Debugging

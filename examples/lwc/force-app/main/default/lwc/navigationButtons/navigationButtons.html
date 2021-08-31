@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-card__footer slds-p-vertical_x-small">
+
+        <!-- Previous Button -->
+        <div if:true={canGoPrevious} class="slds-button slds-button_brand">
+            <a href="javascript:void(0)" onclick={handlePreviousButton}
+                >{previousButtonLabel}</a
+            >
+        </div>
+
+        <!-- Next Button -->
+        <div class="slds-button slds-button_brand">
+            <a href="javascript:void(0)" onclick={handleNextButton}
+                >{nextButtonLabel}</a
+            >
+        </div>
+    </div>
+</template>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="xmlns=http://soap.sforce.com/2006/04/metadata">
+    <isExposed>true</isExposed>
+    <masterLabel>Navigation Buttons</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <!-- Labels -->
+            <property name="previousButtonLabel" label="Previous Button Label" type="String" description="The text string to place on the Previous button" default="Previous" role="inputOnly"/>
+            <property name="nextButtonLabel" label="Next Button Label" type="String" description="The text string to place on the Next button" default="Next" role="inputOnly"/>
+            <!-- OUTPUT only fields-->
+            <property name="selectedAction" label="The selected action" type="String" description="The action selected by the user (NEXT, BACK)" role="outputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,56 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Activate_Order</name>
-        <label>Activate Order</label>
-        <locationX>400</locationX>
-        <locationY>250</locationY>
-        <actionName>activateOrderAction</actionName>
-        <actionType>activateOrderAction</actionType>
+        <description>Calculates and updates promotions for the cart.</description>
+        <name>Calculate_Promotions</name>
+        <label>Calculate Promotions</label>
+        <locationX>436</locationX>
+        <locationY>292</locationY>
+        <actionName>calcCartPromotionsAction</actionName>
+        <actionType>calcCartPromotionsAction</actionType>
         <faultConnector>
             <targetReference>Show_Error</targetReference>
         </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>cartId</name>
             <value>
                 <elementReference>cartId</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>orderLifeCycleType</name>
-            <value>
-                <elementReference>unmanagedOrder</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>orderStatus</name>
-            <value>
-                <stringValue>Activated</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>runAsync</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
         <description>Calls the updateCheckoutState invocable action and sets the value of the next state field for the current checkout session object. The action is only used in asynchronous subflows.</description>
-        <name>Update_Checkout_Session_State</name>
-        <label>Update Checkout Session State</label>
-        <locationX>150</locationX>
-        <locationY>250</locationY>
+        <name>Update_Checkout_Session</name>
+        <label>Update Checkout Session</label>
+        <locationX>176</locationX>
+        <locationY>292</locationY>
         <actionName>updateCheckoutSessionStateAction</actionName>
         <actionType>updateCheckoutSessionStateAction</actionType>
         <connector>
-            <targetReference>Activate_Order</targetReference>
+            <targetReference>Calculate_Promotions</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Show_Error</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>checkoutSessionId</name>
+            <value>
+                <elementReference>checkoutSessionId</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>expCurrentState</name>
             <value>
@@ -63,32 +53,12 @@
                 <elementReference>nextState</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>checkoutSessionId</name>
-            <value>
-                <elementReference>checkoutSession.Id</elementReference>
-            </value>
-        </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
-    <constants>
-        <name>managedOrder</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>MANAGED</stringValue>
-        </value>
-    </constants>
-    <constants>
-        <name>unmanagedOrder</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>UNMANAGED</stringValue>
-        </value>
-    </constants>
-    <interviewLabel>Order Confirmation {!$Flow.CurrentDateTime}</interviewLabel>
-    <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Activate Order</label>
+    <apiVersion>53.0</apiVersion>
+    <description>Calculates and updates promotions for the cart.</description>
+    <interviewLabel>(Reentrant) {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>(Re-entrant) Subflow - Calculate Promotions</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -108,21 +78,20 @@
         </value>
     </processMetadataValues>
     <processType>CheckoutFlow</processType>
-    <runInMode>DefaultMode</runInMode>
     <start>
-        <locationX>24</locationX>
-        <locationY>40</locationY>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
         <connector>
-            <targetReference>Update_Checkout_Session_State</targetReference>
+            <targetReference>Update_Checkout_Session</targetReference>
         </connector>
     </start>
     <status>Active</status>
     <subflows>
         <name>Show_Error</name>
         <label>Show Error</label>
-        <locationX>275</locationX>
-        <locationY>500</locationY>
-        <flowName>Async_Subflow_Error</flowName>
+        <locationX>296</locationX>
+        <locationY>550</locationY>
+        <flowName>Reentrant_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -145,35 +114,24 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>checkoutSession</name>
-        <dataType>SObject</dataType>
+        <name>checkoutSessionId</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
-        <objectType>CartCheckoutSession</objectType>
-    </variables>
-    <variables>
-        <name>closeCart</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-        <value>
-            <booleanValue>false</booleanValue>
-        </value>
     </variables>
     <variables>
         <name>currentState</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>true</isOutput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>nextState</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>true</isOutput>
+        <isOutput>false</isOutput>
     </variables>
 </Flow>

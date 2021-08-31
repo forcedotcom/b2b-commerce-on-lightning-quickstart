@@ -63,7 +63,7 @@
     <apiVersion>52.0</apiVersion>
     <interviewLabel>Cart To Order {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Cart To Order</label>
+    <label>(Re-entrant) Subflow - Cart To Order</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -96,7 +96,7 @@
         <label>Show Error</label>
         <locationX>275</locationX>
         <locationY>500</locationY>
-        <flowName>Async_Subflow_Error</flowName>
+        <flowName>Reentrant_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

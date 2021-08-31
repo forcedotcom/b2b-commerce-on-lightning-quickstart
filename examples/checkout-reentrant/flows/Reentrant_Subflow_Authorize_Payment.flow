@@ -91,9 +91,9 @@
         </rules>
     </decisions>
     <description>Authorizes Credit Card Payment.</description>
-    <interviewLabel>(Async) Subflow - Authorize Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>(Reentrant) Subflow - Authorize Payment {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Authorize Payment</label>
+    <label>(Re-entrant) Subflow - Authorize Payment</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -148,7 +148,7 @@
         <label>Set State</label>
         <locationX>734</locationX>
         <locationY>391</locationY>
-        <flowName>Async_Subflow_Update_Checkout_State</flowName>
+        <flowName>Reentrant_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

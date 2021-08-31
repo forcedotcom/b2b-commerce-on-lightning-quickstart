@@ -5,8 +5,8 @@
         <description>The loop node is here for cosmetic purposes. It helps make the flow easier to read, but is not a necessary technical component.</description>
         <name>Loop</name>
         <label>Loop</label>
-        <locationX>1233</locationX>
-        <locationY>977</locationY>
+        <locationX>1279</locationX>
+        <locationY>978</locationY>
         <assignmentItems>
             <assignToReference>cartId</assignToReference>
             <operator>Assign</operator>
@@ -278,6 +278,21 @@ Asynchronous invocable actions set mainCheckoutSession.isProcess = True.</descri
             </connector>
             <label>Activate Order</label>
         </rules>
+        <rules>
+            <name>Calculate_Promotions_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>mainCheckoutSession.State</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Calculate Promotions</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Calculate_Promotions</targetReference>
+            </connector>
+            <label>Calculate Promotions Outcome</label>
+        </rules>
     </decisions>
     <decisions>
         <description>The Wait Debug Decision node determines whether to show the debug screen. The default is no.</description>
@@ -308,7 +323,7 @@ Asynchronous invocable actions set mainCheckoutSession.isProcess = True.</descri
     <description>B2B Commerce stores use the checkout flow to convert carts to activated orders. It supports asynchronous invocable actions that can be customized to call external systems. If async calls take too long, end users can close the page and resume the checkout later.</description>
     <interviewLabel>Checkout Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Checkout Flow</label>
+    <label>(Re-entrant) Checkout Flow</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -341,37 +356,37 @@ Asynchronous invocable actions set mainCheckoutSession.isProcess = True.</descri
             <targetReference>Main_Decision_Hub</targetReference>
         </connector>
         <fields>
-            <name>CheckoutSessionIdText</name>
+            <name>DebugCheckoutSessionIdText</name>
             <fieldText>&lt;p&gt;Session Id: {!mainCheckoutSession.Id}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>currentstate</name>
+            <name>DebugCurrentState</name>
             <fieldText>&lt;p&gt;State: {!mainCheckoutSession.State}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>sessionNextState</name>
+            <name>DebugSessionNextState</name>
             <fieldText>&lt;p&gt;Next State: {!mainCheckoutSession.NextState}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>jobIdDisplaydsaf</name>
+            <name>DebugJobIdDisplay</name>
             <fieldText>&lt;p&gt;JobId: {!mainCheckoutSession.Id}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>locked</name>
+            <name>DebugLocked</name>
             <fieldText>&lt;p&gt;Locked? {!mainCheckoutSession.IsProcessing}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>order</name>
+            <name>DebugOrderId</name>
             <fieldText>&lt;p&gt;Order: {!mainCheckoutSession.OrderId}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>shouldCloseCartBool</name>
+            <name>DebugShouldCloseCartBool</name>
             <fieldText>&lt;p&gt;Should Close Cart? {!shouldCloseCart}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
@@ -483,8 +498,8 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>Calls the activateOrder synchronous invocable action to convert an order from Draft to Activated state.</description>
         <name>Activate_Order</name>
         <label>Activate Order</label>
-        <locationX>1149</locationX>
-        <locationY>1507</locationY>
+        <locationX>1205</locationX>
+        <locationY>1695</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
@@ -518,12 +533,12 @@ When async invocable actions complete, they change session.isProcessing to false
     <subflows>
         <name>Authorize_Payment</name>
         <label>Authorize Payment</label>
-        <locationX>1059</locationX>
-        <locationY>1451</locationY>
+        <locationX>1111</locationX>
+        <locationY>1630</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Authorize_Payment</flowName>
+        <flowName>Reentrant_Subflow_Authorize_Payment</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -551,11 +566,45 @@ When async invocable actions complete, they change session.isProcessing to false
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>Calculate_Promotions</name>
+        <label>Calculate Promotions</label>
+        <locationX>556</locationX>
+        <locationY>1128</locationY>
+        <connector>
+            <targetReference>Loop</targetReference>
+        </connector>
+        <flowName>Reentrant_Subflow_Calculate_Promotions</flowName>
+        <inputAssignments>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>checkoutSessionId</name>
+            <value>
+                <elementReference>mainCheckoutSession.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>currentState</name>
+            <value>
+                <elementReference>mainCheckoutSession.State</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>nextState</name>
+            <value>
+                <stringValue>Shipping Cost</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <description>Calls the cartToOrderAction invocable action to convert a cart to a draft order.</description>
         <name>Cart_To_Order</name>
         <label>Cart To Order</label>
-        <locationX>971</locationX>
-        <locationY>1406</locationY>
+        <locationX>1041</locationX>
+        <locationY>1546</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
@@ -590,12 +639,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>Display the checkout summary screen before placing the order.</description>
         <name>Checkout_Summary_Subflow</name>
         <label>Checkout Summary</label>
-        <locationX>889</locationX>
-        <locationY>1361</locationY>
+        <locationX>952</locationX>
+        <locationY>1475</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Checkout_Summary</flowName>
+        <flowName>Reentrant_Subflow_Checkout_Summary</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -619,12 +668,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>Calls the priceCart invocable action to confirm item pricing in the cart, perform complex pricing logic, and integrate with external pricing services.</description>
         <name>Confirm_Price_Subflow</name>
         <label>Confirm Price</label>
-        <locationX>476</locationX>
-        <locationY>1075</locationY>
+        <locationX>479</locationX>
+        <locationY>1079</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Confirm_Price</flowName>
+        <flowName>Reentrant_Subflow_Confirm_Price</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -646,19 +695,19 @@ When async invocable actions complete, they change session.isProcessing to false
         <inputAssignments>
             <name>nextState</name>
             <value>
-                <stringValue>Shipping Cost</stringValue>
+                <stringValue>Calculate Promotions</stringValue>
             </value>
         </inputAssignments>
     </subflows>
     <subflows>
         <name>Delivery_Method</name>
         <label>Delivery Method</label>
-        <locationX>642</locationX>
-        <locationY>1173</locationY>
+        <locationX>701</locationX>
+        <locationY>1294</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Delivery_Method</flowName>
+        <flowName>Reentrant_Subflow_Delivery_Method</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -685,7 +734,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <label>Error</label>
         <locationX>807</locationX>
         <locationY>617</locationY>
-        <flowName>Async_Subflow_Error</flowName>
+        <flowName>Reentrant_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -702,7 +751,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Debug_Screen_Decision</targetReference>
         </connector>
-        <flowName>Async_Subflow_Checkout_Session</flowName>
+        <flowName>Reentrant_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -723,7 +772,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Inventory</flowName>
+        <flowName>Reentrant_Subflow_Inventory</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -753,12 +802,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>The Redirect Order Confirmation node finishes the checkout process, closes the cart, and redirects the user to the order confirmation page in your B2B store.</description>
         <name>Order_Confirmation_Subflow</name>
         <label>Order Confirmation</label>
-        <locationX>1216</locationX>
-        <locationY>1561</locationY>
+        <locationX>1285</locationX>
+        <locationY>1755</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Order_Confirmation</flowName>
+        <flowName>Reentrant_Subflow_Order_Confirmation</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -800,12 +849,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>This is the Payment and Billing Address subflow. Pick a payment method between credit card and purchase order. Enter details, authorize and proceed to order confirmation.</description>
         <name>Payment_and_Billing_Address_Subflow</name>
         <label>Payment and Billing Address</label>
-        <locationX>800</locationX>
-        <locationY>1300</locationY>
+        <locationX>857</locationX>
+        <locationY>1416</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Payment_Billing_Address</flowName>
+        <flowName>Reentrant_Subflow_Payment_Billing_Address</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -835,12 +884,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>The Refetch Session node retrieves the current checkout session without creating a new one.</description>
         <name>Refetch_Session_Subflow</name>
         <label>Refetch Session</label>
-        <locationX>1233</locationX>
+        <locationX>1280</locationX>
         <locationY>172</locationY>
         <connector>
             <targetReference>Debug_Screen_Decision</targetReference>
         </connector>
-        <flowName>Async_Subflow_Checkout_Session</flowName>
+        <flowName>Reentrant_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -861,7 +910,7 @@ When async invocable actions complete, they change session.isProcessing to false
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Shipping_Address</flowName>
+        <flowName>Reentrant_Subflow_Shipping_Address</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -885,12 +934,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>Calls the calcCartShipmentAction invocable action to calculate shipping costs. You can integrate with an external shipment vendor using Apex.</description>
         <name>Shipping_Cost_Subflow</name>
         <label>Shipping Cost</label>
-        <locationX>565</locationX>
-        <locationY>1108</locationY>
+        <locationX>617</locationX>
+        <locationY>1232</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Shipping_Cost</flowName>
+        <flowName>Reentrant_Subflow_Shipping_Cost</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -920,12 +969,12 @@ When async invocable actions complete, they change session.isProcessing to false
         <description>Calls the calcCartTaxesAction invocable action to calculate taxes. You can integrate with external tax services using Apex.</description>
         <name>Taxes_Subflow</name>
         <label>Taxes</label>
-        <locationX>728</locationX>
-        <locationY>1231</locationY>
+        <locationX>781</locationX>
+        <locationY>1345</locationY>
         <connector>
             <targetReference>Loop</targetReference>
         </connector>
-        <flowName>Async_Subflow_Taxes</flowName>
+        <flowName>Reentrant_Subflow_Taxes</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

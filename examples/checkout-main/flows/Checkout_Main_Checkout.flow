@@ -11,7 +11,7 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
         <actionName>activateOrderAction</actionName>
         <actionType>activateOrderAction</actionType>
         <connector>
-            <targetReference>Wait_if_Activate_Order_reverts_Async</targetReference>
+            <targetReference>Get_Session_Possible_Error_ActivateOrder</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_2</targetReference>
@@ -84,12 +84,12 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
 This may fallback to asynchronous mode even if it&apos;s marked synchronous, so we&apos;ll need to make sure there is logic to handle that case.</description>
         <name>Cart_to_Order</name>
         <label>Cart to Order</label>
-        <locationX>3995</locationX>
+        <locationX>3996</locationX>
         <locationY>832</locationY>
         <actionName>cartToOrderAction</actionName>
         <actionType>cartToOrderAction</actionType>
         <connector>
-            <targetReference>Wait_If_Cart_To_Order_reverts_Async</targetReference>
+            <targetReference>Get_Session_Possible_Errors_CartToOrder</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_2</targetReference>
@@ -132,11 +132,12 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
         </inputParameters>
     </actionCalls>
     <actionCalls>
-        <description>Determines the pricing of the items in the cart is correct. This calls a custom inventory invocable action that should be further customized.</description>
+        <description>Updates and confirms the pricing of the items in the cart. This calls a custom inventory invocable action that should be further customized.
+This node does not have any inputs and produces a warning when saved. If an external provider is desired for pricing, the Async Confirm Price node can be replaced with this node instead.</description>
         <name>Confirm_Price</name>
         <label>Confirm Price</label>
-        <locationX>1883</locationX>
-        <locationY>828</locationY>
+        <locationX>1880</locationX>
+        <locationY>771</locationY>
         <actionName>B2BSyncPricing</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -185,7 +186,7 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
         <description>This obtains the delivery methods and pricing to show the user on the delivery method screen. This calls a custom inventory invocable action that should be further customized.</description>
         <name>Shipping_Cost</name>
         <label>Shipping Cost</label>
-        <locationX>2139</locationX>
+        <locationX>2322</locationX>
         <locationY>828</locationY>
         <actionName>B2BSyncDelivery</actionName>
         <actionType>apex</actionType>
@@ -462,7 +463,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <description>Ensures that if the buyer starts a second checkout that we don&apos;t attempt to progress this duplicate checkout.</description>
         <name>Is_Session_Still_Valid_After_Shipping</name>
         <label>Is Session Still Valid After Shipping?</label>
-        <locationX>1266</locationX>
+        <locationX>1265</locationX>
         <locationY>1272</locationY>
         <defaultConnector>
             <targetReference>Get_Contact_Point_Address</targetReference>
@@ -564,8 +565,35 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
             <label>No Purchase Order or Payment</label>
         </rules>
     </decisions>
-    <interviewLabel>(Sync) B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>(Sync) B2B Checkout</label>
+    <decisions>
+        <description>This determines whether or not the screen navigates to the next screen or goes back  to the previous screen. In the case that wait screens are added, this ensures that we can bypass those screens and go straight back to the previous screen that the user can have an action.</description>
+        <name>Should_Navigate_Forward_or_Back</name>
+        <label>Should Navigate Forward or Back</label>
+        <locationX>2502</locationX>
+        <locationY>1318</locationY>
+        <defaultConnector>
+            <targetReference>Get_Session_After_Delivery</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Go Forward</defaultConnectorLabel>
+        <rules>
+            <name>Go_Back</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>navigationAction</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BACK</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Shipping_Options</targetReference>
+            </connector>
+            <label>Go Back</label>
+        </rules>
+    </decisions>
+    <description>Most of the logic for the checkout lives in this flow. This is where the checkout starts and ends. It will terminate by redirecting to the Order Confirmation page or on an error page if an error occurs. Most of the integrations are run synchronously, though a few have to put on MQ for standard pricing and promotions.</description>
+    <interviewLabel>(Checkout) Main B2B Checkout {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>(Checkout) Main Checkout</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -816,8 +844,8 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <description>After each screen, we need to ensure the session is still active. If the buyer started a new checkout, this tab might still be active but the session is archived. We want to terminate if that&apos;s the case.</description>
         <name>Get_Session_After_Delivery</name>
         <label>Get Session After Delivery</label>
-        <locationX>2638</locationX>
-        <locationY>1072</locationY>
+        <locationX>2754</locationX>
+        <locationY>1078</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Session_Still_Valid_After_Delivery</targetReference>
@@ -839,8 +867,8 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <description>After each screen, we need to ensure the session is still active. If the buyer started a new checkout, this tab might still be active but the session is archived. We want to terminate if that&apos;s the case.</description>
         <name>Get_Session_After_Shipping</name>
         <label>Get Session After Shipping</label>
-        <locationX>1273</locationX>
-        <locationY>1066</locationY>
+        <locationX>1266</locationX>
+        <locationY>1065</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Session_Still_Valid_After_Shipping</targetReference>
@@ -1068,13 +1096,13 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
     <screens>
         <name>Delivery_Method_Screen</name>
         <label>Delivery Method Screen</label>
-        <locationX>2638</locationX>
+        <locationX>2510</locationX>
         <locationY>828</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Get_Session_After_Delivery</targetReference>
+            <targetReference>Should_Navigate_Forward_or_Back</targetReference>
         </connector>
         <fields>
             <name>DeliveryMethod</name>
@@ -1093,7 +1121,18 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
                 <name>orderDeliveryMethodId</name>
             </outputParameters>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>NavButtons</name>
+            <extensionName>c:navigationButtons</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>navigationAction</assignToReference>
+                <name>selectedAction</name>
+            </outputParameters>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
@@ -1192,10 +1231,11 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <description>Display the shipping address and instructions for the user to update. Place differently than other screen nodes to reduce overlapping lines.</description>
         <name>Shipping_Options</name>
         <label>Shipping Options</label>
-        <locationX>1128</locationX>
-        <locationY>843</locationY>
+        <locationX>1138</locationX>
+        <locationY>1366</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1232,62 +1272,6 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
-    <screens>
-        <name>Wait_if_Activate_Order_reverts_Async</name>
-        <label>Wait if Activate Order reverts Async</label>
-        <locationX>5364</locationX>
-        <locationY>829</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Get_Session_Possible_Error_ActivateOrder</targetReference>
-        </connector>
-        <fields>
-            <name>Wait3</name>
-            <extensionName>forceCommunity:commerceScreenWait</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>cartCheckoutSessionId</name>
-                <value>
-                    <elementReference>checkoutSessionId</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <showFooter>false</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Wait_If_Cart_To_Order_reverts_Async</name>
-        <label>Wait If Cart To Order reverts Async</label>
-        <locationX>4282</locationX>
-        <locationY>832</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Get_Session_Possible_Errors_CartToOrder</targetReference>
-        </connector>
-        <fields>
-            <name>wait2</name>
-            <extensionName>forceCommunity:commerceScreenWait</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>cartCheckoutSessionId</name>
-                <value>
-                    <elementReference>checkoutSessionId</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <showFooter>false</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
     <start>
         <locationX>50</locationX>
         <locationY>1053</locationY>
@@ -1297,12 +1281,58 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
     </start>
     <status>Active</status>
     <subflows>
+        <description>This calls the standard promotions calculation. Note this runs asynchrously, which differs from the other integrations which run synchronously.</description>
+        <name>Async_Calculate_Promotions</name>
+        <label>Async Calculate Promotions</label>
+        <locationX>2102</locationX>
+        <locationY>936</locationY>
+        <connector>
+            <targetReference>Shipping_Cost</targetReference>
+        </connector>
+        <flowName>Checkout_Subflow_Calculate_Promotions</flowName>
+        <inputAssignments>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>checkoutSessionId</name>
+            <value>
+                <elementReference>checkoutSessionId</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <description>Updates and confirms the pricing of the items in the cart. This calls the standard pricing engine. Note this runs asynchrously, which differs from the other integrations which run synchronously.</description>
+        <name>Async_Confirm_Price</name>
+        <label>Async Confirm Price</label>
+        <locationX>1871</locationX>
+        <locationY>936</locationY>
+        <connector>
+            <targetReference>Async_Calculate_Promotions</targetReference>
+        </connector>
+        <flowName>Checkout_Subflow_Confirm_Price</flowName>
+        <inputAssignments>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>checkoutSessionId</name>
+            <value>
+                <elementReference>checkoutSessionId</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <description>Shows the fault message. Same as other error subflows that show fault message (though copied to make the flow look nicer).</description>
         <name>Error</name>
         <label>Error</label>
         <locationX>912</locationX>
         <locationY>408</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1323,7 +1353,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>2025</locationX>
         <locationY>379</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1343,7 +1373,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>4597</locationX>
         <locationY>250</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1364,7 +1394,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error</label>
         <locationX>3049</locationX>
         <locationY>358</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1384,7 +1414,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Error - Invalid Session</label>
         <locationX>3238</locationX>
         <locationY>2198</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1405,7 +1435,7 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <label>Session had an Error</label>
         <locationX>4758</locationX>
         <locationY>1752</locationY>
-        <flowName>Sync_Subflow_Error</flowName>
+        <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -1456,6 +1486,14 @@ There&apos;s more smarts that could be here by adding other outcomes of the stat
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>CartCheckoutSession</objectType>
+    </variables>
+    <variables>
+        <description>This tracks whether the user clicked the &quot;Next&quot; button or &quot;Previous&quot; button (NEXT, BACK).</description>
+        <name>navigationAction</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>orderDeliveryMethodId</name>
