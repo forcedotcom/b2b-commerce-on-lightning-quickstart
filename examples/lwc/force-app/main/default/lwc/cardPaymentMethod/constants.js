@@ -1,7 +1,7 @@
 export const labels = {
     InvalidName: 'Enter a valid name.',
     InvalidCreditCardNumber: 'Enter a valid credit card number.',
-    InvalidCvv: 'Enter a CVV...',
+    InvalidCvv: 'Enter a valid CVV.',
     InvalidCardType: 'Select a card type.',
     InvalidExpiryMonth: 'Select an expiration month.',
     InvalidExpiryYear: 'Select an expiration year.',

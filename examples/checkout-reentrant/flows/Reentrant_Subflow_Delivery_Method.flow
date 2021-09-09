@@ -31,7 +31,7 @@
     <apiVersion>52.0</apiVersion>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Delivery Method</label>
+    <label>(Re-entrant) Subflow - Delivery Method</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -102,7 +102,7 @@
         <label>Set State</label>
         <locationX>950</locationX>
         <locationY>250</locationY>
-        <flowName>Async_Subflow_Update_Checkout_State</flowName>
+        <flowName>Reentrant_Subflow_Update_Checkout_State</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -128,7 +128,7 @@
         <label>Show Error</label>
         <locationX>682</locationX>
         <locationY>508</locationY>
-        <flowName>Async_Subflow_Error</flowName>
+        <flowName>Reentrant_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>
@@ -151,7 +151,7 @@
         <connector>
             <targetReference>Set_Checkout_Delivery_Method</targetReference>
         </connector>
-        <flowName>Async_Subflow_Checkout_Session</flowName>
+        <flowName>Reentrant_Subflow_Checkout_Session</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

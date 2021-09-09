@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>inventoryAction</name>
-        <label>Check Inventory</label>
+        <name>shippingAction</name>
+        <label>Calculate Shipping</label>
         <locationX>400</locationX>
         <locationY>250</locationY>
-        <actionName>checkCartInventoryAction</actionName>
-        <actionType>checkCartInventoryAction</actionType>
+        <actionName>calcCartShipmentAction</actionName>
+        <actionType>calcCartShipmentAction</actionType>
         <faultConnector>
-            <targetReference>Show_Error_Fault</targetReference>
+            <targetReference>Show_Error</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -31,16 +31,16 @@
         <actionName>updateCheckoutSessionStateAction</actionName>
         <actionType>updateCheckoutSessionStateAction</actionType>
         <connector>
-            <targetReference>inventoryAction</targetReference>
+            <targetReference>shippingAction</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>Show_Error_Fault</targetReference>
+            <targetReference>Show_Error</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>checkoutSessionId</name>
+            <name>expCurrentState</name>
             <value>
-                <elementReference>checkoutSessionId</elementReference>
+                <elementReference>currentState</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -50,18 +50,18 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>expCurrentState</name>
+            <name>checkoutSessionId</name>
             <value>
-                <elementReference>currentState</elementReference>
+                <elementReference>checkoutSessionId</elementReference>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
     <description>For your checkout flow to function properly, you need working integrations. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
-    <interviewLabel>Inventory {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Shipping {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>(Async) Subflow - Inventory</label>
+    <label>(Re-entrant) Subflow - Shipping Cost</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -90,11 +90,11 @@
     </start>
     <status>Active</status>
     <subflows>
-        <name>Show_Error_Fault</name>
-        <label>Show Error Fault</label>
+        <name>Show_Error</name>
+        <label>Show Error</label>
         <locationX>275</locationX>
         <locationY>500</locationY>
-        <flowName>Async_Subflow_Error</flowName>
+        <flowName>Reentrant_Subflow_Error</flowName>
         <inputAssignments>
             <name>cartId</name>
             <value>

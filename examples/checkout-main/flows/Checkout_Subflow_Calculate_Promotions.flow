@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Calculates and updates promotions for the cart. Run the integration that&apos;s configured in StoreIntegratedService for promotions. The default when this action was created was the standard Salesforce promotions engine.</description>
+        <name>Calculate_Cart_Promotions</name>
+        <label>Calculate Cart Promotions</label>
+        <locationX>649</locationX>
+        <locationY>396</locationY>
+        <actionName>calcCartPromotionsAction</actionName>
+        <actionType>calcCartPromotionsAction</actionType>
+        <connector>
+            <targetReference>Wait_for_Async_Job_to_Complete</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Show_unknown_error_to_buyer</targetReference>
+        </faultConnector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <description>Sets the state to a state previous to the Promotions Integration being run and the &quot;next state&quot; to a state after to Promotions Integration having been run.</description>
+        <name>Set_State_and_Next_State</name>
+        <label>Set State and Next State</label>
+        <locationX>335</locationX>
+        <locationY>396</locationY>
+        <assignmentItems>
+            <assignToReference>Current_Session.State</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PRE_PROMOTIONS_STATE</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Current_Session.NextState</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>POST_PROMOTIONS_STATE</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_State_and_Next_State</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <description>The state the session should be in once the checkout completes.</description>
+        <name>POST_PROMOTIONS_STATE</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Post-Promotions</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <description>The state the promotions will be set to be before the pricing integration runs.</description>
+        <name>PRE_PROMOTIONS_STATE</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Pre-Promotions</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>This is a security measure ensuring that the Promotions code is let to execute to completion in case the buyer somehow bypassed the wait screen before the Integration completed. Even if not malicious, if this occurs, the buyer&apos;s promotions won&apos;t have been correctly set and we should terminate the checkout and have them restart.</description>
+        <name>Ensure_State_transitioned_correctly</name>
+        <label>Ensure State transitioned correctly</label>
+        <locationX>1172</locationX>
+        <locationY>398</locationY>
+        <defaultConnectorLabel>State is correct</defaultConnectorLabel>
+        <rules>
+            <name>State_is_not_correct</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Session_After_Promotions.State</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>POST_PROMOTIONS_STATE</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Show_State_Error_to_Buyer</targetReference>
+            </connector>
+            <label>State is not correct</label>
+        </rules>
+    </decisions>
+    <description>This runs the standard promotion integration. It runs it using an invocable action that runs asynchronously. This is designed to be used in otherwise synchronous flows. You can plug this into a synchronous checkout flow and it will calculate promotions. However, you should note your synchronous flow is no longer technically synchronous as it&apos;s now relying on asynchronous integrations.</description>
+    <interviewLabel>(Checkout) Subflow - Calculate Promotions {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>(Checkout) Subflow - Calculate Promotions</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>CheckoutFlow</processType>
+    <recordLookups>
+        <description>Returns the current session so that we can update the State and Next State</description>
+        <name>Current_Session</name>
+        <label>Get Current Session</label>
+        <locationX>176</locationX>
+        <locationY>396</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_State_and_Next_State</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Show_unknown_error_to_buyer</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>checkoutSessionId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CartCheckoutSession</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>State</queriedFields>
+        <queriedFields>NextState</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Session_After_Promotions</name>
+        <label>Get Session After Promotions</label>
+        <locationX>1009</locationX>
+        <locationY>396</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Ensure_State_transitioned_correctly</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Show_unknown_error_to_buyer</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>checkoutSessionId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CartCheckoutSession</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>State</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_State_and_Next_State</name>
+        <label>Update State and Next State</label>
+        <locationX>489</locationX>
+        <locationY>396</locationY>
+        <connector>
+            <targetReference>Calculate_Cart_Promotions</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Show_unknown_error_to_buyer</targetReference>
+        </faultConnector>
+        <inputReference>Current_Session</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithSharing</runInMode>
+    <screens>
+        <description>Waits for the Promotion Integration to complete running. This shows a convenient screen to the buyer to let them know they should hold tight while Promotions is completing.</description>
+        <name>Wait_for_Async_Job_to_Complete</name>
+        <label>Wait for Async Job to Complete</label>
+        <locationX>808</locationX>
+        <locationY>396</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Get_Session_After_Promotions</targetReference>
+        </connector>
+        <fields>
+            <name>Wait</name>
+            <extensionName>forceCommunity:commerceScreenWait</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>cartCheckoutSessionId</name>
+                <value>
+                    <elementReference>checkoutSessionId</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Current_Session</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>The state after the integration ran is not correct and we will not continue with the flow. The user must restart. Inform the buyer of the problem.</description>
+        <name>Show_State_Error_to_Buyer</name>
+        <label>Show State Error to Buyer</label>
+        <locationX>1177</locationX>
+        <locationY>855</locationY>
+        <flowName>Checkout_Subflow_Error</flowName>
+        <inputAssignments>
+            <name>ErrorMessage</name>
+            <value>
+                <stringValue>The state of the cart session is not correct.</stringValue>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>Show_unknown_error_to_buyer</name>
+        <label>Show unknown error to buyer</label>
+        <locationX>597</locationX>
+        <locationY>845</locationY>
+        <flowName>Checkout_Subflow_Error</flowName>
+        <inputAssignments>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <name>cartId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>checkoutSessionId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
