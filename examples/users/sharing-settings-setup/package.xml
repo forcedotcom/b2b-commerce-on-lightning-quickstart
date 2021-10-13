@@ -3,11 +3,7 @@
     <types>
         <members>ProductCatalog</members>
         <name>CustomObject</name>
-    </types>
-    <types>
-        <members>ProductMedia</members>
-        <name>CustomObject</name>
-    </types>
+    </type>
     <types>
         <members>ElectronicMediaGroup</members>
         <name>CustomObject</name>
