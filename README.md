@@ -13,3 +13,5 @@ Instructions on how to deploy a guest user profile for your B2B store [here](exa
 Sharing settings that need to be enabled are covered [here](examples/users/sharing-settings-setup). 
 
 The **sfdx** section is aimed to the developers who use the SFDX environment. There are no source files in this section, they will be converted from the metadata format (in "examples") to the SFDX format by running the script in the sfdx directory. After the conversion to the SFDX format it is the developer's responsibility to maintain the files and continue working with them in the new SFDX project.
+line1
+line2
