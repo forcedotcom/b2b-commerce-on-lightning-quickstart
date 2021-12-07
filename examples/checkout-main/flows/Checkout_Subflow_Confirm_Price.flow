@@ -222,6 +222,12 @@
         <locationY>855</locationY>
         <flowName>Checkout_Subflow_Error</flowName>
         <inputAssignments>
+            <name>cartId</name>
+            <value>
+                <elementReference>cartId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>ErrorMessage</name>
             <value>
                 <stringValue>The state of the cart session is not correct.</stringValue>

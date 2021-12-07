@@ -108,16 +108,11 @@
 
     <!-- Navigation buttons -->
     <div class="slds-card__footer slds-p-vertical_x-small">
-
-        <div if:true={canGoPrevious} class="slds-button slds-button_brand">
-            <a href="javascript:void(0)" onclick={handlePreviousButton}
-                >{previousButtonLabel}</a
-            >
-        </div>
-        <div class="slds-button slds-button_brand">
-            <a href="javascript:void(0)" onclick={handlePaymentButton}
-                >{nextButtonLabel}</a
-            >
-        </div>
+        <button if:true={canGoPrevious} class="slds-button slds-button_outline-brand" onclick={handlePreviousButton}
+            >{previousButtonLabel}</button
+        >
+        <button class="slds-button slds-button_brand" onclick={handlePaymentButton}
+            >{nextButtonLabel}</button
+        >
     </div>
 </template>
