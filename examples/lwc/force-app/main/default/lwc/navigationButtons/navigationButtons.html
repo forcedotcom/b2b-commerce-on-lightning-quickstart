@@ -2,17 +2,13 @@
     <div class="slds-card__footer slds-p-vertical_x-small">
 
         <!-- Previous Button -->
-        <div if:true={canGoPrevious} class="slds-button slds-button_brand">
-            <a href="javascript:void(0)" onclick={handlePreviousButton}
-                >{previousButtonLabel}</a
-            >
-        </div>
+        <button if:true={canGoPrevious} class="slds-button slds-button_outline-brand" onclick={handlePreviousButton}
+            >{previousButtonLabel}</button
+        >
 
         <!-- Next Button -->
-        <div class="slds-button slds-button_brand">
-            <a href="javascript:void(0)" onclick={handleNextButton}
-                >{nextButtonLabel}</a
-            >
-        </div>
+        <button class="slds-button slds-button_brand" onclick={handleNextButton}
+            >{nextButtonLabel}</button
+        >
     </div>
 </template>
