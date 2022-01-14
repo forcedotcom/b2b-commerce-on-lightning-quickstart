@@ -14,7 +14,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Error_Ocurred</targetReference>
+            <targetReference>Error_Getting_CartValidationOutput</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -35,9 +35,35 @@
         </connector>
     </assignments>
     <decisions>
-        <description>If any of the subflows run into a problem then they will populate the {!errorMessage} and we want to display it without having to query the CartValidationOutput</description>
-        <name>ErrorMessage_is_not_Null</name>
-        <label>ErrorMessage is not Null</label>
+        <description>If any of the subflows run into a problem then they will populate the CartValidationOutput</description>
+        <name>Error_Messages_Are_Not_Null</name>
+        <label>Error_Messages Are Not Null</label>
+        <locationX>650</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Exception_Occurred</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ErrorMessages_are_not_null_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>error_messages</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Redirect_To_Cart</targetReference>
+            </connector>
+            <label>error_messages are not null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>When some reentrant flows encounter errors the flow can recover with a page refresh</description>
+        <name>RefreshPage_Enabled</name>
+        <label>RefreshPage Enabled</label>
         <locationX>150</locationX>
         <locationY>250</locationY>
         <defaultConnector>
@@ -59,21 +85,6 @@
             </connector>
             <label>Refresh Page</label>
         </rules>
-        <rules>
-            <name>ErrorMsg_is_not_null</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>ErrorMessage</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Error_Ocurred</targetReference>
-            </connector>
-            <label>ErrorMsg is not null</label>
-        </rules>
     </decisions>
     <interviewLabel>View Address {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
@@ -91,7 +102,7 @@
             <targetReference>Assignment</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Error</targetReference>
+            <targetReference>Error_Messages_Are_Not_Null</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -143,21 +154,20 @@
     </recordLookups>
     <runInMode>SystemModeWithSharing</runInMode>
     <screens>
-        <description>Shows the list of error messages.</description>
-        <name>Error</name>
-        <label>Error</label>
-        <locationX>650</locationX>
-        <locationY>500</locationY>
+        <name>Error_Getting_CartValidationOutput</name>
+        <label>Error Getting CartValidationOutput</label>
+        <locationX>400</locationX>
+        <locationY>700</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>ShowErrorMessages</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Something went wrong. Cancel the current checkout process and try again.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Error: &lt;/span&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!error_messages}&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>ShowErrorMsg_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Something went wrong. Cancel the current checkout process and try again.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Error: {!ErrorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>CancelCheckoutButton</name>
+            <name>CancelCheckout_0</name>
             <extensionName>forceCommunity:cancelCheckoutButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -174,10 +184,42 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Error_Ocurred</name>
-        <label>Error Ocurred</label>
-        <locationX>175</locationX>
+        <description>Cart shows the list of error messages.</description>
+        <name>Error_Redirect_To_Cart</name>
+        <label>Error Redirect To Cart</label>
+        <locationX>900</locationX>
         <locationY>500</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Cart_Redirect</name>
+            <extensionName>forceCommunity:flowRedirect</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>cartId</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pageName</name>
+                <value>
+                    <stringValue>cart</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Exception_Occurred</name>
+        <label>Exception Occurred</label>
+        <locationX>650</locationX>
+        <locationY>700</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -206,7 +248,7 @@
     <screens>
         <name>Refresh_Screen</name>
         <label>Refresh Screen</label>
-        <locationX>25</locationX>
+        <locationX>150</locationX>
         <locationY>500</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -223,7 +265,7 @@
         <locationX>32</locationX>
         <locationY>40</locationY>
         <connector>
-            <targetReference>ErrorMessage_is_not_Null</targetReference>
+            <targetReference>RefreshPage_Enabled</targetReference>
         </connector>
     </start>
     <status>Active</status>

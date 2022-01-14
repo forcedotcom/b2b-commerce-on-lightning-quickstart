@@ -42,7 +42,7 @@ public class B2BSyncDeliveryTest {
     }
     
 
-    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsCreated() {
+    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsNotCreated() {
         // Because test methods do not support Web service callouts, we create a mock response based on a static resource.
         // To create the static resource from the the Developer Console, select File | New | Static Resource
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
@@ -70,8 +70,7 @@ public class B2BSyncDeliveryTest {
         
         // A new CartValidationOutput record with level 'Error' was created.
         List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
-        System.assertEquals(1, cartValidationOutputs.size());
-        System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        System.assertEquals(0, cartValidationOutputs.size());
         
         Test.stopTest();
     }
