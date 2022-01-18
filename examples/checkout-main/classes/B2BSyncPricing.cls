@@ -7,7 +7,7 @@ public  with sharing class B2BSyncPricing {
         // Validate the input
         if (cartIds == null || cartIds.size() != 1) {
             String errorMessage = 'A cart id must be included to B2BSyncPricing'; // Get wording from doc!!!
-            saveCartValidationOutputError(errorMessage, '');
+            // Sync non-user errors skip saveCartValidationOutputError
             throw new CalloutException (errorMessage);
         }
         
@@ -17,74 +17,62 @@ public  with sharing class B2BSyncPricing {
     }
 
     private static void startCartProcessSync(Id cartId) {
-        try {
-            // To retrieve sale prices for a customer, get the cart owner's ID and pass it to the external service.
-            // 
-            // In the real-life scenario, the ID will probably be an external ID
-            // that identifies the customer in the external system,
-            // but for simplicity we are using the Salesforce ID in this sample.
-            Id customerId = [SELECT OwnerId FROM WebCart WHERE id = :cartId WITH SECURITY_ENFORCED][0].OwnerId;
-            
-            // Get all SKUs and their sale prices (customer-specific prices) from the cart items.
-            Map<String, Decimal> salesPricesFromSalesforce = new Map<String, Decimal>();
-            for (CartItem cartItem : [SELECT Sku, SalesPrice FROM CartItem WHERE CartId = :cartId AND Type = 'Product' WITH SECURITY_ENFORCED]) {
-                if (String.isBlank(cartItem.Sku)) {
-                    String errorMessage = 'The SKUs for all products in your cart must be defined.';
-                    saveCartValidationOutputError(errorMessage, cartId);
-                    throw new CalloutException(errorMessage);
-                }
-                salesPricesFromSalesforce.put(cartItem.Sku, cartItem.SalesPrice);
+        // To retrieve sale prices for a customer, get the cart owner's ID and pass it to the external service.
+        // 
+        // In the real-life scenario, the ID will probably be an external ID
+        // that identifies the customer in the external system,
+        // but for simplicity we are using the Salesforce ID in this sample.
+        Id customerId = [SELECT OwnerId FROM WebCart WHERE id = :cartId WITH SECURITY_ENFORCED][0].OwnerId;
+        
+        // Get all SKUs and their sale prices (customer-specific prices) from the cart items.
+        Map<String, Decimal> salesPricesFromSalesforce = new Map<String, Decimal>();
+        for (CartItem cartItem : [SELECT Sku, SalesPrice FROM CartItem WHERE CartId = :cartId AND Type = 'Product' WITH SECURITY_ENFORCED]) {
+            if (String.isBlank(cartItem.Sku)) {
+                String errorMessage = 'The SKUs for all products in your cart must be defined.';
+                saveCartValidationOutputError(errorMessage, cartId);
+                throw new CalloutException(errorMessage);
             }
-            
-            // Get all sale prices for the products in the cart (cart items) from an external service
-            // for the customer who owns the cart.
-            Map<String, Object> salesPricesFromExternalService = getSalesPricesFromExternalService(cartId, salesPricesFromSalesforce.keySet(), Id.valueOf(customerId));            
-            
-            // For each cart item SKU, check that the price from the external service
-            // is the same as the sale price in the cart.
-            // If that is not true, set the integration status to "Failed".
-            for (String sku : salesPricesFromSalesforce.keySet()) {
-                Decimal salesPriceFromSalesforce = salesPricesFromSalesforce.get(sku);
-                Decimal salesPriceFromExternalService = (Decimal)salesPricesFromExternalService.get(sku);
-                if (salesPriceFromExternalService == null){
-                   String errorMessage = 'The product with sku ' + sku + ' could not be found in the external system';
+            salesPricesFromSalesforce.put(cartItem.Sku, cartItem.SalesPrice);
+        }
+        
+        // Get all sale prices for the products in the cart (cart items) from an external service
+        // for the customer who owns the cart.
+        Map<String, Object> salesPricesFromExternalService = getSalesPricesFromExternalService(cartId, salesPricesFromSalesforce.keySet(), Id.valueOf(customerId));            
+        
+        // For each cart item SKU, check that the price from the external service
+        // is the same as the sale price in the cart.
+        // If that is not true, set the integration status to "Failed".
+        for (String sku : salesPricesFromSalesforce.keySet()) {
+            Decimal salesPriceFromSalesforce = salesPricesFromSalesforce.get(sku);
+            Decimal salesPriceFromExternalService = (Decimal)salesPricesFromExternalService.get(sku);
+            if (salesPriceFromExternalService == null){
+               String errorMessage = 'The product with sku ' + sku + ' could not be found in the external system';
+               saveCartValidationOutputError(errorMessage, cartId);
+               throw new CalloutException(errorMessage);
+            }
+            else if (salesPriceFromExternalService != salesPriceFromSalesforce){
+               // Add your logic here for when the price from your external service
+               // does not match what we have in Salesforce.
+               // For example, you may want to cause your pricing integration to fail.
+               // EXAMPLE: integStatus.status = sfdc_checkout.IntegrationStatus.Status.FAILED;
+               // 
+               // Our Heroku external service is a test service and returns a sale price of 0.00 for any SKU except 'SKU_FOR_TEST'.
+               // If the SKU of the product is 'SKU_FOR_TEST', the price returned by the external service is 100.
+               // For testing purposes, we set the integration status to SUCCESS if salesPriceFromExternalService is 0.00,
+               // regardless of the value of the Salesforce price 
+               if (salesPriceFromExternalService == 0.00){
+                   // In the async example, we record success in this code change.
+                   // This code's logic could be reversed to eliminate this noop, but was left for symmetry with the async code
+               }
+               else {
+                   String errorMessage = 'The sale price has changed for the product with sku ' + sku + ': was ' 
+                           + salesPriceFromSalesforce + ', but now is '
+                           + salesPriceFromExternalService + '.';
                    saveCartValidationOutputError(errorMessage, cartId);
                    throw new CalloutException(errorMessage);
-                }
-                else if (salesPriceFromExternalService != salesPriceFromSalesforce){
-                   // Add your logic here for when the price from your external service
-                   // does not match what we have in Salesforce.
-                   // For example, you may want to cause your pricing integration to fail.
-                   // EXAMPLE: integStatus.status = sfdc_checkout.IntegrationStatus.Status.FAILED;
-                   // 
-                   // Our Heroku external service is a test service and returns a sale price of 0.00 for any SKU except 'SKU_FOR_TEST'.
-                   // If the SKU of the product is 'SKU_FOR_TEST', the price returned by the external service is 100.
-                   // For testing purposes, we set the integration status to SUCCESS if salesPriceFromExternalService is 0.00,
-                   // regardless of the value of the Salesforce price 
-                   if (salesPriceFromExternalService == 0.00){
-                       // In the async example, we record success in this code change.
-                       // This code's logic could be reversed to eliminate this noop, but was left for symmetry with the async code
-                   }
-                   else {
-                       String errorMessage = 'The sale price has changed for the product with sku ' + sku + ': was ' 
-                               + salesPriceFromSalesforce + ', but now is '
-                               + salesPriceFromExternalService + '.';
-                       saveCartValidationOutputError(errorMessage, cartId);
-                       throw new CalloutException(errorMessage);
-                   }
-                   // ----- End of the section that is only for testing.                   
-                }
+               }
+               // ----- End of the section that is only for testing.                   
             }
-        } catch (CalloutException e) {
-            throw e;
-        } catch(Exception e) {
-            // For testing purposes, this example treats exceptions as user errors, which means they are displayed to the buyer user.
-            // In production you probably want this to be an admin-type error. In that case, throw the exception here
-            // and make sure that a notification system is in place to let the admin know that the error occurred.
-            // See the readme section about error handling for details about how to create that notification.
-            String errorMessage = 'An exception of type ' + e.getTypeName() + ' has occurred: ' + e.getMessage();
-            saveCartValidationOutputError(errorMessage, cartId);
-            throw new CalloutException(errorMessage);
         }
     }
 
@@ -116,7 +104,7 @@ public  with sharing class B2BSyncPricing {
         }
         else {
             String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
-            saveCartValidationOutputError(errorMessage, cartId);
+            // Sync non-user errors skip saveCartValidationOutputError
             throw new CalloutException (errorMessage);
         }
     }
@@ -127,7 +115,7 @@ public  with sharing class B2BSyncPricing {
             // CartId: Foreign key to the WebCart that this validation line is for
             // Level (required): One of the following - Info, Error or Warning
             // Message (optional): Message to be shown to the user
-            // Name (required): The name of this CartValidationOutput record. For example CartId:BackgroundOperationId
+            // Name (required): The name of this CartValidationOutput record. For example CartId
             // RelatedEntityId (required): Foreign key to WebCart, CartItem, CartDeliveryGroup
             // Type (required): One of the following - SystemError, Inventory, Taxes, Pricing, Shipping, Entitlement, Other
             CartValidationOutput cartValidationError = new CartValidationOutput(

@@ -45,7 +45,7 @@ public class B2BSyncTaxTest {
         Test.stopTest();
     }
     
-    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsCreated() {
+    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsNotCreated() {
         // Because test methods don't support Web service callouts, we create a mock response based on a static resource.
         // To create the static resource from the Developer Console, select File | New | Static Resource
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
@@ -60,9 +60,9 @@ public class B2BSyncTaxTest {
         // Test: execute the integration for the test cart ID and integration info.
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name = 'Cart' LIMIT 1];
         List<Id> webCarts = new List<Id>{webCart.Id};
-		
+        
         String expectedErrorMessage = 'There was a problem with the request. Error: 404';
-        executeAndEnsureFailure(expectedErrorMessage, webCarts);
+        executeAndEnsureFailure(expectedErrorMessage, webCarts, false);
         
         Test.stopTest();
     }
@@ -85,7 +85,7 @@ public class B2BSyncTaxTest {
         insert cartItemWithNoSku;
 
         String expectedErrorMessage = 'The SKUs for all products in your cart must be defined.';
-        executeAndEnsureFailure(expectedErrorMessage, webCarts);
+        executeAndEnsureFailure(expectedErrorMessage, webCarts, true);
 
         Test.stopTest();
 
@@ -94,7 +94,7 @@ public class B2BSyncTaxTest {
     }
     
     // Executes taxes check and ensures an error is correctly triggered
-    static void executeAndEnsureFailure(String expectedErrorMessage, List<Id> webCarts) {
+    static void executeAndEnsureFailure(String expectedErrorMessage, List<Id> webCarts, Boolean userError) {
         try {
             B2BSyncTax.syncTax(webCarts);
             
@@ -106,7 +106,11 @@ public class B2BSyncTaxTest {
         
         // A new CartValidationOutput record with level 'Error' was created.
         List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
-        System.assertEquals(1, cartValidationOutputs.size());
-        System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        if (userError) {
+            System.assertEquals(1, cartValidationOutputs.size());
+            System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        } else {
+            System.assertEquals(0, cartValidationOutputs.size());
+        }
     }
 }

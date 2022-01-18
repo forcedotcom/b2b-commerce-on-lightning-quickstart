@@ -6,8 +6,8 @@ global with sharing class B2BSyncCheckInventory {
         // Validate the input
         if (cartIds == null || cartIds.size() != 1) {
             String errorMessage = 'A cart id must be included to B2BSyncCheckInventory';
-            saveCartValidationOutputError(errorMessage, '');
-            throw new CalloutException (errorMessage);
+            // Sync non-user errors skip saveCartValidationOutputError
+            throw new IllegalArgumentException (errorMessage);
         }
         
         // Extract cart id and start processing
@@ -16,57 +16,45 @@ global with sharing class B2BSyncCheckInventory {
     }
     
     private static void startCartProcessSync(ID cartId) {
-        try {
-            // Get all SKUs and their quantities from cart items.
-            Map<String, Decimal> quantitiesFromSalesforce = new Map<String, Decimal>();
-            for (CartItem cartItem : [SELECT Sku, Quantity FROM CartItem WHERE CartId = :cartId AND Type = 'Product' WITH SECURITY_ENFORCED]) {
-                if (String.isBlank(cartItem.Sku)) {
-                    String errorMessage = 'The SKUs for all products in your cart must be defined.';
-                    saveCartValidationOutputError(errorMessage, cartId);
-                    throw new CalloutException(errorMessage);
-                }
-                quantitiesFromSalesforce.put(cartItem.Sku, cartItem.Quantity);
-            }
-
-            // Stop checkout if there are no items in the cart
-            if (quantitiesFromSalesforce.isEmpty()) {
-                String errorMessage = 'Looks like your cart is empty.';
+        // Get all SKUs and their quantities from cart items.
+        Map<String, Decimal> quantitiesFromSalesforce = new Map<String, Decimal>();
+        for (CartItem cartItem : [SELECT Sku, Quantity FROM CartItem WHERE CartId = :cartId AND Type = 'Product' WITH SECURITY_ENFORCED]) {
+            if (String.isBlank(cartItem.Sku)) {
+                String errorMessage = 'The SKUs for all products in your cart must be defined.';
                 saveCartValidationOutputError(errorMessage, cartId);
-                throw new CalloutException(errorMessage);        
+                throw new CalloutException(errorMessage);
             }
-            
-            // Get all available quantities for products in the cart (cart items) from an external service.
-            Map<String, Object> quantitiesFromExternalService = getQuantitiesFromExternalService(cartId, quantitiesFromSalesforce.keySet());            
-            
-            // For each cart item SKU, check that the quantity from the external service
-            // is greater or equal to the quantity in the cart.
-            // If that is not true, set the integration status to "Failed".
-            for (String sku : quantitiesFromSalesforce.keySet()) {
-                Decimal quantityFromSalesforce = quantitiesFromSalesforce.get(sku);
-                Decimal quantityFromExternalService = (Decimal)quantitiesFromExternalService.get(sku);
-                if (quantityFromExternalService == null){
-                    String errorMessage = 'The product with sku ' + sku + ' could not be found in the external system';
-                    saveCartValidationOutputError(errorMessage, cartId);
-                    throw new CalloutException(errorMessage);
-                } 
-                else if (quantityFromExternalService < quantityFromSalesforce){
-                    String errorMessage = 'Insufficient quantity for the product with sku ' + sku + ': ' 
-                               + quantityFromSalesforce + ' needed, but only '
-                               + quantityFromExternalService + ' available.';
-                    saveCartValidationOutputError(errorMessage, cartId);
-                    throw new CalloutException(errorMessage);
-                }
-            }
-        } catch (CalloutException e) {
-            throw e;
-        } catch (Exception e) {
-            // For testing purposes, this example treats exceptions as user errors, which means they are displayed to the buyer user.
-            // In production you probably want this to be an admin-type error. In that case, throw the exception here
-            // and make sure that a notification system is in place to let the admin know that the error occurred.
-            // See the readme section about error handling for details about how to create that notification.
-            String errorMessage = 'An exception of type ' + e.getTypeName() + ' has occurred: ' + e.getMessage();
+            quantitiesFromSalesforce.put(cartItem.Sku, cartItem.Quantity);
+        }
+
+        // Stop checkout if there are no items in the cart
+        if (quantitiesFromSalesforce.isEmpty()) {
+            String errorMessage = 'Looks like your cart is empty.';
             saveCartValidationOutputError(errorMessage, cartId);
-            throw new CalloutException(errorMessage);          
+            throw new CalloutException(errorMessage);        
+        }
+        
+        // Get all available quantities for products in the cart (cart items) from an external service.
+        Map<String, Object> quantitiesFromExternalService = getQuantitiesFromExternalService(cartId, quantitiesFromSalesforce.keySet());            
+        
+        // For each cart item SKU, check that the quantity from the external service
+        // is greater or equal to the quantity in the cart.
+        // If that is not true, set the integration status to "Failed".
+        for (String sku : quantitiesFromSalesforce.keySet()) {
+            Decimal quantityFromSalesforce = quantitiesFromSalesforce.get(sku);
+            Decimal quantityFromExternalService = (Decimal)quantitiesFromExternalService.get(sku);
+            if (quantityFromExternalService == null){
+                String errorMessage = 'The product with sku ' + sku + ' could not be found in the external system';
+                saveCartValidationOutputError(errorMessage, cartId);
+                throw new CalloutException(errorMessage);
+            } 
+            else if (quantityFromExternalService < quantityFromSalesforce){
+                String errorMessage = 'Insufficient quantity for the product with sku ' + sku + ': ' 
+                           + quantityFromSalesforce + ' needed, but only '
+                           + quantityFromExternalService + ' available.';
+                saveCartValidationOutputError(errorMessage, cartId);
+                throw new CalloutException(errorMessage);
+            }
         }
     }
     
@@ -98,7 +86,7 @@ global with sharing class B2BSyncCheckInventory {
         }
         else {
             String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
-            saveCartValidationOutputError(errorMessage, cartId);
+            // Sync non-user errors skip saveCartValidationOutputError
             throw new CalloutException(errorMessage);
         }
     }  
@@ -109,7 +97,7 @@ global with sharing class B2BSyncCheckInventory {
             // CartId: Foreign key to the WebCart that this validation line is for
             // Level (required): One of the following - Info, Error, or Warning
             // Message (optional): Message displyed to the user
-            // Name (required): The name of this CartValidationOutput record. For example CartId:BackgroundOperationId
+            // Name (required): The name of this CartValidationOutput record. For example CartId
             // RelatedEntityId (required): Foreign key to WebCart, CartItem, CartDeliveryGroup
             // Type (required): One of the following - SystemError, Inventory, Taxes, Pricing, Shipping, Entitlement, Other
             CartValidationOutput cartValidationError = new CartValidationOutput(

@@ -40,7 +40,7 @@ public class B2BSyncPricingTest {
         Test.stopTest();
     }
     
-    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsCreated() {
+    @isTest static void testWhenExternalServiceCallFailsAFailedStatusIsReturnedAndACartValidationOutputEntryIsNotCreated() {
         // Because test methods do not support Web service callouts, we create a mock response based on a static resource.
         // To create the static resource from the Developer Console, select File | New | Static Resource
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
@@ -57,7 +57,7 @@ public class B2BSyncPricingTest {
         List<Id> webCarts = new List<Id>{webCart.Id};
 
         String expectedErrorMessage = 'There was a problem with the request. Error: 404';
-        executeAndEnsureFailure(expectedErrorMessage, webCarts);
+        executeAndEnsureFailure(expectedErrorMessage, webCarts, false);
 
         Test.stopTest();
     }
@@ -80,7 +80,7 @@ public class B2BSyncPricingTest {
         insert cartItemWithNoSku;
 
         String expectedErrorMessage = 'The SKUs for all products in your cart must be defined.';
-        executeAndEnsureFailure(expectedErrorMessage, webCarts);
+        executeAndEnsureFailure(expectedErrorMessage, webCarts, true);
 
         Test.stopTest();
 
@@ -89,7 +89,7 @@ public class B2BSyncPricingTest {
     }
     
     // Executes the pricing check and ensures an error is correctly triggered
-    static void executeAndEnsureFailure(String expectedErrorMessage, List<Id> webCarts) {
+    static void executeAndEnsureFailure(String expectedErrorMessage, List<Id> webCarts, Boolean userError) {
         try {
             B2BSyncPricing.syncPricing(webCarts);
             
@@ -101,7 +101,11 @@ public class B2BSyncPricingTest {
         
         // A new CartValidationOutput record with level 'Error' was created.
         List<CartValidationOutput> cartValidationOutputs = [SELECT Id, Message FROM CartValidationOutput WHERE Level = 'Error'];
-        System.assertEquals(1, cartValidationOutputs.size());
-        System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        if (userError) {
+            System.assertEquals(1, cartValidationOutputs.size());
+            System.assertEquals(expectedErrorMessage, cartValidationOutputs.get(0).Message);
+        } else {
+            System.assertEquals(0, cartValidationOutputs.size());
+        }
     }
 }
