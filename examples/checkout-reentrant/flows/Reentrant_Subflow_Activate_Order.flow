@@ -71,7 +71,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <constants>
         <name>managedOrder</name>
         <dataType>String</dataType>

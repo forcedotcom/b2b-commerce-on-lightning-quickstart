@@ -13,6 +13,9 @@ do
     esac
 done
 
+# Makes sure a "force-app" directory exists, as later commands depend on this directory
+mkdir -p force-app
+
 sfdx force:mdapi:convert -r ../examples/checkout/payment-gateway-integration/Salesforce/
 sfdx force:mdapi:convert -r ../examples/checkout/notifications/
 

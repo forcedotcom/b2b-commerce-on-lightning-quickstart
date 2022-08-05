@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <decisions>
         <description>Only get the ContactPointAddress record associated with the new address selected and update</description>
         <name>Update_address_if_changed</name>

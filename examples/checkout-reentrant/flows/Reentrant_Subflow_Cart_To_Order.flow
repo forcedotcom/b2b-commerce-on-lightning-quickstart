@@ -60,7 +60,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <interviewLabel>Cart To Order {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
     <label>(Re-entrant) Subflow - Cart To Order</label>

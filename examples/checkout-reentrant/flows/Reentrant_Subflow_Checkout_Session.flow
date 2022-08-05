@@ -31,7 +31,7 @@
             <name>requestId</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <decisions>
         <name>Validate_Checkout_State</name>
         <label>Validate Checkout State</label>

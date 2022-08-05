@@ -57,7 +57,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <description>For your checkout flow to function properly, you need working integrations. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
     <interviewLabel>Taxes {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>

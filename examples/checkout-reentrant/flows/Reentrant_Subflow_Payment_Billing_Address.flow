@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <description>For your payment component to function properly, you need a Payment Gateway integration. Use our reference implementations as a starting point or create your own. For more information, navigate to the Commerce app, find your store, and choose Administration &gt; Store Integrations.</description>
     <interviewLabel>Enter Payment and Billing {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>

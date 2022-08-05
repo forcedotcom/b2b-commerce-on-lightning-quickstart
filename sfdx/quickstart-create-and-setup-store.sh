@@ -23,7 +23,7 @@ function error_and_exit() {
 
 if [ -z "$1" ]
 then
-    echo "A new store will be created... Please enter the name of the store: "
+    echo "A new store will be created... Please enter the name of the store (alphanumeric characters only): "
     read storename
 else
     storename=$1
