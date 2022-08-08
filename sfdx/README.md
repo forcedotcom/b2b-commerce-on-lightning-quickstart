@@ -59,7 +59,7 @@ Note: if that fails, you might need to first set that new scratch org as your de
 sfdx force:config:set defaultusername=<YourScratchOrgUsernameInEmailFormat>
 ```
 
-Notice that the existing settings in the ```project-scratch-def.json``` file will enable all the necessary licenses and org perms and prefs required for Lightning B2B. If the scratch org creation is successful you should not need to modify any org perms or prefs. This is only available for the scratch orgs though, and will not work for developer edition orgs, sandboxes or other environments. For those orgs, follow the [documentation's How to Setup Commerce Stores section](https://partners.salesforce.com/0694V00000KAZwJQAX) to find the licenses and org preferences that need to be enabled for B2B on Lightning.
+Notice that the existing settings in the ```project-scratch-def.json``` file will enable all the necessary licenses and org perms and prefs required for Lightning B2B. If the scratch org creation is successful you should not need to modify any org perms or prefs. This is only available for the scratch orgs though, and will not work for developer edition orgs, sandboxes or other environments. For those orgs, follow the [B2B Commerce on Lightning Experience Setup Guide](https://resources.docs.salesforce.com/latest/latest/en-us/sfdc/pdf/b2b_standalone_setup.pdf).
 
 4. Make sure that your current directory is sfdx. Create and set up a new store in your new scratch org by running the following script:
 ```
