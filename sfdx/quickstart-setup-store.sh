@@ -183,7 +183,7 @@ sfdx force:data:record:create -s UserRole -v "ParentRoleId='$ceoID' Name='AdminR
 newRoleID=`sfdx force:data:soql:query --query \ "SELECT Id FROM UserRole WHERE Name = 'AdminRoleFromQuickstart'" -r csv |tail -n +2`
 username=`sfdx force:user:display | grep "Username" | sed 's/Username//g;s/^[[:space:]]*//g'`
 
-sfdx force:data:record:update -s User -v "UserRoleId='$newRoleID'" -w "Username='$username'"
+sfdx force:data:record:update -s User -v "UserRoleId=$newRoleID" -w "Username=$username"
 
 # Create Buyer User. Go to config/buyer-user-def.json to change name, email and alias.
 echo "6. Creating Buyer User with associated Contact and Account."

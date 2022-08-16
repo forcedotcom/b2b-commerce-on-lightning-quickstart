@@ -235,7 +235,7 @@ This may fallback to asynchronous mode even if it&apos;s marked synchronous, so 
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <assignments>
         <description>This node is here for cosmetic purposes. It helps make the flow easier to read, but is not a necessary technical component.</description>
         <name>Beatification_No_Logic2</name>

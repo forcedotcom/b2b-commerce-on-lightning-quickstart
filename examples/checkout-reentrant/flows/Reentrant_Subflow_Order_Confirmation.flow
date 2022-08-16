@@ -34,7 +34,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <decisions>
         <description>Checks that all conditions are met to close the cart</description>
         <name>Should_Close_Cart</name>
