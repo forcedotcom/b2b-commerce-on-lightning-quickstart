@@ -227,6 +227,21 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         }
     }
 
+    handleAttributeSelect(event) {
+        this.attributeMappings.forEach((element) => {
+            if (element.canonicalKey === event.target.value) {
+                this._selectedSKU = element.productId;
+                this.dispatchEvent(
+                    new CustomEvent('productselected', {
+                        detail: {
+                            selectedSKU: element.productId
+                        }
+                    })
+                );
+            }
+        });
+    }
+
     /**
      * Emits a notification that the user wants to add the item to their cart.
      *
