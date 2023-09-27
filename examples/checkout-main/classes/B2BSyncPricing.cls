@@ -1,6 +1,10 @@
 // This sample is for the situation when the pricing is validated in an external service.
 // For Salesforce internal price validation please see the corresponding documentation.
 public  with sharing class B2BSyncPricing {
+    // You MUST change this to be your service or you must launch your own Heroku Service
+    // and add the host in Setup | Security | Remote site settings.
+    private static String httpHost = 'https://example.com';
+    private static Boolean useHTTPService = false;
     // This invocable method only expects one ID
     @InvocableMethod(callout=true label='Price the cart' description='Runs a synchronous version of pricing' category='B2B Commerce')
     public static void syncPricing(List<ID> cartIds) {
@@ -34,11 +38,17 @@ public  with sharing class B2BSyncPricing {
             }
             salesPricesFromSalesforce.put(cartItem.Sku, cartItem.SalesPrice);
         }
-        
-        // Get all sale prices for the products in the cart (cart items) from an external service
-        // for the customer who owns the cart.
-        Map<String, Object> salesPricesFromExternalService = getSalesPricesFromExternalService(cartId, salesPricesFromSalesforce.keySet(), Id.valueOf(customerId));            
-        
+
+        // Following snippet of code fetches a mocked static json response from getSalesPricesFromStaticResponse.
+        // Another example that demonstrates how to call a live 3rd party HTTP Service to fetch the desired 
+        // response is implemented in getSalesPricesFromExternalService method.
+        Map<String, Object> salesPricesFromExternalService = null;
+        if(useHTTPService) {
+            salesPricesFromExternalService = getSalesPricesFromExternalService(cartId, salesPricesFromSalesforce.keySet(), Id.valueOf(customerId));
+        } else {
+            salesPricesFromExternalService = getSalesPricesFromStaticResponse(cartId, salesPricesFromSalesforce.keySet(), Id.valueOf(customerId));
+        }
+
         // For each cart item SKU, check that the price from the external service
         // is the same as the sale price in the cart.
         // If that is not true, set the integration status to "Failed".
@@ -76,10 +86,30 @@ public  with sharing class B2BSyncPricing {
         }
     }
 
+    private static Map<String, Object> getSalesPricesFromStaticResponse(String cartId, Set<String> skus, String customerId) {
+        if (skus.isEmpty()) {
+            return (Map<String, Object>) JSON.deserializeUntyped('{"error":"Input SKUs list is empty or undefined."}');
+        }
+
+        String responseJson = '{';
+        for(String sku : skus) {
+            Double price = 0.00;
+            if (sku == 'SKU_FOR_TEST') {
+                price = 100.00;
+            }
+            responseJson = responseJson + '"'+sku+'"';
+            responseJson = responseJson + ':';
+            responseJson = responseJson + price;
+            responseJson = responseJson + ',';
+        }
+        responseJson = responseJson.removeEnd(',') + '}';
+        return (Map<String, Object>) JSON.deserializeUntyped(responseJson);
+    }
+
     private static Map<String, Object> getSalesPricesFromExternalService(String cartId, Set<String> skus, String customerId) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        Integer SuccessfulHttpRequest = 200;
+        Integer successfulHttpRequest = 200;
 
         // Encode the product SKUs to avoid any invalid characters in the request URL.
         Set<String> encodedSkus = new Set<String>();
@@ -87,8 +117,7 @@ public  with sharing class B2BSyncPricing {
             encodedSkus.add(EncodingUtil.urlEncode(sku, 'UTF-8'));
         }
 
-        // To access the service below you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
-        request.setEndpoint('https://b2b-commerce-test.herokuapp.com/get-sales-prices?customerId=' 
+        request.setEndpoint(httpHost + '/get-sales-prices?customerId=' 
                             + customerId + '&skus=' + JSON.serialize(encodedSkus));
         request.setMethod('GET');
         HttpResponse response = http.send(request);
@@ -98,14 +127,13 @@ public  with sharing class B2BSyncPricing {
         // Because this is a sample only and we want this integration to return success in order to allow the checkout to pass,
         // the external service created for this sample returns the exact list of SKUs it receives,
         // and the same sale price 0.00 for each SKU.
-        if (response.getStatusCode() == SuccessfulHttpRequest) {
+        if (response.getStatusCode() == successfulHttpRequest) {
             Map<String, Object> salesPricesFromExternalService = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             return salesPricesFromExternalService;
-        }
-        else {
-            String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
-            // Sync non-user errors skip saveCartValidationOutputError
-            throw new CalloutException (errorMessage);
+        } else if(response.getStatusCode() == 404) {
+            throw new CalloutException ('404. You must create a sample application or add your own service which returns a valid response');
+        } else {
+            throw new CalloutException ('There was a problem with the request. Error: ' + response.getStatusCode());
         }
     }
 
