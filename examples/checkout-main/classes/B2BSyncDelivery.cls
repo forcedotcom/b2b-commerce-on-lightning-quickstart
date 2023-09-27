@@ -1,6 +1,10 @@
 // This class determines if we can ship to the buyer's shipping address and creates
 // CartDeliveryGroupMethods for the different options and prices the buyer may choose from
 public class B2BSyncDelivery {
+    // You MUST change this to be your service or you must launch your own Heroku Service
+    // and add the host in Setup | Security | Remote site settings.
+    private static String httpHost = 'https://example.com';
+    private static Boolean useHTTPService = false;
     // This invocable method only expects one ID
     @InvocableMethod(callout=true label='Prepare the Delivery Method Options' description='Runs a synchronous version of delivery method preparation' category='B2B Commerce')
     public static void syncDelivery(List<ID> cartIds) {
@@ -24,8 +28,13 @@ public class B2BSyncDelivery {
             // Used to increase the cost by a multiple of the number of items in the cart (useful for testing but should not be done in the final code)
             Integer numberOfUniqueItems = [SELECT count() from cartItem WHERE CartId = :cartId WITH SECURITY_ENFORCED];
 
-            // Get shipping options, including aspects like rates and carriers, from the external service. 
-            ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService(cartId, numberOfUniqueItems);
+            // Both implementations are just samples returning hardcoded Shipping options and MUST not be used in production systems.
+            ShippingOptionsAndRatesFromExternalService[] shippingOptionsAndRatesFromExternalService = null;
+            if(useHTTPService) {
+                shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromExternalService(cartId, numberOfUniqueItems);
+            } else {
+                shippingOptionsAndRatesFromExternalService = getShippingOptionsAndRatesFromMockedService(cartId, numberOfUniqueItems);
+            }
 
             // On re-entry of the checkout flow delete all previous CartDeliveryGroupMethods for the given cartDeliveryGroupId
             delete [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroupId WITH SECURITY_ENFORCED];
@@ -58,13 +67,8 @@ public class B2BSyncDelivery {
         }
     }
 
-    // Don't hit Heroku Server: You can uncomment out this if you want to remove the Heroku Service from this class. Comment out the
-    // method below instead.
-    /*
-    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String id, Integer numberOfUniqueItems) {
-        // Don't actually call heroku
+    private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromMockedService (String id, Integer numberOfUniqueItems) {
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
-        // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
         // If the request is successful, parse the JSON response.
         // The response looks like this:
         // [{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},
@@ -84,18 +88,17 @@ public class B2BSyncDelivery {
             ));
         }
         return shippingOptions;
-    }*/
+    }
     
     // Do hit Heroku Server: You can comment this out and uncomment out the above class if you don't want to hit the Heroku Service.
     private static ShippingOptionsAndRatesFromExternalService[] getShippingOptionsAndRatesFromExternalService (String cartId, Integer numberOfUniqueItems) {
-        final Integer SuccessfulHttpRequest = 200;
+        final Integer successfulHttpRequest = 200;
 
         ShippingOptionsAndRatesFromExternalService[] shippingOptions = new List<ShippingOptionsAndRatesFromExternalService>();
 
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
-        request.setEndpoint('https://b2b-commerce-test.herokuapp.com/calculate-shipping-rates-winter-21');
+        request.setEndpoint(httpHost + '/calculate-shipping-rates-winter-21');
         request.setMethod('GET');
         HttpResponse response = http.send(request);
 
@@ -103,7 +106,7 @@ public class B2BSyncDelivery {
         // The response looks like this:
         // [{"status":"calculated","rate":{"name":"Delivery Method 1","serviceName":"Test Carrier 1","serviceCode":"SNC9600","shipmentCost":11.99,"otherCost":5.99}},
         // {"status":"calculated","rate":{"name":"Delivery Method 2","serviceName":"Test Carrier 2","serviceCode":"SNC9600","shipmentCost":15.99,"otherCost":6.99}}]
-        if (response.getStatusCode() == SuccessfulHttpRequest) {
+        if (response.getStatusCode() == successfulHttpRequest) {
            List<Object> results = (List<Object>) JSON.deserializeUntyped(response.getBody());
            for (Object result: results) {
                 Map<String, Object> subresult = (Map<String, Object>) result;
@@ -117,11 +120,10 @@ public class B2BSyncDelivery {
                 ));
             }
             return shippingOptions;
-        }
-        else {
-            String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
-            // Sync non-user errors skip saveCartValidationOutputError
-            throw new CalloutException (errorMessage);
+        } else if(response.getStatusCode() == 404) {
+            throw new CalloutException ('404. You must create a sample application or add your own service which returns a valid response');
+        } else {
+            throw new CalloutException ('There was a problem with the request. Error: ' + response.getStatusCode());
         }
     }
 

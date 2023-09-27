@@ -1,5 +1,9 @@
 // This class verifies that there is sufficient inventory to cover the buyer's order
 global with sharing class B2BSyncCheckInventory {
+    // You MUST change this to be your service or you must launch your own Heroku Service
+    // and add the host in Setup | Security | Remote site settings.
+    private static String httpHost = 'https://example.com';
+    private static Boolean useHTTPService = false;
     // This invocable method only expects one ID
     @InvocableMethod(callout=true label='Ensure sufficient inventory' description='Runs a synchronous version of check inventory' category='B2B Commerce')
     public static void syncCheckInventory(List<ID> cartIds) {
@@ -34,8 +38,15 @@ global with sharing class B2BSyncCheckInventory {
             throw new CalloutException(errorMessage);        
         }
         
-        // Get all available quantities for products in the cart (cart items) from an external service.
-        Map<String, Object> quantitiesFromExternalService = getQuantitiesFromExternalService(cartId, quantitiesFromSalesforce.keySet());            
+        // Following snippet of code fetches a mocked static json response from getQuantitiesFromStaticResponse.
+        // Another example that demonstrates how to call a live 3rd party HTTP Service to fetch the desired 
+        // response is implemented in getQuantitiesFromExternalService method.
+        Map<String, Object> quantitiesFromExternalService = null;
+        if(useHTTPService) {
+            quantitiesFromExternalService = getQuantitiesFromExternalService(cartId, quantitiesFromSalesforce.keySet());
+        } else {
+            quantitiesFromExternalService = getQuantitiesFromStaticResponse(cartId, quantitiesFromSalesforce.keySet());
+        }           
         
         // For each cart item SKU, check that the quantity from the external service
         // is greater or equal to the quantity in the cart.
@@ -57,11 +68,26 @@ global with sharing class B2BSyncCheckInventory {
             }
         }
     }
+
+    private static Map<String, Object> getQuantitiesFromStaticResponse(ID cartId, Set<String> skus) {
+        if (skus.isEmpty()) {
+            return (Map<String, Object>) JSON.deserializeUntyped('{"error":"Input SKUs list is empty or undefined."}');
+        }
+        String responseJson = '{';
+        for (String sku : skus) {
+            responseJson = responseJson + '"'+sku+'"';
+            responseJson = responseJson + ':';
+            responseJson = responseJson + '9999.00';
+            responseJson = responseJson + ',';
+        }
+        responseJson = responseJson.removeEnd(',') + '}';
+        return (Map<String, Object>) JSON.deserializeUntyped(responseJson);
+    }
     
     private static Map<String, Object> getQuantitiesFromExternalService (ID cartId, Set<String> skus) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        Integer SuccessfulHttpRequest = 200;
+        Integer successfulHttpRequest = 200;
 
         // Encode the product SKUs to avoid any invalid characters in the request URL.
         Set<String> encodedSkus = new Set<String>();
@@ -69,8 +95,7 @@ global with sharing class B2BSyncCheckInventory {
             encodedSkus.add(EncodingUtil.urlEncode(sku, 'UTF-8'));
         }
 
-        // To access the service below, add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
-        request.setEndpoint('https://b2b-commerce-test.herokuapp.com/get-inventory?skus=' + JSON.serialize(encodedSkus));
+        request.setEndpoint(httpHost + '/get-inventory?skus=' + JSON.serialize(encodedSkus));
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         // If the request is successful, parse the JSON response.
@@ -80,16 +105,15 @@ global with sharing class B2BSyncCheckInventory {
         // The external service returns the exact list of SKUs it receives
         // and an available quantity of 9999 for each SKU.
         // If the cart has an item with a quantity higher than 9999, the integration returns an error.
-        if (response.getStatusCode() == SuccessfulHttpRequest) {
+        if (response.getStatusCode() == successfulHttpRequest) {
             Map<String, Object> quantitiesFromExternalService = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             return quantitiesFromExternalService;
+        } else if(response.getStatusCode() == 404) {
+            throw new CalloutException ('404. You must create a sample application or add your own service which returns a valid response');
+        } else {
+            throw new CalloutException ('There was a problem with the request. Error: ' + response.getStatusCode());
         }
-        else {
-            String errorMessage = 'There was a problem with the request. Error: ' + response.getStatusCode();
-            // Sync non-user errors skip saveCartValidationOutputError
-            throw new CalloutException(errorMessage);
-        }
-    }  
+    }
     
     private static void saveCartValidationOutputError(String errorMessage, Id cartId) {
             // To propagate the error to the user, we need to add a new CartValidationOutput record.
