@@ -1,6 +1,11 @@
 // This must implement the sfdc_checkout.CartTaxCalculations interface
 // in order to be processed by the checkout flow and used for your Taxes integration.
 global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculations {
+    // You MUST change this to be your service or you must launch your own Heroku Service
+    // and add the host in Setup | Security | Remote site settings.
+    private static String httpHost = 'https://example.com';
+    private static Boolean useHTTPService = false;
+    private class ApplicationException extends Exception {}
     global sfdc_checkout.IntegrationStatus startCartProcessAsync(sfdc_checkout.IntegrationInfo jobInfo, Id cartId) {
         sfdc_checkout.IntegrationStatus integStatus = new sfdc_checkout.IntegrationStatus();
         try {
@@ -38,11 +43,16 @@ global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculati
                 cartItemTotalPriceBySKU.put(cartItemSKU, cartItem.TotalPrice);
             }      
             
-            // Get the tax rates and tax amounts from an external service
-            // Other parameters will be passed here, like ship_from, bill_to, more details about the ship_to, etc.
-            Map<String, TaxDataFromExternalService> rateAndAmountFromExternalServicePerSku = getTaxRatesAndAmountsFromExternalService(
-                cartItemTotalPriceBySKU, deliveryGroup.DeliverToState, deliveryGroup.DeliverToCountry
-            );
+            // Following snippet of code fetches a mocked static json response from getDataFromStaticResponse.
+            // Another example that demonstrates how to call a live 3rd party HTTP Service to fetch the desired 
+            // response is implemented in getDataFromExternalService method.
+
+            Map<String, TaxDataFromExternalService> rateAndAmountFromExternalServicePerSku = null;
+            if(useHTTPService) {
+                rateAndAmountFromExternalServicePerSku = getTaxRatesAndAmountsFromExternalService(cartItemTotalPriceBySKU, deliveryGroup.DeliverToState, deliveryGroup.DeliverToCountry);
+            } else {
+                rateAndAmountFromExternalServicePerSku = getDataFromStaticResponse(cartItemTotalPriceBySKU, deliveryGroup.DeliverToState, deliveryGroup.DeliverToCountry);
+            }
             
             // If there are taxes from a previously cancelled checkout, delete them.
             List<Id> cartItemIds = cartItemIdsBySKU.values();
@@ -96,12 +106,30 @@ global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculati
         }
         return integStatus;
     }
+
+    private Map<String, TaxDataFromExternalService> getDataFromStaticResponse(Map<String, Decimal> cartItemTotalAmountBySKU, String state, String country) {
+        if (cartItemTotalAmountBySKU == null) {
+            throw new ApplicationException('Input SKUs list is empty or undefined.');
+        }
+
+        Decimal taxRate = 0.08;
+
+        Map<String, TaxDataFromExternalService> taxDataFromStaticServiceBySKU = new Map<String, TaxDataFromExternalService>();
+        for (String sku : cartItemTotalAmountBySKU.keySet()) {
+            taxDataFromStaticServiceBySKU.put(sku, new TaxDataFromExternalService(
+                taxRate,
+                cartItemTotalAmountBySKU.get(sku) * taxRate,
+                'GST'
+            ));
+        }
+        return taxDataFromStaticServiceBySKU;
+    }
     
     private Map<String, TaxDataFromExternalService> getTaxRatesAndAmountsFromExternalService (
         Map<String, Decimal> cartItemTotalAmountBySKU, String state, String country) {
             Http http = new Http();
             HttpRequest request = new HttpRequest();
-            Integer SuccessfulHttpRequest = 200;
+            Integer successfulHttpRequest = 200;
             String encodedState = (state == null) ? '' : EncodingUtil.urlEncode(state, 'UTF-8').replace('+', '%20');
             String encodedCountry = (country == null) ? '' : EncodingUtil.urlEncode(country, 'UTF-8').replace('+', '%20');
             
@@ -110,8 +138,7 @@ global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculati
                 encodedCartItemTotalAmountBySKU.put(EncodingUtil.urlEncode(sku, 'UTF-8'), cartItemTotalAmountBySKU.get(sku));
             }
             
-            // To access the service below, you may need to add endpoint = https://b2b-commerce-test.herokuapp.com in Setup | Security | Remote site settings.
-            String requestURL = 'https://b2b-commerce-test.herokuapp.com/get-tax-rates?state=' + encodedState
+            String requestURL = httpHost + '/get-tax-rates?state=' + encodedState
                             + '&country=' + encodedCountry
                             + '&amountsBySKU=' + JSON.serialize(encodedCartItemTotalAmountBySKU);
             request.setEndpoint(requestURL);
@@ -121,7 +148,7 @@ global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculati
             // If the request is successful, parse the JSON response;
             // The response includes the tax amount, rate, and name for each SKU. It looks something like this:
             // {"SKU_1_september10-1568355297":{"taxAmount":2.8229012971048855,"taxRate":0.08,"taxName":"GST"},"SKU_0_september10-1568355296":{"taxAmount":5.0479003481482385,"taxRate":0.08,"taxName":"GST"}}
-            if (response.getStatusCode() == SuccessfulHttpRequest) {
+            if (response.getStatusCode() == successfulHttpRequest) {
                 Map<String, Object> resultsFromExternalServiceBySKU = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
                 Map<String, TaxDataFromExternalService> taxDataFromExternalServiceBySKU = new Map<String, TaxDataFromExternalService>();
                 for (String sku : resultsFromExternalServiceBySKU.keySet()) {
@@ -133,8 +160,9 @@ global with sharing class B2BTaxSample implements sfdc_checkout.CartTaxCalculati
                     ));
                 }
                 return taxDataFromExternalServiceBySKU;
-            }
-            else {
+            } else if(response.getStatusCode() == 404) {
+                throw new CalloutException ('404. You must create a sample application or add your own service which returns a valid response');
+            } else {
                 throw new CalloutException ('There was a problem with the request. Error: ' + response.getStatusCode());
             }
     }
