@@ -1,3 +1,4 @@
 .sfdx
 sfdx/force-app
 .DS_Store
+.idea
