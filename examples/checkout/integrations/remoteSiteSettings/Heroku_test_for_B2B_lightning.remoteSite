@@ -2,5 +2,5 @@
 <RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
     <disableProtocolSecurity>false</disableProtocolSecurity>
     <isActive>true</isActive>
-    <url>https://b2b-commerce-test.herokuapp.com</url>
+    <url>https://example.com</url>
 </RemoteSiteSetting>
