@@ -53,7 +53,7 @@ export default class AddressSelector extends LightningElement {
      * The title of the billing address selector.
      * @type {String}
      */
-    title = 'Billing Address';
+    @api title;
 
     /**
      * Determines if the billing address selector field should be required.

@@ -16,17 +16,17 @@ done
 # Makes sure a "force-app" directory exists, as later commands depend on this directory
 mkdir -p force-app
 
-sfdx force:mdapi:convert -r ../examples/checkout/payment-gateway-integration/Salesforce/
-sfdx force:mdapi:convert -r ../examples/checkout/notifications/
+sf project convert mdapi -r ../examples/checkout/payment-gateway-integration/Salesforce/
+sf project convert mdapi -r ../examples/checkout/notifications/
 
-sfdx force:mdapi:convert -r ../examples/users/buyer-user-profile-setup/
-sfdx force:mdapi:convert -r ../examples/users/sharing-settings-setup/
+sf project convert mdapi -r ../examples/users/buyer-user-profile-setup/
+sf project convert mdapi -r ../examples/users/sharing-settings-setup/
 
-sfdx force:mdapi:convert -r ../examples/diagnostic/commerce-diagnostic-event-setup/
+sf project convert mdapi -r ../examples/diagnostic/commerce-diagnostic-event-setup/
 
-# Contains some files that are only used for asynchronous checkouts, but others are shared for sync as well 
-sfdx force:mdapi:convert -r ../examples/checkout/integrations/
-sfdx force:mdapi:convert -r ../tests/integration/
+# Contains some files that are only used for asynchronous checkouts, but others are shared for sync as well
+sf project convert mdapi -r ../examples/checkout/integrations/
+sf project convert mdapi -r ../tests/integration/
 
 # Payments related changes
 newdir="force-app/main/default/lwc/"
@@ -44,10 +44,10 @@ cp -r ../examples/lwc/force-app/main/default/lwc/navigationButtons force-app/mai
 if [[ "$flow" = "reentrant" ]]
 then
     # Re-entrant Checkout
-    sfdx force:mdapi:convert -r ../examples/checkout-reentrant
+    sf project convert mdapi -r ../examples/checkout-reentrant
     printf "\nConverted the re-entrant checkout flow.\n"
 else
     # Main Checkout
-    sfdx force:mdapi:convert -r ../examples/checkout-main
+    sf project convert mdapi -r ../examples/checkout-main
     printf "\nConverted the main checkout flow.\n"
 fi
