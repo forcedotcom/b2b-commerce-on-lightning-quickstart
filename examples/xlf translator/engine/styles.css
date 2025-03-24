@@ -1,0 +1,193 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 62.5rem;
+    width: 100%;
+    height: 31.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: flex-start;
+    align-items: center;
+    border: 0.125rem solid #ccc;
+}
+
+.logo {
+    max-width: 6rem;
+    margin: 1rem auto 1.25rem auto;
+}
+
+.slds-form-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.125rem auto 1.25rem auto;
+    width: auto;
+    max-width: 100%;
+}
+
+.slds-file-selector {
+    border: 0.125rem dashed #ccc;
+    border-radius: 0.5rem;
+    padding: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.slds-file-selector:hover {
+    border-color: #0070d2;
+}
+
+.slds-file-selector__input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.slds-file-selector__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    pointer-events: none;
+    /* Ensures the file input handles clicks */
+}
+
+.slds-file-selector__button {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    background-color: #0070d2;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 400;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.16);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.slds-file-selector__button:hover {
+    background-color: #005fb2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.slds-file-selector__button:active {
+    background-color: #00396a;
+}
+
+.upload-text {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+.translate-btn {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-weight: 400;
+    background-color: grey;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    border: none;
+    cursor: not-allowed;
+    border-radius: 0.25rem;
+}
+
+.translate-btn.enabled {
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+.error-message {
+    color: red;
+    margin-top: 1.25rem;
+}
+
+.file-info {
+    margin-top: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+p {
+    margin: 0 3.75rem 1.25rem 3.75rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
+    color: #333;
+    text-align: justify;
+}
+
+#successScreen {
+    display: none;
+}
+
+.start-over-btn {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-weight: 400;
+    background-color: #007bff;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.start-over-btn:hover {
+    background-color: #0056b3;
+}
+
+.heading {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-weight: 700;
+    color: #080707;
+}
+
+.paragraph {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    color: #080707;
+    font-weight: 400;
+    text-align: center;
+}
+
+.modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: #f1f1f1;
+    background-color: #fafafa;
+    padding: 2.25rem;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    font-size: 0.875rem;
+    color: #666;
+    box-sizing: border-box;
+}
