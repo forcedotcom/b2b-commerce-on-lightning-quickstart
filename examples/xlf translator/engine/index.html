@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commerce Site Translation - Upload</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container" id="uploadScreen">
+        <img src="../assets/logo/Logo.png" alt="Salesforce Logo" class="logo">
+        <h1 class="heading">Translate Your Commerce Site</h1>
+        <p class="paragraph">Upload the XLF file that you previously downloaded from Experience Builder > Settings >
+            Languages. We'll translate the file to the pre-selected language. </p>
+
+        <div class="slds-form-element">
+            <span class="slds-file-selector">
+                <input type="file" class="slds-file-selector__input" id="fileUpload" accept=".xlf"
+                    onchange="fileSelected(event)" />
+                <label class="slds-file-selector__body" for="fileUpload">
+                    <span class="slds-file-selector__button upload-button">
+                        Upload File
+                    </span>
+                    <span class="upload-text">or Drop File Here</span>
+                </label>
+            </span>
+        </div>
+
+
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+        <div class="file-info" id="fileInfo" style="display: none;"></div>
+
+        <footer class="modal-footer">
+            <button class="translate-btn" id="translateBtn" disabled onclick="translateFile()">Translate</button>
+        </footer>
+
+    </div>
+
+    <!-- Success Screen -->
+    <div class="container" id="successScreen" style="display: none;">
+        <img src="../assets/logo/Logo.png" alt="Salesforce Logo" class="logo">
+        <h1 class="heading">Your file was translated</h1>
+        <p class="paragraph">Navigate to Experience Builder > Settings > Languages,
+            and upload the translated file to your site.</p>
+        <footer class="modal-footer">
+            <button class="start-over-btn" id="startOverBtn" onclick="startOver()">Start Over</button>
+        </footer>
+    </div>
+
+
+    <script src="app.js"></script>
+    <script src="mappings/mappings_fr.js"></script>
+    <script src="mappings/mappings_ja.js"></script>
+    <script src="mappings/mappings_es.js"></script>
+    <script src="mappings/mappings_es_MX.js"></script>
+    <script src="mappings/mappings_zh_TW.js"></script>
+    <script src="mappings/mappings_zh_CN.js"></script>
+    <script src="mappings/mappings_th.js"></script>
+    <script src="mappings/mappings_sv.js"></script>
+    <script src="mappings/mappings_ru.js"></script>
+    <script src="mappings/mappings_pt_BR.js"></script>
+    <script src="mappings/mappings_nl_NL.js"></script>
+    <script src="mappings/mappings_no.js"></script>
+    <script src="mappings/mappings_ko.js"></script>
+    <script src="mappings/mappings_it.js"></script>
+    <script src="mappings/mappings_fi.js"></script>
+    <script src="mappings/mappings_de.js"></script>
+    <script src="mappings/mappings_da.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

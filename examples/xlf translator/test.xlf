@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="ja"
+    xmlns:fs="urn:oasis:names:tc:xliff:fs:2.0">
+    <file id="c85a753e-bc01-4530-b560-5bdc437c8b81">
+        <group id="4" name="1382e86b-5adc-4d9f-8461-b1e330ced361">
+            <group id="5" name="AuraAttributes">
+                <unit id="6" name="placeholderText">
+                    <segment>
+                        <source>Enter keyword</source>
+                        <target></target>
+                    </segment>
+                </unit>
+            </group>
+        </group>
+        <group id="7" name="84ab7f87-a6ba-42f9-bd7a-9e1733640ff9">
+            <group id="8" name="AuraAttributes">
+                <unit id="9" name="loginLinkText">
+                    <segment>
+                        <source><pc id="0" fs:fs="p" fs:subFs="style::text-align: center;"><pc id="1" fs:fs="span" fs:subFs="style::color: rgb(255, 255, 255);">© Copyright 2024 Salesforce.com, inc. | This is not a real company. </pc></pc><pc id="2" fs:fs="p" fs:subFs="style::text-align: center;"><pc id="3" fs:fs="span" fs:subFs="style::color: rgb(255, 255, 255);"> It is used for Salesforce demos. No orders will be processed.</pc></pc></source>
+                        <target></target>
+                    </segment>
+                </unit>
+                <unit id="10" name="logOutLabel">
+                    <segment>
+                        <source><pc id="0" fs:fs="p"><pc id="1" fs:fs="span" fs:subFs="style::color: rgb(51, 51, 51);">Oops! It looks like our energy elves are taking a coffee break. We'll have our power wizards fix this glitch in a jiffy. Please try again later.</pc></pc></source>
+                        <target></target>
+                    </segment>
+                </unit>
+            </group>
+        </group>
+    </file>
+</xliff>
