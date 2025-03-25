@@ -1,4 +1,3 @@
-# xlf-translator
 ## Localize Store Labels in Bulk
 
 When you add languages to Experience Builder, some component labels are translated for you into the selected language. If you add more languages, you can translate your store’s text elements in bulk by using the translation tool. You can also translate configurable labels manually in the component properties.
@@ -12,7 +11,7 @@ When you add languages to Experience Builder, some component labels are translat
 7. To add translations for any custom text element, unzip the file and select **examples \-\> xlf translator \-\> mappings**, and add the translation to the corresponding mapping file.   
    For example, to translate **Hello World** in French, add these lines to the mappings\_fr.js file.
 
-{
+       {
 
             source: "Hello World",
 
