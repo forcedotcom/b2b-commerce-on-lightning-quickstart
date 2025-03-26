@@ -93,7 +93,7 @@ There are 3 steps involved to create a named credential:
 -   Note:
 
     -   The URL that you are entering here is the hostname part of the _Callback URL_. (i.e. paste the _Callback URL_ and remove the part starts with "services/authcallback/CallMeBack_AuthProvider")
-    -   In the "Scope" field, enter: refresh_token offline_access
+    -   In the "Scope" field, enter: full refresh_token offline_access
     -   Make sure to check “Allow Merge Fields in HTTP Body”
 
 -   ![01_NamedCredentials](images/01_NamedCredentials.png)
